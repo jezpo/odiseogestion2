@@ -11,53 +11,82 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <h1>Panel de Control</h1>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">Estadísticas de Usuarios</div>
-                <div class="card-body">
-                    {{--
-                    <p><strong>Total de Usuarios:</strong> {{ $totalUsuarios }}</p>
-                    <p><strong>Últimos Usuarios Registrados:</strong></p>
-                    {{--<ul>
-                        
-                        @foreach($ultimosUsuarios as $usuario)
-                            <li>{{ $usuario->nombreCompleto }}</li>
-                        @endforeach
-                        
-                    </ul>
-                --}}
-                </div>
+    <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
+        <div class="panel-heading">
+            <h4 class="panel-title">Dasboard</h4>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
+                        class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i
+                        class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i
+                        class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i
+                        class="fa fa-times"></i></a>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">Estadísticas de Roles</div>
-                <div class="card-body">
-                    {{--}}
-                    <p><strong>Total de Roles:</strong> {{ $totalRoles }}</p>
-                    <p><a href="{{ route('roles.index') }}" class="btn btn-primary">Administrar Roles</a></p>
-                --}}
+        <div class="panel-body">
+            <h1>Bienvenido a la correspondencia</h1>
+            <div class="row">
+                <!-- begin col-3 -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="widget widget-stats bg-blue">
+                        <div class="stats-icon"><i class="fa fa-desktop"></i></div>
+                        <div class="stats-info">
+                            <h4>TOTAL VISITORS</h4>
+                            <p>3,291,922</p>
+                        </div>
+                        <div class="stats-link">
+                            <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">Estadísticas de Permisos</div>
-                <div class="card-body">
-                    {{--
-                    <p><strong>Total de Permisos:</strong> {{ $totalPermisos }}</p>
-                    <p><a href="{{ route('permisos.index') }}" class="btn btn-primary">Administrar Permisos</a></p>
-                    --}}
+                <!-- end col-3 -->
+                <!-- begin col-3 -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="widget widget-stats bg-info">
+                        <div class="stats-icon"><i class="fa fa-link"></i></div>
+                        <div class="stats-info">
+                            <h4>BOUNCE RATE</h4>
+                            <p>20.44%</p>
+                        </div>
+                        <div class="stats-link">
+                            <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
+                <!-- end col-3 -->
+                <!-- begin col-3 -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="widget widget-stats bg-orange">
+                        <div class="stats-icon"><i class="fa fa-users"></i></div>
+                        <div class="stats-info">
+                            <h4>UNIQUE VISITORS</h4>
+                            <p>1,291,922</p>
+                        </div>
+                        <div class="stats-link">
+                            <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col-3 -->
+                <!-- begin col-3 -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="widget widget-stats bg-red">
+                        <div class="stats-icon"><i class="fa fa-clock"></i></div>
+                        <div class="stats-info">
+                            <h4>AVG TIME ON SITE</h4>
+                            <p>00:12:23</p>
+                        </div>
+                        <div class="stats-link">
+                            <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col-3 -->
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 
@@ -109,5 +138,4 @@
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
-
-    @endpush
+@endpush

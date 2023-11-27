@@ -5,11 +5,24 @@
         <span>Documentos</span> <!-- Cambia "Map" por "Documentos" -->
     </a>
     <ul class="sub-menu">
-        <li><a href="ruta_a_tus_documentos_recibidos.html">Documentos recibidos</a></li> <!-- Cambia "map_vector.html" por la ruta a tus documentos recibidos -->
-        <li><a href="ruta_a_tus_documentos_enviados.html">Documentos enviados</a></li> <!-- Cambia "map_google.html" por la ruta a tus documentos enviados -->
+        <li>
+            <a href="ruta_a_tus_documentos_recibidos.html">
+                <i class="material-icons">inbox</i> Documentos recibidos
+            </a>
+        </li>
+        <li>
+            <a href="ruta_a_tus_documentos_enviados.html">
+                <i class="material-icons">send</i> Documentos enviados
+            </a>
+        </li>
+        <li><a href="ruta_a_flujo_de_tramite.html"><i class="material-icons">sync_alt</i> Flujo de trámite</a></li>
+        <li><a href="ruta_a_flujo_de_documentos.html"><i class="material-icons">description</i> Flujo de documentos</a>
+        </li>
+        <li><a href="ruta_a_tramite.html"><i class="material-icons">assignment</i> Trámite</a></li>
+        <li><a href="ruta_a_unidad_o_carrera.html"><i class="material-icons">school</i> Unidad o carrera</a></li>
     </ul>
 </li>
-  {{--
+{{--
 <li class="has-sub active expand">
     <a href="javascript:;">
         <b class="caret"></b>
