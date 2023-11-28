@@ -324,7 +324,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('dashboard.tipotramite.index') }}",
+                    url: "{{ route('tipo-tramites.index') }}",
 
                 },
 
@@ -370,7 +370,7 @@
             e.preventDefault();
             var formData = $(this).serializeArray();
             $.ajax({
-                url: '{{ route('tipotramite.create') }}',
+                url: '{{ route('tipo-tramites.create') }}',
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -408,7 +408,7 @@
     <script>
         function editProcess(id) {
             $.ajax({
-                url: 'tipotramite/edit/' + id,
+                url: '/dashboard/tipo-tramites/edit/' + id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -445,7 +445,7 @@
             var estado = $('#estado2').val();
 
             $.ajax({
-                url: 'tipotramite/update/' + id, // Ruta que incluye el ID
+                url: '/dashboard/tipo-tramites/update/' + id, // Ruta que incluye el ID
                 type: 'PUT',
                 data: {
                     _token: $('input[name="_token"]').val(),
@@ -493,7 +493,7 @@
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
-                        url: '{{ route('tipotramite.destroy', '') }}/' + doc_id,
+                        url: '{{ route('tipo-tramites.destroy', '') }}/' + doc_id,
                         type: 'DELETE', // Utiliza el método DELETE para eliminar el registro
                         dataType: 'json',
                         headers: {

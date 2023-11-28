@@ -8,6 +8,11 @@ use App\Models\Documentos;
 use App\Models\FlujoDocumentos;
 class Programa extends Model
 {
+    use HasFactory;
+    protected $table = 'programas';
+    protected $primaryKey = 'id_programa';
+    public $incrementing = false;
+    public $timestamps = false;
     protected $fillable = ['id_programa', 'programa', 'id_padre', 'estado'];
 
     // Relationship: Programa has many Documentos

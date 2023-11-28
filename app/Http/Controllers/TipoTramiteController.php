@@ -25,7 +25,7 @@ class TipoTramiteController extends Controller
                 ->make(true);
         }
         
-        return view('documentos.tramites.index', compact('tipotramite'));
+        return view('gestion.tramites.index', compact('tipotramite'));
     }
     public function create(Request $request)
     {
