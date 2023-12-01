@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('programas', function (Blueprint $table) {
             $table->id();
-            $table->string('id_programa', 5)->unique();
+            $table->string('id_programa', 5);
             $table->string('programa');
             $table->integer('id_padre')->nullable();
             $table->string('estado');

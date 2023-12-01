@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' :: ' . 'Documentos')
+@section('title', config('hermes.name') . 'Correspondencia' . 'Documentos Enviados')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}
@@ -153,8 +153,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
-                                                    {{-- <div class="form-group row m-b-15">
+                                                    {{--
+                                                    <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label">Origen: </label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <select class="form-control select2_programas"
@@ -177,8 +177,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    --}}
-
+                                                    
+--}}
                                                     <div class="form-group row m-b-0">
                                                         <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
                                                         <div class="col-md-8 col-sm-8">
@@ -248,7 +248,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <i class="fas fa-pencil-alt"> </i> Editar Documento
-                                            </h5>
+                                                </h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -368,12 +368,13 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    --}}
+--}}
 
                                                     <!-- Agrega más campos de acuerdo a tus necesidades -->
 
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">
                                                             <i class="fas fa-times"></i> Cancelar
                                                         </button>
                                                         <button type="submit" class="btn btn-primary">
@@ -533,7 +534,6 @@
                         data: 'id_tipo_documento',
                         name: 'id_tipo_documento',
                         render: function(data, type, row) {
-                            // Aquí puedes mapear los valores numéricos a nombres de tipo de documento
                             switch (data) {
                                 case 1:
                                     return 'Carta';
@@ -550,7 +550,7 @@
                                 case 7:
                                     return 'Recibos';
                                 default:
-                                    return data; // Mostrará el número si no hay coincidencia
+                                    return data;
                             }
                         }
                     },
@@ -561,14 +561,40 @@
                         searchable: true
                     }
                 ],
-                buttons: ['pdf', 'excel', 'print'],
-
+                buttons: [{
+                        extend: 'pdf',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf"></i> PDF'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-file-excel"></i> Excel'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-primary',
+                        text: '<i class="fa fa-print"></i> Imprimir'
+                    }
+                ],
                 language: {
                     url: '/assets/plugins/datatables.net/Spanish.json'
+                },
+                // Agregar el componente de búsqueda
+                initComplete: function() {
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var input = document.createElement("input");
+                        $(input).appendTo($(column.footer()).empty())
+                            .on('change', function() {
+                                column.search($(this).val(), false, false, true).draw();
+                            });
+                    });
                 }
             });
-            documentTable.buttons().container().appendTo($(
-                '#documentos-table_wrapper .col-md-6:eq(0)')); // Colocar los botones en un contenedor
+
+            // Colocar los botones en un contenedor
+            documentTable.buttons().container().appendTo($('#documentos-table_wrapper .col-md-6:eq(0)'));
         });
     </script>
     <script>
@@ -634,8 +660,8 @@
         var doc_id;
 
         // Función que será llamada cuando se haga clic en el botón "Eliminar"
-        function deleteDocument(docId) {
-            doc_id = docId;
+        function deleteDocument(id) {
+            doc_id = id;
             console.log("doc_id establecido como: ", doc_id); // Para depuración
 
             // Utiliza SweetAlert para mostrar un diálogo de confirmación
@@ -649,13 +675,16 @@
                 confirmButtonText: 'Sí, eliminarlo'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     // El usuario confirmó la eliminación, ejecuta la solicitud AJAX
                     $.ajax({
-                        url: "/dashboard/documentos-env/" + doc_id,
-                        beforeSend: function() {
-                            // Cambia el texto del botón mientras se realiza la solicitud
-                            Swal.showLoading();
+                        url: '{{route('documentos.destroy', '')}}/' + doc_id,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
                         },
+                        
                         success: function(data) {
                             setTimeout(function() {
                                 Swal.fire(
@@ -683,16 +712,22 @@
     </script>
 
     <script type="text/javascript">
+        /**
+         * Initialize the select2_programas dropdown with the given options.
+         */
         $(document).ready(function() {
+            /**
+             * Add select2 functionality to the .select2_programas element.
+             */
             $('.select2_programas').select2({
-                placeholder: "Por favor selecciona el origen", // placeholder
+                placeholder: "Por favor selecciona el origen",
             });
         });
     </script>
 
     <script>
         function editDocument(id) {
-            $.get('/dashboard/documentos-env/' + id, function(data) {
+            $.get('/dashboard/documentos-env/edit/' + id, function(data) {
                 $('#txtId2').val(data.id);
                 $('#cite2').val(data.cite);
                 $('#descripcion2').val(data.descripcion);
@@ -727,7 +762,7 @@
             formData.append('documento', documento2); // Agregar los datos del archivo a los datos del formulario
             formData.append('_token', _token2);
             $.ajax({
-                url: "documents/update/" + id2, // Asegúrate de que esta URL es correcta
+                url: '/dashboard/documentos-env/update/' + id2, // Asegúrate de que esta URL es correcta
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -776,7 +811,7 @@
 
         function loadPDF(id) {
             $.ajax({
-                url: '/dashboard/documentos-env/downloadPdf/' + id,
+                url: '/dashboard/documentos-env/download/' + id,
                 method: 'GET',
                 success: function(response) {
                     var blob = b64toBlob(response.base64, 'application/pdf');

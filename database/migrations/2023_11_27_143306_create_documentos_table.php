@@ -14,12 +14,12 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('estado');
             $table->string('hash', 32);
-            $table->unsignedBigInteger('id_tipo_documento');
+            $table->integer('id_tipo_documento');
             $table->binary('documento');
             $table->string('id_programa', 5);
             $table->timestamps();
 
-            $table->foreign('id_programa')->references('id_programa')->on('programas');
+ 
         });
     }
 

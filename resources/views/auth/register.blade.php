@@ -1,3 +1,4 @@
+{{--}}
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
@@ -64,17 +65,14 @@
     </x-authentication-card>
 </x-guest-layout>
 
-
-
-
-
+--}}
 
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Página de registro</title>
+    <title>UATF | Página de registro</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -103,7 +101,7 @@
             <div class="news-feed">
                 <div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-15.jpg)"></div>
                 <div class="news-caption">
-                    <h4 class="caption-title"><b>Color</b> Admin App</h4>
+                    <h4 class="caption-title"><b>Registro</b>Usuario</h4>
                     <p> Como administrador de la aplicación Color Admin, utilizas la consola de Color Admin para administrar la cuenta de tu organización, como agregar nuevos usuarios, administrar configuraciones de seguridad y activar los servicios que deseas que tu equipo acceda. </p>
                 </div>
             </div>

@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\Documentos;
+use App\Models\Documento;
 use App\Models\Programa;
-use App\Models\FlujoDocumentos;
+use App\Models\FlujoDocumento;
 class FlujoDocumentoController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = FlujoDocumentos::list_documents_with_flow();
+            $data = FlujoDocumento::list_documents_with_flow();
             return DataTables::of($data)
                 ->addColumn('actions', function ($data) {
                     // Botones de acción, por ejemplo: Editar y Eliminar
@@ -24,14 +24,14 @@ class FlujoDocumentoController extends Controller
                 ->toJson();
         }
 
-        $documentos = Documentos::all();
+        $documentos = Documento::all();
         $programas = Programa::all();
-        return view('hermes::flujodedocumento.index', compact('documentos', 'programas'));
+        return view('gestion.flujodocumentos.index', compact('documentos', 'programas'));
     }
 
     public function create(Request $request)
     {
-        $flujos = FlujoDocumentos::create([
+        $flujos = FlujoDocumento::create([
             'id_documento' => $request->id_documento,
             'fecha_recepcion' => $request->fecha_recepcion ?? now(),
             'fecha_envio' => $request->fecha_envio ?? now(),
@@ -60,7 +60,7 @@ class FlujoDocumentoController extends Controller
         ]);
 
         // Crea un nuevo registro utilizando los datos del formulario
-        $nuevoRegistro = new FlujoDocumentos([
+        $nuevoRegistro = new FlujoDocumento([
             'id_documento' => $request->input('id_documento'),
             'fecha_recepcion' => $request->input('fecha_recepcion'),
             'fecha_envio' => $request->input('fecha_envio'),
@@ -79,7 +79,7 @@ class FlujoDocumentoController extends Controller
     public function show($id)
     {
         // Carga la relación programa
-        $flujo = FlujoDocumentos::with('programa')->find($id);
+        $flujo = FlujoDocumento::with('programa')->find($id);
         // Accede al nombre a través del atributo accesor
         $programa = $flujo->programa;
         return response()->json($flujo);
@@ -87,7 +87,7 @@ class FlujoDocumentoController extends Controller
 
     public function edit($id)
     {
-        $flujoDocumento = FlujoDocumentos::find($id);
+        $flujoDocumento = FlujoDocumento::find($id);
         return response()->json($flujoDocumento);
     }
 
@@ -104,7 +104,7 @@ class FlujoDocumentoController extends Controller
 
         try {
             // Encuentra el registro que se va a actualizar
-            $flujoDocumento = FlujoDocumentos::findOrFail($id);
+            $flujoDocumento = FlujoDocumento::findOrFail($id);
 
             // Actualiza los campos del registro con los datos del formulario
             $flujoDocumento->id_documento = $request->input('id_documento');
@@ -130,7 +130,7 @@ class FlujoDocumentoController extends Controller
 
     public function destroy($id)
     {
-        $flujo = FlujoDocumentos::findOrFail($id);
+        $flujo = FlujoDocumento::findOrFail($id);
 
         if ($flujo) {
             $flujo->delete();

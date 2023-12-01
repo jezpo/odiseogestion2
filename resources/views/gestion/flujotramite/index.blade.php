@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' :: ' . 'Documentos')
+@section('title', config('hermes.name') . 'Correspondencia' . 'Flujo De Tramite')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}
@@ -61,7 +61,7 @@
                                                 <div class="modal-body">
                                                     <form id="newProcedure" class="form-horizontal" method="POST"
                                                         enctype="multipart/form-data"
-                                                        action="{{ route('flujotramite.store') }}">
+                                                        action="{{ route('flujotramites.store') }}">
                                                         @csrf
                                                         <div class="form-group row m-b-15">
                                                             <label class="col-md-4 col-sm-4 col-form-label"
@@ -410,7 +410,7 @@
                 $('#flujostra-table').DataTable({
                     processing: true,
                     serverSide: true, // Habilita el procesamiento en el servidor
-                    ajax: "{{ route('flujotramite.index') }}", // Ruta que devuelve los datos JSON
+                    ajax: "{{ route('flujotramites.index') }}", // Ruta que devuelve los datos JSON
 
                     columns: [{
                             data: 'id',
@@ -468,7 +468,7 @@
                     var formData = new FormData(this);
 
                     $.ajax({
-                        url: "{{ route('flujotramite.store') }}",
+                        url: "{{ route('flujotramites.store') }}",
                         method: "POST",
                         data: formData,
                         contentType: false,
@@ -516,7 +516,7 @@
         <script>
             function editTramite(id) {
                 $.ajax({
-                    url: 'flujotramite/edit/' + id,
+                    url: '/dashboard/flujo-tramites/edit/' + id,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -566,7 +566,7 @@
                 var id_programa = $('#id_programa2').val();
 
                 $.ajax({
-                    url: 'flujotramite/update/' + id,
+                    url: '/dashboard/flujo-tramites/update/' + id,
                     type: 'POST',
                     data: {
                         _token: $('input[name="_token"]').val(),
@@ -616,7 +616,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '{{ route('flujotramite.destroy', '') }}/' + id,
+                            url: '{{ route('flujotramites.destroy', '') }}/' + id,
                             type: 'POST',
                             data: {
                                 _token: $('input[name="_token"]').val(),

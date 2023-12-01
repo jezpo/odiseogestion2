@@ -30,7 +30,7 @@ class FlujoTramiteController extends Controller
         $tipotramite = TipoTramite::all();
         $programas = Programa::all();
 
-        return view('hermes::flujodetramite.index', compact('tipotramite', 'programas'));
+        return view('gestion.flujotramite.index', compact('tipotramite', 'programas'));
     }
     public function create(Request $request)
     {
@@ -81,7 +81,7 @@ class FlujoTramiteController extends Controller
     {
         $flujoTramite = FlujoTramite::find($id);
         $tiposTramite = TipoTramite::all();
-        $programas = Programs::all();
+        $programas = Programa::all();
 
         return response()->json([
             'flujoTramite' => $flujoTramite,

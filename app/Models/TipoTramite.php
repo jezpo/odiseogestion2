@@ -11,6 +11,7 @@ class TipoTramite extends Model
     
     protected $table = 'tipo_tramite';
     protected $fillable = ['tramite', 'estado'];
+    public $timestamps = false;
 
     public function flujoTramites()
     {

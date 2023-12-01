@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Documentos;
+use App\Models\Documento;
 use App\Models\Programa;
 use Illuminate\Support\Facades\DB;
 
-class FlujoDocumentos extends Model
+class FlujoDocumento extends Model
 {
-    protected $fillable = ['id_documento', 'fecha_recepcion', 'id_programa', 'obs'];
+    protected $fillable = ['id_documento', 'fecha_recepcion', 'fecha_envio', 'id_programa', 'obs'];
 
     public function documento()
     {
-        return $this->belongsTo(Documentos::class, 'id_documento', 'id');
+        return $this->belongsTo(Documento::class, 'id_documento', 'id');
     }
 
     // Relationship: FlujoDocumento belongs to Programa

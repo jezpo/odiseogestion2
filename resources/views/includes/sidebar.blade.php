@@ -17,6 +17,8 @@
                         <b class="caret pull-right"></b>
                         
                         {{ Auth::user()->name }}
+                         
+                        {{ Auth::user()->last_name }}
 
                         <small>{{ Auth::user()->email }}</small>
                         

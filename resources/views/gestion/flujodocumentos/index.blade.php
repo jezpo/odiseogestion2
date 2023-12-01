@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' :: ' . 'Documentos')
+@section('title', config('hermes.name') . 'Correspondencia' . 'Flujo de Documentos')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}
@@ -63,7 +63,7 @@
                                                 <div class="modal-body">
                                                     <form class="form-horizontal" method="POST"
                                                         enctype="multipart/form-data"
-                                                        action="{{ route('flujodocumentos.store') }}"
+                                                        action="{{ route('flujo-documentos.store') }}"
                                                         id="form-create-flujo">
                                                         @csrf
 
@@ -401,7 +401,7 @@
             $('#flujosdoc-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('flujodedocumentos.index') }}",
+                ajax: "{{ route('flujo-documentos.index') }}",
 
                 columns: [{
                         data: 'id',
@@ -457,7 +457,7 @@
 
                 // Realizar la solicitud AJAX
                 $.ajax({
-                    url: "{{ route('flujodocumentos.create') }}",
+                    url: "{{ route('flujo-documentos.create') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -497,7 +497,7 @@
     <script>
         function editFlujo(id) {
             $.ajax({
-                url: 'flujodocumentos/edit/' + id,
+                url: '/dashboard/flujo-documentos/edit/' + id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -555,7 +555,7 @@
             };
 
             $.ajax({
-                url: "flujodocumentos/update/" + id,
+                url: "/dashboard/flujo-documentos/update/" + id,
                 type: 'POST', // Cambiado a POST para simular el método PUT
                 data: formData,
                 success: function(response) {

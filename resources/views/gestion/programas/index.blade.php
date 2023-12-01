@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' :: ' . 'Documentos')
+@section('title', config('hermes.name') . 'Correspondencia' . 'Unidades')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}
@@ -417,7 +417,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('programas.index') }}",
+                    url: '{{ route('programas.index') }}',
                 },
 
                 columns: [{
@@ -504,7 +504,8 @@
     </script>
     <script>
         function editProgram(id) {
-            $.get('programas/edit/' + id, function(data) {
+            $.get('/dashboard/programas/' + id + '/edit', function(data) {
+                
                 $('#edit-programa-id').val(data.id);
                 $('#id_programa2').val(data.id_programa);
                 $('#programa2').val(data.programa);
@@ -530,7 +531,7 @@
             var estado = $('#estado2').val();
 
             $.ajax({
-                url: 'programas/update/' + id,
+                url: '/dashboard/programas/' + id,
                 type: 'POST',
                 data: {
                     _token: $('input[name="_token"]').val(),
@@ -541,13 +542,13 @@
                     estado: estado
                 },
                 success: function(response) {
-                    if (response.status == 'success') {
+                    if (response.success == true) {
                         $('#editarProgramaModal').modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: '¡Registro actualizado!',
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1000
                         });
                         $('#programas-table').DataTable().ajax.reload();
                     } else {
@@ -589,8 +590,11 @@
                 if (result.isConfirmed) {
                     // El usuario confirmó la eliminación, ejecuta la solicitud AJAX
                     $.ajax({
-                        url: 'programas/destroy/' + doc_id,
+                        url: '/dashboard/programas/destroy/' + doc_id,
                         method: 'DELETE',
+                        data:{
+                            _token: $('input[name="_token"]').val(),
+                        },
                         beforeSend: function() {
                             // Cambia el texto del botón mientras se realiza la solicitud
                             Swal.showLoading();
@@ -604,7 +608,7 @@
                                 );
 
                                 // Asumiendo que tienes DataTable y quieres recargar los datos
-                                $('#documentos-table').DataTable().ajax.reload();
+                                $('#programa-table').DataTable().ajax.reload();
                             }, 2000);
                         },
                         error: function(xhr, status, error) {

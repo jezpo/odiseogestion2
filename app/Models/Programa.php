@@ -10,7 +10,7 @@ class Programa extends Model
 {
     use HasFactory;
     protected $table = 'programas';
-    protected $primaryKey = 'id_programa';
+  
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id_programa', 'programa', 'id_padre', 'estado'];
@@ -18,7 +18,7 @@ class Programa extends Model
     // Relationship: Programa has many Documentos
     public function documentos()
     {
-        return $this->hasMany(Documentos::class, 'id_programa', 'id_programa');
+        return $this->hasMany(Documento::class, 'id_programa', 'id_programa');
     }
 
     // Relationship: Programa has many FlujoTramites

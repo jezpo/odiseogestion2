@@ -6,20 +6,22 @@
     </a>
     <ul class="sub-menu">
         <li>
-            <a href="ruta_a_tus_documentos_recibidos.html">
+            <a href="{{ url('dashboard/documentos-reci') }}">
                 <i class="material-icons">inbox</i> Documentos recibidos
             </a>
         </li>
         <li>
-            <a href="ruta_a_tus_documentos_enviados.html">
+            <a href="{{ url('dashboard/documentos-env') }}">
                 <i class="material-icons">send</i> Documentos enviados
             </a>
         </li>
-        <li><a href="ruta_a_flujo_de_tramite.html"><i class="material-icons">sync_alt</i> Flujo de trámite</a></li>
-        <li><a href="ruta_a_flujo_de_documentos.html"><i class="material-icons">description</i> Flujo de documentos</a>
+        <li><a href="{{ url('/dashboard/flujo-tramites') }}"><i class="material-icons">sync_alt</i> Flujo de trámite</a>
         </li>
-        <li><a href="{{url('/dashboard/tipo-tramites')}}"><i class="material-icons">assignment</i> Trámite</a></li>
-        <li><a href="ruta_a_unidad_o_carrera.html"><i class="material-icons">school</i> Unidad o carrera</a></li>
+        <li><a href="{{ url('/dashboard/flujo-documentos') }}"><i class="material-icons">description</i> Flujo de
+                documentos</a>
+        </li>
+        <li><a href="{{ url('/dashboard/tipo-tramites') }}"><i class="material-icons">assignment</i> Trámite</a></li>
+        <li><a href="{{ url('/dashboard/programas') }}"><i class="material-icons">school</i> Unidad o carrera</a></li>
     </ul>
 </li>
 {{--

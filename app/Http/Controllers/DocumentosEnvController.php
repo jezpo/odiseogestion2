@@ -7,17 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 use Yajra\DataTables\DataTables;
-use App\Models\Documentos;
+use App\Models\Documento;
 use App\Models\Programa;
 use Illuminate\Support\Facades\DB;
 
+/*---------------------------------------------------------------------------*/
 class DocumentosEnvController extends Controller
-{   
+{
     public function index(Request $request)
     {
-
+       
         if ($request->ajax()) {
-            $documentos = Documentos::list_documents_destino();
+            $documentos = Documento::list_documents_origen();
 
             return DataTables::of($documentos)
                 ->addColumn('action', function ($documentos) {
@@ -36,7 +37,7 @@ class DocumentosEnvController extends Controller
     public function edit($id)
     {
         if (request()->ajax()) {
-            $documentos = Documentos::select('id', 'cite', 'descripcion', 'estado', 'id_tipo_documento')->find($id);
+            $documentos = Documento::select('id', 'cite', 'descripcion', 'estado', 'id_tipo_documento')->find($id);
             //$documentos = Documentos::find($id);
         }
         if (!$documentos) {
@@ -54,10 +55,10 @@ class DocumentosEnvController extends Controller
             'descripcion' => 'required|string',
             'estado' => 'required|string',
             'id_tipo_documento' => 'required|integer',
-            'id_programa' => 'required|string',
+
         ]);
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=documents user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=hermes2 user=postgres password=postgres");
 
         // 1. Leer el archivo PDF
         $archivo = $request->file('documento');
@@ -71,14 +72,14 @@ class DocumentosEnvController extends Controller
         $hash = md5($contenidoArchivo);
 
         // 3. Almacenar el binario en la base de datos
-        $documentos = new Documentos;
+        $documentos = new Documento;
         $documentos->cite = $request->cite;
         $documentos->descripcion = $request->descripcion;
         $documentos->estado = $request->estado;
         $documentos->id_tipo_documento = $request->id_tipo_documento;
         $documentos->hash = $hash;
         $documentos->documento = $contenidoBinario; // Guardar el contenido binario
-        $documentos->id_programa = $request->id_programa;
+        $documentos->id_programa = 'DBU';
         $documentos->save();
 
         // Cerrar la conexión a la base de datos
@@ -96,14 +97,14 @@ class DocumentosEnvController extends Controller
             'descripcion' => 'required|string',
             'estado' => 'required|string',
             'id_tipo_documento' => 'required|integer',
-            'id_programa' => 'required|string',
+
         ]);
 
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=documents user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=documents user=postgres password=postgres");
 
         // 1. Obtener el documento existente de la base de datos
-        $documento = Documentos::find($id);
+        $documento = Documento::find($id);
 
         // 2. Leer el archivo PDF actualizado
         $archivo = $request->file('documento');
@@ -124,7 +125,7 @@ class DocumentosEnvController extends Controller
         $documento->hash = $hash;
         $documento->documento = $contenidoBinario; // Guardar el contenido binario
         //$documento->name_document = $name_document;
-        $documento->id_programa = $request->id_programa;
+        $documento->id_programa = 'DBU';
         $documento->save();
 
         // Cerrar la conexión a la base de datos
@@ -135,14 +136,14 @@ class DocumentosEnvController extends Controller
 
     public function destroy($id)
     {
-        Documentos::findOrFail($id)->delete();
+        Documento::findOrFail($id)->delete();
         return response()->json(['message' => 'Registro Eliminado exitosamante']);
     }
 
 
     public function show($id)
     {
-        $documento = Documentos::select('id', 'cite', 'descripcion', 'estado', 'id_tipo_documento', 'id_programa')->find($id);
+        $documento = Documento::select('id', 'cite', 'descripcion', 'estado', 'id_tipo_documento', 'id_programa')->find($id);
         if (!$documento) {
             return response()->json(['error' => 'Documento no encontrado'], 404);
         }
@@ -153,7 +154,7 @@ class DocumentosEnvController extends Controller
 
     public function downloadPdf($id)
     {
-        $documento = Documentos::find($id);
+        $documento = Documento::find($id);
 
         // Si el documento existe
         if ($documento) {
@@ -166,5 +167,5 @@ class DocumentosEnvController extends Controller
             return response()->json(['message' => 'Documento no encontrado'], 404);
         }
     }
-    
+
 }

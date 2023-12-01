@@ -6,21 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-       Schema::create('flujo_documentos', function (Blueprint $table) {
+        Schema::create('flujo_documentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_documento');
-            $table->dateTime('fecha_recepcion')->nullable();
+            $table->dateTime('fecha_recepcion')->nullable()->change();
             $table->dateTime('fecha_envio');
             $table->string('id_programa', 5);
             $table->text('obs');
             $table->timestamps();
-
-
+            
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('flujo_documentos');

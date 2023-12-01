@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' :: ' . 'Documentos')
+@section('title', config('hermes.name') . 'Correspondencia' . 'Tramites')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}
@@ -11,18 +11,14 @@
 @endsection
 
 @section('content')
-     <!-- begin col-10 -->
-     <div class="col-xl-12">
+    <!-- begin col-10 -->
+    <div class="col-xl-12 ui-sortable">
         <div class="panel panel-inverse">
             <!-- begin panel-heading -->
             <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
                 <!-- Botón para abrir el modal de creación -->
-                <div class="d-block d-lg-inline-flex">
-
-                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fas fa-plus"> </i> Nuevo Tramite</a>
-
-                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-plus"> </i> Nuevo Tramite</button>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
                             class="fa fa-expand"></i></a>
@@ -42,7 +38,7 @@
                         <div class="row">
                             <div class="col-xl-12">
 
-                                <!-- Modal de edición -->
+                                <!-- Modal de crear nuevo  -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -100,8 +96,8 @@
                                                     <div class="form-group row m-b-0">
                                                         <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <button type="submit"
-                                                                class="btn btn-primary"><i class="far fa-save"> </i> Registrar</button>
+                                                            <button type="submit" class="btn btn-primary"><i
+                                                                    class="far fa-save"> </i> Registrar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -120,7 +116,7 @@
                                             class="table table-striped table-bordered table-td-valign-middle">
                                             <thead>
                                                 <tr role="row">
-                                                    <th width="10%">Id</th>
+                                                    <th width="10%">Nro</th>
                                                     <th width="10%">tramite</th>
                                                     <th width="10%">Estado</th>
                                                     <th width="40%">Acciones</th>
@@ -138,7 +134,8 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Editar Trámite</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel"><i
+                                                        class="fas fa-edit"></i> Editar Trámite</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -189,7 +186,8 @@
                                                     <div class="form-group row m-b-0">
                                                         <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <button type="submit" class="btn btn-primary"><i class="far fa-save"> </i> Actulizar</button>
+                                                            <button type="submit" class="btn btn-primary"><i
+                                                                    class="far fa-save"> </i> Actulizar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -254,8 +252,8 @@
             <!-- end panel-body -->
         </div>
 
+        <!-- end col-10 -->
     </div>
-    <!-- end col-10 -->
 @endsection
 
 @push('scripts')
@@ -370,7 +368,7 @@
             e.preventDefault();
             var formData = $(this).serializeArray();
             $.ajax({
-                url: '{{ route('tipo-tramites.create') }}',
+                url: '{{route('tipo-tramites.create')}}',
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
