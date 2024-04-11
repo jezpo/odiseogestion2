@@ -11,130 +11,293 @@
 @endsection
 
 @section('content')
-    <div class="col-xl-12 ui-sortable">
-        <div class="panel panel-inverse">
-            <!-- begin panel-heading -->
-            <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
-                <!-- Título a la izquierda -->
+    <ol class="breadcrumb float-xl-right">
+        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Principal</a></li>
+
+        <li class="breadcrumb-item active">Panel Tramite</li>
+    </ol>
+    <!-- begin page-header -->
+    <h1 class="page-header"><i class="fas fa-file-alt fa-fw"></i>Flujo de Documentos <small></small></h1>
+    <!-- end page-header -->
+
+    <div class="panel panel-inverse">
+        <!-- begin panel-heading -->
+        <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
+            <!-- Título a la izquierda -->
 
 
-                <!-- Botón "Nuevo" alineado a la izquierda -->
-                <div class="d-block">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                        data-whatever="@mdo">
-                        <i class="fas fa-plus"></i> <b>Nuevo Flujo Documento</b>
-                    </button>
-                </div>
-
-                <!-- Botones en la esquina superior derecha -->
-                <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
-                            class="fa fa-expand"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i
-                            class="fa fa-redo"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i
-                            class="fa fa-minus"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i
-                            class="fa fa-times"></i></a>
-                </div>
+            <!-- Botón "Nuevo" alineado a la izquierda -->
+            <div class="d-block">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    data-whatever="@mdo">
+                    <i class="fas fa-plus"></i> <b>Nuevo Flujo Documento</b>
+                </button>
             </div>
-            <!-- end panel-heading -->
-            <!-- begin panel-body -->
-            <div class="panel-body">
-                <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
-                    <div class="dataTables_wrapper dt-bootstrap">
-                        <div class="panel-body">
+            <!-- Botones en la esquina superior derecha -->
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
+                        class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i
+                        class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i
+                        class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i
+                        class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <!-- end panel-heading -->
+        <!-- begin panel-body -->
+        <div class="panel-body">
+            <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <!-- Modal de nuevo -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-file-alt"></i> Flujo de Documentos</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form class="form-horizontal" method="POST"
-                                                        enctype="multipart/form-data"
-                                                        action="{{ route('flujo-documentos.store') }}"
-                                                        id="form-create-flujo">
-                                                        @csrf
+                <div class="dataTables_wrapper dt-bootstrap">
+                    <div class="panel-body">
 
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Id Documento</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control" id="id_documento"
-                                                                    name="id_documento" data-parsley-required="true">
-                                                                    @foreach ($documentos as $documento)
-                                                                        <option value='{{ $documento->id }}'>
-                                                                            {{ $documento->id }} - {{ $documento->cite }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                    @error('id_documento')
-                                                                        <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                            aria-hidden="false">
-                                                                            <li class="parsley-required">
-                                                                                {{ 'Este valor es requerido' }}</li>
-                                                                        </ul>
-                                                                    @enderror
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <!-- Modal de nuevo -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><i
+                                                        class="fas fa-file-alt"></i> Flujo de Documentos</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                                    action="{{ route('flujo-documentos.store') }}" id="form-create-flujo">
+                                                    @csrf
 
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Fecha de recepcion:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="datetime-local"
-                                                                    id="fecha_recepcion" value=""
-                                                                    name="fecha_recepcion" placeholder="fecha_recepcion"
-                                                                    data-parsley-required="true">
-                                                                @error('fecha_recepcion')
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Id
+                                                            Documento</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <select class="form-control" id="id_documento"
+                                                                name="id_documento" data-parsley-required="true">
+                                                                @foreach ($documentos as $documento)
+                                                                    <option value='{{ $documento->id }}'>
+                                                                        {{ $documento->id }} - {{ $documento->cite }}
+                                                                    </option>
+                                                                @endforeach
+                                                                @error('id_documento')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
                                                                         <li class="parsley-required">
                                                                             {{ 'Este valor es requerido' }}</li>
                                                                     </ul>
                                                                 @enderror
-                                                            </div>
+                                                            </select>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Fecha de envio:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="datetime-local"
-                                                                    id="fecha_envio" value="" name="fecha_envio"
-                                                                    placeholder="fecha envio" data-parsley-required="true">
-                                                                @error('fecha_envio')
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Fecha
+                                                            de recepcion:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="datetime-local"
+                                                                id="fecha_recepcion" value="" name="fecha_recepcion"
+                                                                placeholder="fecha_recepcion" data-parsley-required="true">
+                                                            @error('fecha_recepcion')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Fecha
+                                                            de envio:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="datetime-local"
+                                                                id="fecha_envio" value="" name="fecha_envio"
+                                                                placeholder="fecha envio" data-parsley-required="true">
+                                                            @error('fecha_envio')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label"
+                                                            for="fullname">Unidad Destino</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <select class="form-control" id="id_programa"
+                                                                name="id_programa" data-parsley-required="true">
+                                                                @foreach ($programas as $programa)
+                                                                    <option value='{{ $programa->id_programa }}'>
+                                                                        {{ $programa->programa }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('id_programa')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}
+                                                                    </li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label"
+                                                            for="fullname">Observacion:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="text" id="fullname"
+                                                                value="" id="obs" name="obs"
+                                                                placeholder="Observacion" data-parsley-required="true">
+                                                            @error('obs')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group row m-b-0">
+                                                        <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                <i class="far fa-save"></i> Registrar
+                                                                <!--icono de guardar-->
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fin Modal de nuevo -->
+                                <!--DONDE MUESTRA LAS TABLAS ATRAVES DE DATA TABLES -->
+                                <div style="position: absolute; height: 1px; width: 0px; overflow: hidden;">
+                                    <input type="text" tabindex="0">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="flujosdoc-table"
+                                            class="table table-striped table-bordered table-td-valign-middle">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>Nro.</th>
+                                                    <th>Cite del Documneto</th>
+                                                    <th>Fecha de Recepción</th>
+                                                    <th>Fecha de Envío</th>
+                                                    <th>Unidad o Carrera de Destino</th>
+                                                    <th>Observaciones</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <!--FINAL DE CODIGO DONDE MUESTRA LAS TABLAS -->
+
+                                <!-- Modal de edición -->
+                                <div class="modal fade" id="editFlujoForm" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><i
+                                                        class="fas fa-edit"></i> Flujo de Documentos
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-horizontal" method="POST"
+                                                    enctype="multipart/form-data" id="form-edit-flujo">
+                                                    @csrf
+                                                    <input type="hidden" id="id2" name="id2">
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Id
+                                                            Documento</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <select class="form-control" id="id_documento2"
+                                                                name="id_documento2" data-parsley-required="true">
+                                                                @foreach ($documentos as $documento)
+                                                                    <option value='{{ $documento->id }}'>
+                                                                        {{ $documento->id }} - {{ $documento->cite }}
+                                                                    </option>
+                                                                @endforeach
+                                                                @error('id_documento')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
                                                                         <li class="parsley-required">
                                                                             {{ 'Este valor es requerido' }}</li>
                                                                     </ul>
                                                                 @enderror
-                                                            </div>
+                                                            </select>
                                                         </div>
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Unidad Destino</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control" id="id_programa"
-                                                                    name="id_programa" data-parsley-required="true">
-                                                                    @foreach ($programas as $programa)
-                                                                        <option value='{{ $programa->id_programa }}'>
-                                                                            {{ $programa->programa }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
+                                                    </div>
+
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label"
+                                                            for="fecha_recepcion2">Fecha de recepción:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="datetime-local"
+                                                                id="fecha_recepcion2" name="fecha_recepcion2"
+                                                                placeholder="Fecha de recepción"
+                                                                data-parsley-required="true">
+                                                            @error('fecha_recepcion')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label"
+                                                            for="fecha_envio2">Fecha de envío:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="datetime-local"
+                                                                id="fecha_envio2" name="fecha_envio2"
+                                                                placeholder="Fecha de envío" data-parsley-required="true">
+                                                            @error('fecha_envio')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Id
+                                                            de Destino:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <select class="form-control select2_programas"
+                                                                id="id_programa2" name="id_programa2"
+                                                                data-parsley-required="true">
+                                                                @foreach ($programas as $programa)
+                                                                    <option value='{{ $programa->id_programa }}'>
+                                                                        {{ $programa->programa }}
+                                                                    </option>
+                                                                @endforeach
                                                                 @error('id_programa')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
@@ -143,207 +306,48 @@
                                                                         </li>
                                                                     </ul>
                                                                 @enderror
-                                                            </div>
+                                                            </select>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Observacion:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="text" id="fullname"
-                                                                    value="" id="obs" name="obs"
-                                                                    placeholder="Observacion"
-                                                                    data-parsley-required="true">
-                                                                @error('obs')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'Este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </div>
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label"
+                                                            for="fullname">Observacion:</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <input class="form-control" type="text" id="fullname"
+                                                                value="" id="obs2"name="obs2"
+                                                                placeholder="Observacion" data-parsley-required="true">
+                                                            @error('obs')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
                                                         </div>
-
-
-                                                        <div class="form-group row m-b-0">
-                                                            <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <button type="submit" class="btn btn-primary">
-                                                                    <i class="far fa-save"></i>  Registrar
-                                                                    <!--icono de guardar-->
-                                                                </button>
-                                                            </div>
+                                                    </div>
+                                                    <div class="form-group row m-b-0">
+                                                        <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <button type="submit" class="btn btn-primary"><i
+                                                                    class="far fa-save"></i> Actulizar</button>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Fin Modal de nuevo -->
-                                    <!--DONDE MUESTRA LAS TABLAS ATRAVES DE DATA TABLES -->
-                                    <div style="position: absolute; height: 1px; width: 0px; overflow: hidden;">
-                                        <input type="text" tabindex="0">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="flujosdoc-table"
-                                                class="table table-striped table-bordered table-td-valign-middle">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th>Nro.</th>
-                                                        <th>Cite del Documneto</th>
-                                                        <th>Fecha de Recepción</th>
-                                                        <th>Fecha de Envío</th>
-                                                        <th>Unidad o Carrera de Destino</th>
-                                                        <th>Observaciones</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-
-                                        </div>
-                                    </div>
-                                    <!--FINAL DE CODIGO DONDE MUESTRA LAS TABLAS -->
-
-                                    <!-- Modal de edición -->
-                                    <div class="modal fade" id="editFlujoForm" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Flujo de Documentos
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form class="form-horizontal" method="POST"
-                                                        enctype="multipart/form-data" id="form-edit-flujo">
-                                                        @csrf
-                                                        <input type="hidden" id="id2" name="id2">
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Id Documento</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control" id="id_documento2"
-                                                                    name="id_documento2" data-parsley-required="true">
-                                                                    @foreach ($documentos as $documento)
-                                                                        <option value='{{ $documento->id }}'>
-                                                                            {{ $documento->id }} - {{ $documento->cite }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                    @error('id_documento')
-                                                                        <ul class="parsley-errors-list filled"
-                                                                            id="parsley-id-5" aria-hidden="false">
-                                                                            <li class="parsley-required">
-                                                                                {{ 'Este valor es requerido' }}</li>
-                                                                        </ul>
-                                                                    @enderror
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fecha_recepcion2">Fecha de recepción:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="datetime-local"
-                                                                    id="fecha_recepcion2" name="fecha_recepcion2"
-                                                                    placeholder="Fecha de recepción"
-                                                                    data-parsley-required="true">
-                                                                @error('fecha_recepcion')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'Este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fecha_envio2">Fecha de envío:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="datetime-local"
-                                                                    id="fecha_envio2" name="fecha_envio2"
-                                                                    placeholder="Fecha de envío"
-                                                                    data-parsley-required="true">
-                                                                @error('fecha_envio')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'Este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Id de Destino:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <select class="form-control select2_programas"
-                                                                    id="id_programa2" name="id_programa2"
-                                                                    data-parsley-required="true">
-                                                                    @foreach ($programas as $programa)
-                                                                        <option value='{{ $programa->id_programa }}'>
-                                                                            {{ $programa->programa }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                    @error('id_programa')
-                                                                        <ul class="parsley-errors-list filled"
-                                                                            id="parsley-id-5" aria-hidden="false">
-                                                                            <li class="parsley-required">
-                                                                                {{ 'Este valor es requerido' }}
-                                                                            </li>
-                                                                        </ul>
-                                                                    @enderror
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row m-b-15">
-                                                            <label class="col-md-4 col-sm-4 col-form-label"
-                                                                for="fullname">Observacion:</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <input class="form-control" type="text" id="fullname"
-                                                                    value="" id="obs2"name="obs2"
-                                                                    placeholder="Observacion"
-                                                                    data-parsley-required="true">
-                                                                @error('obs')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'Este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row m-b-0">
-                                                            <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <button type="submit"
-                                                                    class="btn btn-primary"><i class="far fa-save"></i>  Actulizar</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Fin Modal de edición -->
                                 </div>
-                                <!-- end panel-body -->
+                                <!-- Fin Modal de edición -->
                             </div>
+                            <!-- end panel-body -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 @endsection
 @push('scripts')
@@ -402,13 +406,18 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('flujo-documentos.index') }}",
-
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: true,
                 columns: [{
                         data: 'id',
                         name: 'id',
                         render: function(data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'cite',
@@ -439,9 +448,26 @@
                         searchable: false
                     }
                 ],
+                buttons: [{
+                        extend: 'pdf',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf"></i> PDF'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-file-excel"></i> Excel'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-primary',
+                        text: '<i class="fa fa-print"></i> Imprimir'
+                    }
+                ],
                 language: {
                     url: '/assets/plugins/datatables.net/Spanish.json'
-                }
+                },
+                dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
             });
         });
     </script>

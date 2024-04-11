@@ -1,28 +1,40 @@
 <li class="has-sub">
-    <a href="javascript:;">
+    <a href="{{ url('dashboard') }}">
         <b class="caret"></b>
-        <i class="material-icons">folder</i> <!-- Cambia "place" por "folder" para el icono de documentos -->
-        <span>Documentos</span> <!-- Cambia "Map" por "Documentos" -->
+        <i class="material-icons">home</i> <!-- Cambia "place" por "folder" para el icono de documentos -->
+        <span>Menu</span> <!-- Cambia "Map" por "Documentos" -->
     </a>
-    <ul class="sub-menu">
-        <li>
-            <a href="{{ url('dashboard/documentos-reci') }}">
-                <i class="material-icons">inbox</i> Documentos recibidos
-            </a>
-        </li>
-        <li>
-            <a href="{{ url('dashboard/documentos-env') }}">
-                <i class="material-icons">send</i> Documentos enviados
-            </a>
-        </li>
-        <li><a href="{{ url('/dashboard/flujo-tramites') }}"><i class="material-icons">sync_alt</i> Flujo de trámite</a>
-        </li>
-        <li><a href="{{ url('/dashboard/flujo-documentos') }}"><i class="material-icons">description</i> Flujo de
-                documentos</a>
-        </li>
-        <li><a href="{{ url('/dashboard/tipo-tramites') }}"><i class="material-icons">assignment</i> Trámite</a></li>
-        <li><a href="{{ url('/dashboard/programas') }}"><i class="material-icons">school</i> Unidad o carrera</a></li>
-    </ul>
+</li>
+<li>
+    <a href="{{ url('dashboard/documentos-reci') }}">
+        <b class="caret"></b>
+        <i class="material-icons">inbox</i> Documentos recibidos
+    </a>
+</li>
+<li>
+    <a href="{{ url('dashboard/documentos-env') }}">
+        <i class="material-icons">send</i> Documentos enviados
+    </a>
+</li>
+<li>
+    <a href="{{ url('/dashboard/flujo-tramites') }}">
+        <i class="material-icons">sync_alt</i> Flujo de trámite
+    </a>
+</li>
+<li>
+    <a href="{{ url('/dashboard/flujo-documentos') }}">
+        <i class="material-icons">description</i> Flujo de documentos
+    </a>
+</li>
+<li>
+    <a href="{{ url('/dashboard/tipo-tramites') }}">
+        <i class="material-icons">assignment</i> Trámite
+    </a>
+</li>
+<li>
+    <a href="{{ url('/dashboard/programas') }}">
+        <i class="material-icons">school</i> Unidad o carrera
+    </a>
 </li>
 {{--
 <li class="has-sub active expand">

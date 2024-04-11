@@ -11,353 +11,364 @@
 @endsection
 
 @section('content')
-    <!-- begin col-10 -->
-    <div class="col-xl-12">
-        <div class="panel panel-inverse">
-            <!-- begin panel-heading -->
-            <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
-                <div class="d-block">
-                    <a id="abrirDocumentoModal" href="#modal-dialog" class="btn btn-sm btn btn-primary" data-toggle="modal"><i
-                            class="fas fa-plus"></i> Nuevo Unidad O Carrera</a>
-                </div>
+<ol class="breadcrumb float-xl-right">
+    <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Principal</a></li>
 
-                <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
-                            class="fa fa-expand"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i
-                            class="fa fa-redo"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i
-                            class="fa fa-minus"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i
-                            class="fa fa-times"></i></a>
-                </div>
+    <li class="breadcrumb-item active">Panel Unidades</li>
+</ol>
+<!-- begin page-header -->
+<h1 class="page-header"><i class="fas fa-file-alt fa-fw"></i> Unidad o Carreras <small></small></h1>
+<!-- end page-header -->
+
+    <div class="panel panel-inverse">
+        <!-- begin panel-heading -->
+        <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
+            <div class="d-block">
+                <a id="abrirDocumentoModal" href="#modal-dialog" class="btn btn-sm btn btn-primary" data-toggle="modal"><i
+                        class="fas fa-plus"></i> Nuevo Unidad O Carrera</a>
             </div>
-            <!-- end panel-heading -->
-            <!-- begin panel-body -->
-            <div class="panel-body">
-                <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                    <div class="dataTables_wrapper dt-bootstrap">
-                        <div class="row">
-                            <div class="col-xl-12">
 
-                                <!-- Botón para abrir el modal de creación -->
-                                {{-- <div>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
+                        class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i
+                        class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i
+                        class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i
+                        class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <!-- end panel-heading -->
+        <!-- begin panel-body -->
+        <div class="panel-body">
+            <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="dataTables_wrapper dt-bootstrap">
+                    <div class="row">
+                        <div class="col-xl-12">
+
+                            <!-- Botón para abrir el modal de creación -->
+                            {{-- <div>
                                     <a id="abrirDocumentoModal" href="#modal-dialog" class="btn btn-sm btn btn-primary"
                                         data-toggle="modal">Crear Nuevo</a>
                                 </div>
                                 <br> --}}
-                                <!-- Modal para Nuevo -->
-                                <div class="modal fade" class="modal fade" id="modal-dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="nuevoDocumentoModalLabel">
-                                                    <i class="fas fa-building"></i> Nuevo Unidad O Carrera
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Formulario de creación -->
-                                                <form id="crearNuevoProgramaForm" class="form-horizontal" method="PUT"
-                                                    enctype="multipart/form-data" action="{{ route('programas.store') }}">
-                                                    @csrf
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Sigla de la Unidad o Carrera: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="id_programa"
-                                                                value="" name="id_programa"
-                                                                placeholder="ingrese la abrebiatura de la unidad o carrera"
-                                                                data-parsley-required="true">
-                                                            @error('id_programa')
+                            <!-- Modal para Nuevo -->
+                            <div class="modal fade" class="modal fade" id="modal-dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="nuevoDocumentoModalLabel">
+                                                <i class="fas fa-building"></i> Nuevo Unidad O Carrera
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Formulario de creación -->
+                                            <form id="crearNuevoProgramaForm" class="form-horizontal" method="PUT"
+                                                enctype="multipart/form-data" action="{{ route('programas.store') }}">
+                                                @csrf
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Sigla de
+                                                        la Unidad o Carrera: </label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="id_programa"
+                                                            value="" name="id_programa"
+                                                            placeholder="ingrese la abrebiatura de la unidad o carrera"
+                                                            data-parsley-required="true">
+                                                        @error('id_programa')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Nombre
+                                                        Unidad O Carrrea:</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="programa"
+                                                            value="" name="programa"
+                                                            placeholder="Nombre de Unidad O Carrera"
+                                                            data-parsley-required="true">
+                                                        @error('programa')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Ingresa
+                                                        el nivel numerico:</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="id_padre"
+                                                            value="" name="id_padre"
+                                                            placeholder="Nombre de Unidad O Carrera"
+                                                            data-parsley-required="true">
+                                                        @error('id_padre')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label">Estado: </label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <select class="form-control" id="estado" name="estado"
+                                                            data-parsley-required="true">
+                                                            <option value="">Por favor selecciona una opcion
+                                                            </option>
+                                                            <option value="A">Activo</option>
+                                                            <option value="I">Inactivo</option>
+                                                            @error('estado')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                     aria-hidden="false">
                                                                     <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
+                                                                        {{ 'este valor es requerido' }}</li>
                                                                 </ul>
                                                             @enderror
-                                                        </div>
+                                                        </select>
                                                     </div>
+                                                </div>
 
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label"
-                                                            for="fullname">Nombre Unidad O Carrrea:</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="programa"
-                                                                value="" name="programa"
-                                                                placeholder="Nombre de Unidad O Carrera"
-                                                                data-parsley-required="true">
-                                                            @error('programa')
-                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                    aria-hidden="false">
-                                                                    <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
-                                                                </ul>
-                                                            @enderror
-                                                        </div>
+                                                <div class="form-group row m-b-0">
+                                                    <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <button type="submit" class="btn btn-primary"><i
+                                                                class="fas fa-save"> </i> Registrar</button>
                                                     </div>
-
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Ingresa el nivel numerico:</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="id_padre"
-                                                                value="" name="id_padre"
-                                                                placeholder="Nombre de Unidad O Carrera"
-                                                                data-parsley-required="true">
-                                                            @error('id_padre')
-                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                    aria-hidden="false">
-                                                                    <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
-                                                                </ul>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">Estado: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="estado" name="estado"
-                                                                data-parsley-required="true">
-                                                                <option value="">Por favor selecciona una opcion
-                                                                </option>
-                                                                <option value="A">Activo</option>
-                                                                <option value="I">Inactivo</option>
-                                                                @error('estado')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row m-b-0">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <button type="submit"
-                                                                class="btn btn-primary"><i class="fas fa-save"> </i> Registrar</button>
-                                                        </div>
-                                                    </div>
+                                                </div>
 
 
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                                <!--DONDE MUESTRA LAS TABLAS ATRAVES DE DATA TABLES -->
-                                <div style="position: absolute; height: 1px; width: 0px; overflow: hidden;">
-                                    <input type="text" tabindex="0">
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table id="programa-table"
-                                            class="table table-striped table-bordered table-td-valign-middle">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th width="10%">Nro</th></th>
-                                                    <th width="10%">Sigla</th>
-                                                    <th width="10%">Programa</th>
-                                                    <th width="10%">Nivel de unidad</th>
-                                                    <th width="10%">Estado</th>
-                                                    <th width="40%">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                                <!--FINAL DE CODIGO DONDE MUESTRA LAS TABLAS -->
-
-                                <!-- Modal para Ver -->
-                                <div class="modal fade" id="verDocumentoModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="verDocumentoModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="verDocumentoModalLabel">Detalles del Documento
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Contenido para mostrar detalles del documento -->
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal para Editar -->
-                                <div class="modal fade" id="editarProgramaModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="editarDocumentoModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editarDocumentoModalLabel"><i class="fas fa-edit"></i>  Editar Unidad o Carrera
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Formulario de edición -->
-                                                <form id="editarProgramaForm" class="form-horizontal" method="POST"
-                                                    enctype="multipart/form-data" class="form-horizontal">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <input type="hidden" id="edit-programa-id" name="id">
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Sigla de
-                                                            Unidad o carrera:</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="id_programa2"
-                                                                value="" name="id_programa2"
-                                                                placeholder="ingrese la abrebiatura de la unidad o carrera"
-                                                                data-parsley-required="true">
-                                                            @error('id_programa')
-                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                    aria-hidden="false">
-                                                                    <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
-                                                                </ul>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label"
-                                                            for="fullname">Nombre Unidad O Carrrea:</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="programa2"
-                                                                value="" name="programa2"
-                                                                placeholder="Nombre de Unidad O Carrera"
-                                                                data-parsley-required="true">
-                                                            @error('programa')
-                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                    aria-hidden="false">
-                                                                    <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
-                                                                </ul>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Ingresa el nivel numerico: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input class="form-control" type="text" id="id_padre2"
-                                                                value="" name="id_padre2"
-                                                                placeholder="Nombre de Unidad O Carrera"
-                                                                data-parsley-required="true">
-                                                            @error('id_padre')
-                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                    aria-hidden="false">
-                                                                    <li class="parsley-required">
-                                                                        {{ 'Este valor es requerido' }}</li>
-                                                                </ul>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">Estado: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="estado2" name="estado2"
-                                                                data-parsley-required="true">
-                                                                <option value="">Por favor selecciona una opcion
-                                                                </option>
-                                                                <option value="A">Activo</option>
-                                                                <option value="I">Inactivo</option>
-                                                                @error('estado')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row m-b-0">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <button type="submit"
-                                                                class="btn btn-primary"><i class="far fa-save"> </i> Registrar</button>
-                                                        </div>
-                                                    </div>
-
-
-                                                </form>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal para Eliminar -->
-                                <div class="modal fade" id="deleteDocument" tabindex="-1" role="dialog"
-                                    aria-labelledby="eliminarDocumentoModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="eliminarDocumentoModalLabel">Eliminar
-                                                    Documento</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>¿Estás seguro de que deseas eliminar este documento?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-danger" id="btnDelete"
-                                                    name="btnDelete">Eliminar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="pdfModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="pdfModalLabel">Vista previa del PDF</h5>
-                                                <button type="button" class="btn-close" data-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <iframe id="pdfFrame" style="width:100%; height:500px;"
-                                                    frameborder="0"></iframe>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
                             </div>
-                            <!-- end panel-body -->
+                            <!--DONDE MUESTRA LAS TABLAS ATRAVES DE DATA TABLES -->
+                            <div style="position: absolute; height: 1px; width: 0px; overflow: hidden;">
+                                <input type="text" tabindex="0">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="programa-table"
+                                    class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-nowrap">Nro</th>
+                                                <th class="text-nowrap">Sigla</th>
+                                                <th class="text-nowrap">Programa</th>
+                                                <th class="text-nowrap">Nivel de unidad</th>
+                                                <th class="text-nowrap">Estado</th>
+                                                <th class="text-nowrap">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--FINAL DE CODIGO DONDE MUESTRA LAS TABLAS -->
+
+                            <!-- Modal para Ver -->
+                            <div class="modal fade" id="verDocumentoModal" tabindex="-1" role="dialog"
+                                aria-labelledby="verDocumentoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="verDocumentoModalLabel">Detalles del Documento
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Contenido para mostrar detalles del documento -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal para Editar -->
+                            <div class="modal fade" id="editarProgramaModal" tabindex="-1" role="dialog"
+                                aria-labelledby="editarDocumentoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editarDocumentoModalLabel"><i
+                                                    class="fas fa-edit"></i> Editar Unidad o Carrera
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Formulario de edición -->
+                                            <form id="editarProgramaForm" class="form-horizontal" method="POST"
+                                                enctype="multipart/form-data" class="form-horizontal">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" id="edit-programa-id" name="id">
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Sigla
+                                                        de
+                                                        Unidad o carrera:</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="id_programa2"
+                                                            value="" name="id_programa2"
+                                                            placeholder="ingrese la abrebiatura de la unidad o carrera"
+                                                            data-parsley-required="true">
+                                                        @error('id_programa')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Nombre
+                                                        Unidad O Carrrea:</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="programa2"
+                                                            value="" name="programa2"
+                                                            placeholder="Nombre de Unidad O Carrera"
+                                                            data-parsley-required="true">
+                                                        @error('programa')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Ingresa
+                                                        el nivel numerico: </label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <input class="form-control" type="text" id="id_padre2"
+                                                            value="" name="id_padre2"
+                                                            placeholder="Nombre de Unidad O Carrera"
+                                                            data-parsley-required="true">
+                                                        @error('id_padre')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                aria-hidden="false">
+                                                                <li class="parsley-required">
+                                                                    {{ 'Este valor es requerido' }}</li>
+                                                            </ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label">Estado: </label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <select class="form-control" id="estado2" name="estado2"
+                                                            data-parsley-required="true">
+                                                            <option value="">Por favor selecciona una opcion
+                                                            </option>
+                                                            <option value="A">Activo</option>
+                                                            <option value="I">Inactivo</option>
+                                                            @error('estado')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-5"
+                                                                    aria-hidden="false">
+                                                                    <li class="parsley-required">
+                                                                        {{ 'este valor es requerido' }}</li>
+                                                                </ul>
+                                                            @enderror
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row m-b-0">
+                                                    <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <button type="submit" class="btn btn-primary"><i
+                                                                class="far fa-save"> </i> Registrar</button>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal para Eliminar -->
+                            <div class="modal fade" id="deleteDocument" tabindex="-1" role="dialog"
+                                aria-labelledby="eliminarDocumentoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="eliminarDocumentoModalLabel">Eliminar
+                                                Documento</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Estás seguro de que deseas eliminar este documento?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-danger" id="btnDelete"
+                                                name="btnDelete">Eliminar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"
+                                aria-labelledby="pdfModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="pdfModalLabel">Vista previa del PDF</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <iframe id="pdfFrame" style="width:100%; height:500px;"
+                                                frameborder="0"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
+                        <!-- end panel-body -->
                     </div>
                 </div>
             </div>
-            <!-- end panel-body -->
         </div>
-
+        <!-- end panel-body -->
     </div>
-    <!-- end col-10 -->
+
+
 
 
 @endsection
@@ -414,6 +425,13 @@
     <script>
         $(document).ready(function() {
             var documentTable = $('#programa-table').DataTable({
+
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: true,
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -453,9 +471,26 @@
                         searchable: false
                     },
                 ],
+                buttons: [{
+                        extend: 'pdf',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf"></i> PDF'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-file-excel"></i> Excel'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-primary',
+                        text: '<i class="fa fa-print"></i> Imprimir'
+                    }
+                ],
                 language: {
                     url: '/assets/plugins/datatables.net/Spanish.json'
-                }
+                },
+                dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
             });
         });
     </script>
@@ -505,7 +540,7 @@
     <script>
         function editProgram(id) {
             $.get('/dashboard/programas/' + id + '/edit', function(data) {
-                
+
                 $('#edit-programa-id').val(data.id);
                 $('#id_programa2').val(data.id_programa);
                 $('#programa2').val(data.programa);
@@ -592,7 +627,7 @@
                     $.ajax({
                         url: '/dashboard/programas/destroy/' + doc_id,
                         method: 'DELETE',
-                        data:{
+                        data: {
                             _token: $('input[name="_token"]').val(),
                         },
                         beforeSend: function() {

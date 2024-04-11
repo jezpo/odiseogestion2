@@ -11,7 +11,16 @@
 @endsection
 
 @section('content')
-    <div class="col-xl-12 ui-sortable">
+
+<ol class="breadcrumb float-xl-right">
+    <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Principal</a></li>
+
+    <li class="breadcrumb-item active">Panel Tramite</li>
+</ol>
+<!-- begin page-header -->
+<h1 class="page-header"><i class="fas fa-file-alt fa-fw"></i> Documentos Recibidos <small></small></h1>
+<!-- end page-header -->
+
         <div class="panel panel-inverse">
             <!-- begin panel-heading -->
             <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
@@ -201,17 +210,17 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <table id="recibidos-table"
-                                            class="table table-striped table-bordered table-td-valign-middle">
+                                        class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
                                             <thead>
-                                                <tr role="row">
+                                                <tr>
 
-                                                    <th width="10%">Nro</th>
-                                                    <th width="10%">Cite</th>
-                                                    <th width="10%">Descripción</th>
-                                                    <th width="10%">Estado</th>
-                                                    <th width="10%">Tipo De Documento</th>
-                                                    <th width="10%">Unidad O Carrera de Origen</th>
-                                                    <th width="40%">Acciones</th>
+                                                    <th class="text-nowrap">Nro</th>
+                                                    <th class="text-nowrap">Cite</th>
+                                                    <th class="text-nowrap">Descripción</th>
+                                                    <th class="text-nowrap">Estado</th>
+                                                    <th class="text-nowrap">Tipo De Documento</th>
+                                                    <th class="text-nowrap">Unidad O Carrera de Origen</th>
+                                                    <th class="text-nowrap">Acciones</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -449,7 +458,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
 @endsection
 
@@ -507,6 +516,12 @@
     <script>
         $(document).ready(function() {
             var documentTable = $('#recibidos-table').DataTable({
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: true,
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -571,15 +586,28 @@
                         orderable: true,
                         searchable: true,
                     },
+
+                ],
+                buttons: [{
+                        extend: 'pdf',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf"></i> PDF'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-file-excel"></i> Excel'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-primary',
+                        text: '<i class="fa fa-print"></i> Imprimir'
+                    }
                 ],
                 language: {
                     url: '/assets/plugins/datatables.net/Spanish.json'
                 },
-                createdRow: function(row, data) {
-                    if (data.programa.toLowerCase() === 'carrera de ingenieria de sistemas') {
-                        $(row).hide();
-                    }
-                }
+                dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
             });
         });
     </script>

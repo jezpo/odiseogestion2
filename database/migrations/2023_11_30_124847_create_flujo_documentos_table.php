@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('flujo_documentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_documento');
-            $table->dateTime('fecha_recepcion')->nullable()->change();
+            $table->dateTime('fecha_recepcion')->nullable()->default(now());
             $table->dateTime('fecha_envio');
             $table->string('id_programa', 5);
             $table->text('obs');
