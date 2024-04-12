@@ -366,7 +366,7 @@
                                                     <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label">Origen: </label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control select2_programas"
+                                                            <select class="form-control"
                                                                 id="id_programa" name="id_programa"
                                                                 data-parsley-required="true">
                                                                 <option value="">Por favor selecciona el origen
@@ -722,14 +722,16 @@
             });
         }
     </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.select2_programas').select2({
-                placeholder: "Por favor selecciona el origen", // placeholder
-            });
-        });
-    </script>
+<script>
+    $(document).ready(function() {
+        $('.select2_programas').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_programa').select2();
+    });
+</script>
 
     <script>
         function editDocument(id) {

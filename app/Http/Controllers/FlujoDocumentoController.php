@@ -7,6 +7,9 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Documento;
 use App\Models\Programa;
 use App\Models\FlujoDocumento;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+
 class FlujoDocumentoController extends Controller
 {
     public function index(Request $request)
@@ -31,7 +34,7 @@ class FlujoDocumentoController extends Controller
 
     public function create(Request $request)
     {
-        $flujos = FlujoDocumento::create([
+        $flujo = FlujoDocumento::create([
             'id_documento' => $request->id_documento,
             'fecha_recepcion' => $request->fecha_recepcion ?? now(),
             'fecha_envio' => $request->fecha_envio ?? now(),
@@ -41,24 +44,42 @@ class FlujoDocumentoController extends Controller
 
         if ($request->ajax()) {
             // Si la solicitud es AJAX, devuelve una respuesta JSON
-            return response()->json(['message' => 'Flujo de documentos creado con éxito', 'flujos' => $flujos]);
+            return response()->json(['message' => 'Flujo de documentos creado con éxito', 'flujo' => $flujo]);
         } else {
             // Si la solicitud no es AJAX, realiza una redirección
-            return back()->with('success', 'Flujo de documentos creado con éxito');
+            return redirect()->route('gestion.flujodocumentos.index')->with('success', 'Flujo de documentos creado con éxito');
         }
     }
 
+
     public function store(Request $request)
     {
-        // Valida los datos del formulario
-        $request->validate([
+        // Define las reglas de validación personalizadas
+        $rules = [
             'id_documento' => 'required',
-            'fecha_recepcion' => 'required',
-            'fecha_envio' => 'required',
+            'fecha_recepcion' => 'required|date|after_or_equal:' . Carbon::now()->format('Y-m-d\TH:i'),
+            'fecha_envio' => 'required|date',
             'id_programa' => 'required|max:5',
             'obs' => 'nullable',
-        ]);
+        ];
 
+        // Define los mensajes de error personalizados
+        $messages = [
+            'fecha_recepcion.after_or_equal' => 'La fecha de recepción debe ser igual o posterior al momento actual.',
+        ];
+
+        // Realiza la validación de los datos del formulario
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // Verifica si la validación falla
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Si la validación pasa, procede a crear el nuevo registro
         // Crea un nuevo registro utilizando los datos del formulario
         $nuevoRegistro = new FlujoDocumento([
             'id_documento' => $request->input('id_documento'),
