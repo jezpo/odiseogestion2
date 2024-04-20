@@ -47,11 +47,8 @@
                 <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="dataTables_wrapper dt-bootstrap">
                         <div class="row">
-
                             <div class="col-xl-12">
-
                                 <!-- Botón para abrir el modal de creación -->
-
                                 <br>
                                 <!-- Modal para Nuevo -->
                                 <div class="modal fade" class="modal fade" id="modal-dialog">
