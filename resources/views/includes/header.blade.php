@@ -34,7 +34,7 @@
                 </span>
             </button>
         @endIf
-       
+
         <a href="{{ route('dashboard') }}" class="navbar-brand">
             Correspondencia UATF
         </a>
@@ -45,17 +45,14 @@
 
     <!-- begin header-nav -->
     <ul class="navbar-nav navbar-right">
-       <li>
-        <a><b>DBU</b></a>
-       </li>
-        <li class="">
-            <a href="#" onclick="cambiar_gestion_periodo_header()" data-toggle="navbar-search" class="icon">
-                GESTIÓN: <b>02/2023</b>{{-- {{ $gestionCompleta }}--}}
-            </a>
+        {{-- <li>
+            <a><b>DBU</b></a>
         </li>
-        
-        {{-- @endrole --}}
+        <li class="">
+            <a href="javascript:;"><i class="fa fa-search"></i></a>
+        </li>
 
+        {{-- @endrole --}}
         @isset($headerLanguageBar)
             <li class="dropdown navbar-language">
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" data-toggle="dropdown">
@@ -76,19 +73,21 @@
                 </div>
             </li>
         @endisset
+      
         <li class="dropdown navbar-user">
             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/assets/img/user/user-2.jpg" alt="" />
+                <img src="/assets/img/user/user-2.jpg" alt="..." class=" profile_img">
                 <span class="d-none d-md-inline">
-                    <span class="ml-2">
-                        {{ Auth::user()->name }}  
-                    
+                    {{ Auth::user()->name }}
                 </span> <b class="caret"></b>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-               
+                @yield('menuSide')
+                {{--@role('dircarrera', true)--}}
+                <a href="{{-- route('dir.ver.perfil') --}}" class="dropdown-item">Editar Perfil</a>
                 <div class="dropdown-divider"></div>
-                <a href="{{--{{ route('password.change') }}--}}" class="dropdown-item">Cambiar contraseña</a>
+                {{--@endrole--}}
+                <a href="{{-- route('password') --}}" class="dropdown-item">Cambiar Contraseña</a>
                 <div class="dropdown-divider"></div>
                 <a href="{{ url('/logout') }}" class="dropdown-item" style="color: red;"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>

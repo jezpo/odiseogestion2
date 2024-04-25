@@ -9,22 +9,25 @@
         <ul class="nav">
             <li class="nav-profile">
                 <a href="javascript:;" data-toggle="nav-profile">
-					<div class="cover with-shadow"></div>
-					<div class="image">
-						<img src="/assets/img/user/user-2.jpg" alt="" />
-					</div>
+                    <div class="cover with-shadow"></div>
+                    <div class="image">
+                        <img src="/assets/img/user/user-2.jpg" alt="" />
+                    </div>
                     <div class="info">
                         <b class="caret pull-right"></b>
-                        
+
                         {{ Auth::user()->name }}
-                         
+
                         {{ Auth::user()->last_name }}
 
                         <small>{{ Auth::user()->email }}</small>
-                        
-                    </div>
 
+                    </div>
+                    
                 </a>
+            </li>
+
+            </a>
             </li>
         </ul>
         <!-- end sidebar user -->
@@ -38,6 +41,7 @@
             <!-- end sidebar minify button -->
         </ul>
         <!-- end sidebar nav -->
+        
     </div>
     <!-- end sidebar scrollbar -->
 </div>
