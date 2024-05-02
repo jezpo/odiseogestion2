@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,9 +25,20 @@ Route::middleware([
     })->name('dashboard');
 
     // Otras rutas autenticadas existentes
+    Route::group(['middleware' => ['role:super-admin|admin']], function() {
+    Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+    Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
+    
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+    Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+    Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
+    Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+    
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
 
 
-    // Rutas para DocumentsSendController
+        // Rutas para DocumentsSendController
     Route::get('/dashboard/documentos-env', [DocumentosEnvController::class, 'index'])->name('documentos.index');
     Route::get('/dashboard/documentos-env/{id}', [DocumentosEnvController::class, 'show'])->name('documentos.show');
     Route::get('/dashboard/documentos-env/edit/{id}', [DocumentosEnvController::class, 'edit'])->name('documentos.edit');
@@ -80,6 +92,10 @@ Route::middleware([
     Route::get('/dashboard/flujo-documentos/edit/{id}', [FlujoDocumentoController::class, 'edit'])->name('flujo-documentos.edit');
     Route::put('/dashboard/flujo-documentos/update/{id}', [FlujoDocumentoController::class, 'update'])->name('flujo-documentos.update');
     Route::delete('/dashboard/flujo-documentos/destroy/{id}', [FlujoDocumentoController::class, 'destroy'])->name('flujo-documentos.destroy');
+    
+    });
+
+    
 });
 
 Route::post('/logout', function (Request $request) {
@@ -91,4 +107,3 @@ Route::post('/logout', function (Request $request) {
 
     return redirect('/login');
 })->name('logout');
-

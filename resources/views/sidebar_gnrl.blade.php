@@ -1,13 +1,24 @@
+
 <li class="has-sub">
-    <a href="{{ url('dashboard') }}">
-        <b class="caret"></b>
-        <i class="material-icons">home</i> <!-- Cambia "place" por "folder" para el icono de documentos -->
-        <span>Menu</span> <!-- Cambia "Map" por "Documentos" -->
+    <a href="{{ url('users') }}">
+        <i class="material-icons">people</i> Usuarios
     </a>
 </li>
+
+<li>
+    <a href="{{ url('permissions') }}">       
+        <i class="material-icons">lock</i> Permisos
+    </a>
+</li>
+
+<li>
+    <a href="{{ url('roles') }}">    
+        <i class="material-icons">security</i> Roles
+    </a>
+</li>
+
 <li>
     <a href="{{ url('dashboard/documentos-reci') }}">
-        <b class="caret"></b>
         <i class="material-icons">inbox</i> Documentos recibidos
     </a>
 </li>

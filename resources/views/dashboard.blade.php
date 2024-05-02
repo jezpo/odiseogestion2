@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', config('hermes.name') . ' UATF ' . 'Panel de Administracion')
+@section('title', ' UATF ' . 'Home')
 
 @push('css')
     {{-- Aqui se coloca los CSS de assets --}}

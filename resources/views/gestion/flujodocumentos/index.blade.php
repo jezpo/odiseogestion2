@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Flujo de Documentos')
 
 @push('css')
-    {{-- Aqui se coloca los CSS de assets --}}
+<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
 @endpush
 
 @section('header-nav')
@@ -395,11 +395,11 @@
     <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
 
-    <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
     <scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
         </script>

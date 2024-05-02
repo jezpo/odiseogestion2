@@ -1,98 +1,74 @@
-<x-action-section>
-    <x-slot name="title">
-        {{ __('Browser Sessions') }}
-    </x-slot>
-
-    <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
-    </x-slot>
-
-    <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
-            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
-        </div>
-
-        @if (count($this->sessions) > 0)
-            <div class="mt-5 space-y-6">
-                <!-- Other Browser Sessions -->
-                @foreach ($this->sessions as $session)
-                    <div class="flex items-center">
-                        <div>
-                            @if ($session->agent->isDesktop())
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                                </svg>
-                            @endif
-                        </div>
-
-                        <div class="ml-3">
-                            <div class="text-sm text-gray-600">
-                                {{ $session->agent->platform() ? $session->agent->platform() : __('Unknown') }} - {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }}
-                            </div>
-
-                            <div>
-                                <div class="text-xs text-gray-500">
-                                    {{ $session->ip_address }},
-
-                                    @if ($session->is_current_device)
-                                        <span class="text-green-500 font-semibold">{{ __('This device') }}</span>
-                                    @else
-                                        {{ __('Last active') }} {{ $session->last_active }}
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Autenticación de Dos Factores</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Autenticación de Dos Factores
             </div>
-        @endif
+            <div class="card-body">
+                <p>Añade seguridad adicional a tu cuenta usando la autenticación de dos factores.</p>
 
-        <div class="flex items-center mt-5">
-            <x-button wire:click="confirmLogout" wire:loading.attr="disabled">
-                {{ __('Log Out Other Browser Sessions') }}
-            </x-button>
-
-            <x-action-message class="ml-3" on="loggedOut">
-                {{ __('Done.') }}
-            </x-action-message>
-        </div>
-
-        <!-- Log Out Other Devices Confirmation Modal -->
-        <x-dialog-modal wire:model="confirmingLogout">
-            <x-slot name="title">
-                {{ __('Log Out Other Browser Sessions') }}
-            </x-slot>
-
-            <x-slot name="content">
-                {{ __('Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.') }}
-
-                <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="mt-1 block w-3/4"
-                                autocomplete="current-password"
-                                placeholder="{{ __('Password') }}"
-                                x-ref="password"
-                                wire:model.defer="password"
-                                wire:keydown.enter="logoutOtherBrowserSessions" />
-
-                    <x-input-error for="password" class="mt-2" />
+                <!-- Aquí se simula el estado del sistema de autenticación -->
+                <h3 class="text-lg font-medium text-gray-900">
+                    No has habilitado la autenticación de dos factores.
+                </h3>
+                <p class="mt-3 max-w-xl text-sm text-gray-600">
+                    Cuando la autenticación de dos factores está habilitada, se te solicitará un token seguro y aleatorio durante la autenticación. Puedes obtener este token desde la aplicación Google Authenticator de tu teléfono.
+                </p>
+                
+                <!-- Acciones de habilitación -->
+                <div class="mt-5">
+                    <button type="button" class="btn btn-primary" onclick="enableTwoFactor()">Habilitar</button>
                 </div>
-            </x-slot>
 
-            <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
+                <!-- Espacio para QR, Código de Confirmación y Claves de Recuperación (simulación) -->
+                <div class="mt-4">
+                    <!-- Simular QR si está habilitado -->
+                </div>
+                <div class="mt-4">
+                    <label for="code">Código</label>
+                    <input type="text" id="code" class="form-control mt-1 w-50" inputmode="numeric" autocomplete="one-time-code">
+                    <!-- Aquí se mostrarían errores si fuera necesario -->
+                </div>
+                <div class="mt-4">
+                    <p class="font-semibold">Almacena estos códigos de recuperación en un gestor de contraseñas seguro. Pueden ser utilizados para recuperar el acceso a tu cuenta si pierdes el dispositivo de autenticación de dos factores.</p>
+                    <div class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg">
+                        <!-- Códigos de recuperación simulados -->
+                        <div>123456</div>
+                        <div>654321</div>
+                    </div>
+                </div>
 
-                <x-button class="ml-3"
-                            wire:click="logoutOtherBrowserSessions"
-                            wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
-                </x-button>
-            </x-slot>
-        </x-dialog-modal>
-    </x-slot>
-</x-action-section>
+                <!-- Botones adicionales de acción -->
+                <div class="mt-5">
+                    <button type="button" class="btn btn-secondary mr-3" onclick="regenerateCodes()">Regenerar Códigos de Recuperación</button>
+                    <button type="button" class="btn btn-danger" onclick="disableTwoFactor()">Deshabilitar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        // Aquí puedes agregar JavaScript para manejar la lógica del formulario
+        function enableTwoFactor() {
+            console.log('Habilitar la lógica de autenticación de dos factores aquí');
+        }
+        function regenerateCodes() {
+            console.log('Regenerar códigos de recuperación aquí');
+        }
+        function disableTwoFactor() {
+            console.log('Deshabilitar la autenticación de dos factores aquí');
+        }
+    </script>
+</body>
+</html>

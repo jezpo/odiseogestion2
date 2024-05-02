@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\DB;
 
 class DocumentosReciController extends Controller
 {
+    /*public function __construct()
+{
+    $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
+    $this->middleware(['permission:view documents'])->only('index');
+    $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
+    $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
+}
+*/
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -80,13 +88,13 @@ class DocumentosReciController extends Controller
     // Función auxiliar para obtener la conexión a la base de datos
     private function getConnection()
     {
-        return pg_connect("host=127.0.0.1 dbname=docs user=postgres password=postgres");
+        return pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
     }
 
     public function update(Request $request, $id)
     {
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs user=postgres password=postgres");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
 
         // 1. Obtener el documento existente de la base de datos
         $documento = Documento::find($id);

@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Documentos Enviados')
 
 @push('css')
-    {{-- Aqui se coloca los CSS de assets --}}
+<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
 @endpush
 
 @section('header-nav')
@@ -159,32 +159,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                {{--
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">Origen: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control select2_programas"
-                                                                id="id_programa" name="id_programa"
-                                                                data-parsley-required="true">
-                                                                @foreach ($programas as $opcion)
-                                                                    <option value="{{ $opcion['id_programa'] }}"
-                                                                        {{ $opcion['programa'] === 'CARRERA DE INGENIERIA DE SISTEMAS' ? 'selected' : '' }}>
-                                                                        {{ $opcion['programa'] }}
-                                                                    </option>
-                                                                @endforeach
-                                                                @error('id_programa')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'Este valor es requerido' }}
-                                                                        </li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    
---}}
+
                                                 <div class="form-group row m-b-0">
                                                     <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
                                                     <div class="col-md-8 col-sm-8">
@@ -207,7 +182,8 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="documentos-table"
-                                    class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
+                                        class="table table-striped table-bordered table-td-valign-middle dt-responsive "
+                                        style="width:100%">
                                         <thead>
                                             <tr>
 
@@ -351,31 +327,6 @@
                                                     </div>
                                                 </div>
 
-                                                {{--
-                                                    <div class="form-group row m-b-15">
-                                                        <label class="col-md-4 col-sm-4 col-form-label">Origen: </label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control select2_programas"
-                                                                id="id_programa2" name="id_programa2"
-                                                                data-parsley-required="true">
-                                                                <option value="">Por favor selecciona el origen
-                                                                </option>
-                                                                @foreach ($programas as $opcion)
-                                                                    <option value="{{ $opcion['id_programa'] }}">
-                                                                        {{ $opcion['programa'] }}</option>
-                                                                @endforeach
-                                                                @error('id_programa')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                                        aria-hidden="false">
-                                                                        <li class="parsley-required">
-                                                                            {{ 'este valor es requerido' }}</li>
-                                                                    </ul>
-                                                                @enderror
-                                                            </select>
-                                                        </div>
-                                                    </div>
---}}
-
                                                 <!-- Agrega más campos de acuerdo a tus necesidades -->
 
                                                 <div class="modal-footer">
@@ -454,8 +405,6 @@
 
 
 @endsection
-
-
 @push('scripts')
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -499,11 +448,11 @@
     <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
 
-    <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-    <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
+    <script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 
     <script>

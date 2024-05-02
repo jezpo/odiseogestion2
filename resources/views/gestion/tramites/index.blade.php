@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Tramites')
 
 @push('css')
-    {{-- Aqui se coloca los CSS de assets --}}
+<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
 @endpush
 
 @section('header-nav')
@@ -268,6 +268,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="../assets/css/material/app.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
@@ -310,14 +311,15 @@
     <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
     <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
     <script>
@@ -400,32 +402,34 @@
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    if (response.status == 'success') {
-                        // Show success message using SweetAlert
+                    if (response.status === 'success') {
                         Swal.fire({
                             icon: 'success',
                             title: 'Trámite creado correctamente',
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        // Reload table data
                         $('#programa-table').DataTable().ajax.reload();
-                        // Close modal
                         $('#exampleModal').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                     } else {
-                        // Show error message using SweetAlert
                         Swal.fire({
                             icon: 'error',
                             title: 'Ocurrió un error al crear el trámite',
-                            text: response.message.tramite ? response.message.tramite[0] : '',
+                            text: response.message.tramite ? response.message.tramite[0] :
+                                'Error no especificado',
                             confirmButtonText: 'Aceptar'
                         });
                     }
                 },
-                error: function(response) {
-                    // Handle error response
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de conexión',
+                        text: 'No se pudo completar la solicitud: ' + error,
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });
