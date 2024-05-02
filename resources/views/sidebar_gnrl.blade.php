@@ -1,5 +1,5 @@
 
-<li>
+<li class="has-sub">
     <a href="{{ url('users') }}">
         <i class="material-icons">people</i> Usuarios
     </a>

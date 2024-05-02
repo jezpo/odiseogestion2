@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\DB;
 
 class DocumentosReciController extends Controller
 {
+    /*public function __construct()
+{
+    $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
+    $this->middleware(['permission:view documents'])->only('index');
+    $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
+    $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
+}
+*/
     public function index(Request $request)
     {
         if ($request->ajax()) {

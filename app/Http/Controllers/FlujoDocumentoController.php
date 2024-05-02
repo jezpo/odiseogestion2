@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Validator;
 
 class FlujoDocumentoController extends Controller
 {
+    /*public function __construct()
+    {
+        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
+        $this->middleware('auth');
+        $this->middleware(['permission:view documents'])->only('index'); 
+        $this->middleware(['permission  :create documents'])->only('create');           
+        $this->middleware(['permission  :edit documents'])->only('edit');
+        $this->middleware(['permission  :delete documents'])->only('delete');
+    } */
     public function index(Request $request)
     {
         if ($request->ajax()) {

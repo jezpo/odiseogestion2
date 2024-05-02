@@ -11,20 +11,31 @@ use App\Models\Documento;
 use App\Models\Programa;
 use Illuminate\Support\Facades\DB;
 
-/*---------------------------------------------------------------------------*/
+
 class DocumentosEnvController extends Controller
 {
+    /*public function __construct()
+    {
+        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
+        $this->middleware(['permission:view documents'])->only('index');
+        $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
+        $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
+    }
+*/
     public function index(Request $request)
     {
-       
+
         if ($request->ajax()) {
             $documentos = Documento::list_documents_origen();
 
             return DataTables::of($documentos)
                 ->addColumn('action', function ($documentos) {
-                    $btn = '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye"></i> Ver</a>';
-                    $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
+                    $btn = '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm" title="Ver Documento"><i class="fas fa-eye text-primary"></i> Ver</a>';
+                    $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" title="Editar Documento" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit text-warning"></i> Editar</a>';
+                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" title="Eliminar Documento" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt text-white"></i> Eliminar</button>';
+
+                    // Ejemplo añadiendo un botón de descargar
+                    $btn .= '&nbsp;&nbsp;<a href="/download/document/' . $documentos->id . '" class="btn btn-info btn-sm" title="Descargar Documento"><i class="fas fa-download text-light"></i> Descargar</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

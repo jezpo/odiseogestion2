@@ -73,7 +73,6 @@
                 </div>
             </li>
         @endisset
-      
         <li class="dropdown navbar-user">
             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="/assets/img/user/user-2.jpg" alt="..." class=" profile_img">
@@ -84,11 +83,11 @@
             <div class="dropdown-menu dropdown-menu-right">
                 @yield('menuSide')
                 {{--@role('dircarrera', true)--}}
-                <a href="{{-- route('dir.ver.perfil') --}}" class="dropdown-item">Editar Perfil</a>
+                <a href="{{ route('profile.show') }}" class="dropdown-item">Editar Perfil</a>
                 <div class="dropdown-divider"></div>
                 {{--@endrole--}}
-                <a href="{{-- route('password') --}}" class="dropdown-item">Cambiar Contraseña</a>
-                <div class="dropdown-divider"></div>
+                {{--<a href="{{-- route('password') " class="dropdown-item">Cambiar Contraseña</a>--}}
+                {{--<div class="dropdown-divider"></div>--}}
                 <a href="{{ url('/logout') }}" class="dropdown-item" style="color: red;"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Unidades')
 
 @push('css')
-    {{-- Aqui se coloca los CSS de assets --}}
+<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
 @endpush
 
 @section('header-nav')
@@ -420,7 +420,7 @@
     <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
     <script>
         $(document).ready(function() {
