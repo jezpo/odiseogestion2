@@ -8,6 +8,6 @@
     $(document).ready(function() {
         $('.profile_img').attr('src', "{{ url('user/' . auth()->user()->id . '/foto') }}");
     });
-</script>
---}}
+</script>--}}
+
 @stack('scripts')

@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Documentos Enviados')
 
 @push('css')
-<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
+    <link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
 @endpush
 
 @section('header-nav')
@@ -24,7 +24,8 @@
         <!-- begin panel-heading -->
         <div class="panel-heading ui-sortable-handle d-flex justify-content-between align-items-center">
 
-            <button id="addDocumentoForm" class="btn btn-sm btn btn-primary" data-toggle="modal" data-target="#modal-dialog">
+            <button id="addDocumentoForm" class="btn btn-sm btn btn-primary" data-toggle="modal"
+                data-target="#modal-dialog">
                 <i class="fas fa-plus"></i> Crear Nuevo Documento
             </button>
 
@@ -229,8 +230,8 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <i class="fas fa-pencil-alt"> </i> Editar Documento
-                                            </h5>
+                                            <h4><i class="fas fa-pencil-alt"> </i> Editar Documento
+                                            </h4>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -294,6 +295,24 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+
+                                                <div class="form-group row m-b-15">
+                                                    <label class="col-md-4 col-sm-4 col-form-label">Archivo:
+                                                    </label>
+                                                    <div class="col-md-8 col-sm-8">
+
+                                                        <div class="form-group">
+                                                            <button type="button" data-toggle="modal"
+                                                                data-target="#pdfModal" data-toggle="tooltip"
+                                                                title="Visualizar Documento"
+                                                                class="btn btn-info btn-sm"><i
+                                                                    class="fas fa-eye text-white"></i> Visualizar</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group row m-b-15">
                                                     <label class="col-md-4 col-sm-4 col-form-label">Archivo:
                                                     </label>
@@ -325,6 +344,7 @@
                                                             @enderror
                                                         </select>
                                                     </div>
+
                                                 </div>
 
                                                 <!-- Agrega más campos de acuerdo a tus necesidades -->
@@ -338,10 +358,7 @@
                                                         <i class="fas fa-save"></i> Actualizar
                                                     </button>
                                                 </div>
-
-
                                             </form>
-
                                         </div>
                                     </div>
                                 </div>
@@ -372,6 +389,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal para Visualizar PDF -->
                             <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"
                                 aria-labelledby="pdfModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
@@ -394,6 +413,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
                         </div>
                         <!-- end panel-body -->
