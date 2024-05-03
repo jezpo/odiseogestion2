@@ -33,9 +33,6 @@ class DocumentosEnvController extends Controller
                     $btn = '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm" title="Ver Documento"><i class="fas fa-eye text-primary"></i> Ver</a>';
                     $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" title="Editar Documento" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit text-warning"></i> Editar</a>';
                     $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" title="Eliminar Documento" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt text-white"></i> Eliminar</button>';
-
-                    // Ejemplo añadiendo un botón de descargar
-                    $btn .= '&nbsp;&nbsp;<a href="/download/document/' . $documentos->id . '" class="btn btn-info btn-sm" title="Descargar Documento"><i class="fas fa-download text-light"></i> Descargar</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

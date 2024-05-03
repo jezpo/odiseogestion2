@@ -322,6 +322,23 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <div class="form-group row m-b-15">
+                                                        <label class="col-md-4 col-sm-4 col-form-label">Archivo:
+                                                        </label>
+                                                        <div class="col-md-8 col-sm-8">
+    
+                                                            <div class="form-group">
+                                                                <button type="button" data-toggle="modal"
+                                                                    data-target="#pdfModal" data-toggle="tooltip"
+                                                                    title="Visualizar Documento"
+                                                                    class="btn btn-info btn-sm"><i
+                                                                        class="fas fa-eye text-white"></i> Visualizar</button>
+                                                            </div>
+    
+                                                        </div>
+                                                    </div>
+
                                                     <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label">Archivo:
                                                         </label>
