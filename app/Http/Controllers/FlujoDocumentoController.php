@@ -43,10 +43,14 @@ class FlujoDocumentoController extends Controller
 
     public function create(Request $request)
     {
+        // Establecer el huso horario a América/La_Paz
+        $currentDateTime = Carbon::now('America/La_Paz')->toDateTimeLocalString();
+
+        // Crear el flujo de documentos con la fecha y hora actual
         $flujo = FlujoDocumento::create([
             'id_documento' => $request->id_documento,
-            'fecha_recepcion' => $request->fecha_recepcion ?? now(),
-            'fecha_envio' => $request->fecha_envio ?? now(),
+            'fecha_recepcion' => $request->fecha_recepcion ?? $currentDateTime,
+            'fecha_envio' => $request->fecha_envio ?? $currentDateTime,
             'id_programa' => $request->id_programa,
             'obs' => $request->obs,
         ]);
@@ -55,57 +59,40 @@ class FlujoDocumentoController extends Controller
             // Si la solicitud es AJAX, devuelve una respuesta JSON
             return response()->json(['message' => 'Flujo de documentos creado con éxito', 'flujo' => $flujo]);
         } else {
-            // Si la solicitud no es AJAX, realiza una redirección
-            return redirect()->route('gestion.flujodocumentos.index')->with('success', 'Flujo de documentos creado con éxito');
+            // Si la solicitud no es AJAX, retorna la vista con la variable $currentDateTime
+            return view('gestion.flujodocumentos.index', compact('currentDateTime'))
+                ->with('success', 'Flujo de documentos creado con éxito');
         }
     }
 
-
     public function store(Request $request)
     {
-        // Define las reglas de validación personalizadas
+        $fechaRecepcion = Carbon::createFromFormat('Y-m-d\TH:i:s', $request->input('fecha_recepcion'))->format('Y-m-d H:i');
+        $fechaEnvio = Carbon::createFromFormat('Y-m-d\TH:i:s', $request->input('fecha_envio'))->format('Y-m-d H:i');
+
         $rules = [
             'id_documento' => 'required',
-            'fecha_recepcion' => 'required|date|after_or_equal:' . Carbon::now()->format('Y-m-d\TH:i'),
+            'fecha_recepcion' => 'required|date|after_or_equal:' . Carbon::now()->format('Y-m-d H:i'),
             'fecha_envio' => 'required|date',
             'id_programa' => 'required|max:5',
             'obs' => 'nullable',
         ];
 
-        // Define los mensajes de error personalizados
-        $messages = [
-            'fecha_recepcion.after_or_equal' => 'La fecha de recepción debe ser igual o posterior al momento actual.',
-        ];
-
-        // Realiza la validación de los datos del formulario
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        // Verifica si la validación falla
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Si la validación pasa, procede a crear el nuevo registro
-        // Crea un nuevo registro utilizando los datos del formulario
-        $nuevoRegistro = new FlujoDocumento([
-            'id_documento' => $request->input('id_documento'),
-            'fecha_recepcion' => $request->input('fecha_recepcion'),
-            'fecha_envio' => $request->input('fecha_envio'),
-            'id_programa' => $request->input('id_programa'),
-            'obs' => $request->input('obs'),
+        FlujoDocumento::create([
+            'id_documento' => $request->id_documento,
+            'fecha_recepcion' => $fechaRecepcion,
+            'fecha_envio' => $fechaEnvio,
+            'id_programa' => $request->id_programa,
+            'obs' => $request->obs,
         ]);
 
-        $nuevoRegistro->save(); // Guarda el nuevo registro en la base de datos
-
-        // Redirige a la vista de detalles o lista de registros creados
-        return redirect()
-            ->back()
-            ->with('success', 'Registro creado con éxito');
+        return redirect()->route('gestion.flujodocumentos.index')->with('success', 'Flujo de documentos creado con éxito');
     }
-
     public function show($id)
     {
         // Carga la relación programa
@@ -123,39 +110,27 @@ class FlujoDocumentoController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Valida los datos del formulario
+        $fechaRecepcion = Carbon::createFromFormat('Y-m-d\TH:i:s', $request->input('fecha_recepcion'))->format('Y-m-d H:i');
+        $fechaEnvio = Carbon::createFromFormat('Y-m-d\TH:i:s', $request->input('fecha_envio'))->format('Y-m-d H:i');
+
         $request->validate([
             'id_documento' => 'required',
-            //'fecha_recepcion' => 'required|date',
-            //'fecha_envio' => 'required|date',
+            'fecha_recepcion' => 'required|date|after_or_equal:' . Carbon::now()->format('Y-m-d H:i'),
+            'fecha_envio' => 'required|date',
             'id_programa' => 'required|max:5',
             'obs' => 'nullable',
         ]);
 
-        try {
-            // Encuentra el registro que se va a actualizar
-            $flujoDocumento = FlujoDocumento::findOrFail($id);
+        $flujoDocumento = FlujoDocumento::findOrFail($id);
+        $flujoDocumento->update([
+            'id_documento' => $request->id_documento,
+            'fecha_recepcion' => $fechaRecepcion,
+            'fecha_envio' => $fechaEnvio,
+            'id_programa' => $request->id_programa,
+            'obs' => $request->obs,
+        ]);
 
-            // Actualiza los campos del registro con los datos del formulario
-            $flujoDocumento->id_documento = $request->input('id_documento');
-            $flujoDocumento->fecha_recepcion = $request->input('fecha_recepcion');
-            $flujoDocumento->fecha_envio = $request->input('fecha_envio');
-            $flujoDocumento->id_programa = $request->input('id_programa');
-            $flujoDocumento->obs = $request->input('obs');
-
-            // Guarda los cambios en la base de datos
-            $flujoDocumento->save();
-
-            // Redirige a la vista de detalles o lista de registros actualizados
-            return redirect()
-                ->back()
-                ->with('success', 'Registro actualizado con éxito');
-        } catch (\Exception $e) {
-            // En caso de error, manejar la excepción
-            return redirect()
-                ->back()
-                ->with('error', 'Error al actualizar el registro: ' . $e->getMessage());
-        }
+        return redirect()->back()->with('success', 'Registro actualizado con éxito');
     }
 
     public function destroy($id)
@@ -169,4 +144,11 @@ class FlujoDocumentoController extends Controller
             return response()->json(['success' => 'Documento no encontrado'], 404);
         }
     }
+    public function showForm()
+    {
+        $currentDateTime = Carbon::now()->format('Y-m-d\TH:i');
+        view()->share('currentDateTime', $currentDateTime);
+        return view('gestion.flujodocumentos.index');
+    }
+
 }

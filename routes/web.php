@@ -12,7 +12,7 @@ use App\Http\Controllers\DocumentosEnvController;
 use App\Http\Controllers\DocumentosReciController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/login');
 });
 
 Route::middleware([
@@ -37,6 +37,8 @@ Route::middleware([
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
 
+    // Ruta para inicializar roles y permisos
+    Route::get('/dashboard/init-roles-permissions', [DocumentosEnvController::class, 'initRolesAndPermissions'])->name('init-roles-permissions');
 
         // Rutas para DocumentsSendController
     Route::get('/dashboard/documentos-env', [DocumentosEnvController::class, 'index'])->name('documentos.index');

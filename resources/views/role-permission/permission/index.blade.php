@@ -15,7 +15,7 @@
 
     <!-- begin breadcrumb -->
     <ol class="breadcrumb float-xl-right">
-        <li class="breadcrumb-item"><a href="{{ url('/home') }}">Principal</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Principal</a></li>
         <li class="breadcrumb-item active">Permisos</li>
     </ol>
     <!-- end breadcrumb -->
@@ -45,42 +45,47 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="table-responsive">
-                <!-- Formulario de búsqueda -->
-                <div class="row mb-3">
-                    <div class="col-md-6 offset-md-6">
-                        <form method="GET" action="{{ route('permissions.index') }}" class="form-inline">
-                        </form>
+            <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="dataTables_wrapper dt-bootstrap">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <!-- Formulario de búsqueda -->
+                            <div class="row mb-3">
+                                <div class="col-md-6 offset-md-6">
+                                    <form method="GET" action="{{ route('permissions.index') }}" class="form-inline">
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table id="permissions-table" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nro</th>
+                                            <th>Nombre</th>
+                                            <th width="40%">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be loaded via AJAX -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Tabla de permisos -->
-                <table id="permissions-table" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nro</th>
-                            <th>Nombre</th>
-                            <th width="40%">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Data will be loaded via AJAX -->
-                    </tbody>
-                </table>
-
             </div>
         </div>
     </div>
     <!-- end modal -->
+
 @endsection
 @push('scripts')
-    <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="../assets/css/material/app.min.css" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
-    <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
@@ -89,13 +94,7 @@
     <link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
-    <!-- ================== END PAGE LEVEL STYLE ================== -->
-
-
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="../assets/js/app.min.js"></script>
-    <script src="../assets/js/theme/material.min.js"></script>
-    <!-- ================== END BASE JS ================== -->
+    <!-- ================== END PAGE LEVEL STYLE =================C:\laragon\www\odiseogestion-crud3\public\assets\plugins\datatables.net\js= -->
 
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -114,6 +113,7 @@
     <script src="../assets/plugins/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
     <script src="../assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../assets/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+
     <script src="../assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="../assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
@@ -122,7 +122,13 @@
     <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
-    <!-- ================== END PAGE LEVEL JS ================== -->
+
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+    <script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
+    <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
+    <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 
     <script>
         $(document).ready(function() {

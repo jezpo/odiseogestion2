@@ -9,6 +9,8 @@ use Illuminate\Routing\Controller;
 use Yajra\DataTables\DataTables;
 use App\Models\Documento;
 use App\Models\Programa;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
 
@@ -20,8 +22,7 @@ class DocumentosEnvController extends Controller
         $this->middleware(['permission:view documents'])->only('index');
         $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
         $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
-    }
-*/
+    }*/
     public function index(Request $request)
     {
 

@@ -1,6 +1,7 @@
 @extends('layouts.default')
-
-@section('title', config('hermes.name') . 'Correspondencia' . 'Documentos Recibidos')
+@section('title1', 'Admin U.A.T.F.')
+@section('title', 'Recibidos')
+@section('Roles', 'active')
 
 @push('css')
 <link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>

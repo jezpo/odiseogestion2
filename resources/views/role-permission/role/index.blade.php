@@ -45,24 +45,37 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="table-responsive">
-                <table id="roles-table" class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap">Nro</th>
-                            <th class="text-nowrap">Nombre</th>
-                            <th width="40%">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Los datos se cargarán a través de AJAX -->
-                    </tbody>
-                </table>
+            <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Formulario de búsqueda -->
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-6">
+                                <form method="GET" action="{{ route('permissions.index') }}" class="form-inline">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="roles-table"
+                                class="table table-striped table-bordered table-td-valign-middle dt-responsive"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-nowrap">Nro</th>
+                                        <th class="text-nowrap">Nombre</th>
+                                        <th width="40%">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Los datos se cargarán a través de AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="newrole" tabindex="-1" role="dialog" aria-labelledby="newroleLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -98,54 +111,54 @@
 @endsection
 @push('scripts')
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-	<link href="../assets/css/material/app.min.css" rel="stylesheet" />
-	<!-- ================== END BASE CSS STYLE ================== -->
-	
-	<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
-	<link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-colreorder-bs4/css/colreorder.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
-	<!-- ================== END PAGE LEVEL STYLE ================== -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="../assets/css/material/app.min.css" rel="stylesheet" />
+    <!-- ================== END BASE CSS STYLE ================== -->
 
-    
-	<!-- ================== BEGIN BASE JS ================== -->
-	<script src="../assets/js/app.min.js"></script>
-	<script src="../assets/js/theme/material.min.js"></script>
-	<!-- ================== END BASE JS ================== -->
-	
-	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
-	<script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script src="../assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-	<script src="../assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-autofill/js/dataTables.autofill.min.js"></script>
-	<script src="../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-colreorder/js/dataTables.colreorder.min.js"></script>
-	<script src="../assets/plugins/datatables.net-colreorder-bs4/js/colreorder.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-keytable/js/dataTables.keytable.min.js"></script>
-	<script src="../assets/plugins/datatables.net-keytable-bs4/js/keytable.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-rowreorder/js/dataTables.rowreorder.min.js"></script>
-	<script src="../assets/plugins/datatables.net-rowreorder-bs4/js/rowreorder.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-select/js/dataTables.select.min.js"></script>
-	<script src="../assets/plugins/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
-	<script src="../assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
-	<script src="../assets/plugins/pdfmake/build/pdfmake.min.js"></script>
-	<script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
-	<script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
-	<script src="../assets/js/demo/table-manage-combine.demo.js"></script>
-	<!-- ================== END PAGE LEVEL JS ================== -->
+    <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+    <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-colreorder-bs4/css/colreorder.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/js/theme/material.min.js"></script>
+    <!-- ================== END BASE JS ================== -->
+
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-autofill/js/dataTables.autofill.min.js"></script>
+    <script src="../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-colreorder/js/dataTables.colreorder.min.js"></script>
+    <script src="../assets/plugins/datatables.net-colreorder-bs4/js/colreorder.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-keytable/js/dataTables.keytable.min.js"></script>
+    <script src="../assets/plugins/datatables.net-keytable-bs4/js/keytable.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-rowreorder/js/dataTables.rowreorder.min.js"></script>
+    <script src="../assets/plugins/datatables.net-rowreorder-bs4/js/rowreorder.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="../assets/plugins/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/plugins/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
+    <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
 
 
     <script>
