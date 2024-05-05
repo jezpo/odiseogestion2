@@ -23,7 +23,7 @@
 
     <div class="panel panel-inverse">
         <!-- begin panel-heading -->
-        <div class="panel-heading">
+        <div class="panel-heading >
             <!-- Botón para abrir el modal de creación -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 <i class="fas fa-plus"> </i> Nuevo Tramite</button>
