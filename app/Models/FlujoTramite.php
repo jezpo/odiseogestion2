@@ -53,7 +53,6 @@ class FlujoTramite extends Model
             LEFT JOIN
                 programas p ON ft.id_programa = p.id_programa
         ');
-
         return $query;
     }
 }

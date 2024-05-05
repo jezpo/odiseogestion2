@@ -11,15 +11,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class FlujoTramiteController extends Controller
 {
-    /* public function __construct()
-        {
-            $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-            $this->middleware('auth');
-            $this->middleware(['permission:view documents'])->only('index'); 
-            $this->middleware(['permission  :create documents'])->only('create');           
-            $this->middleware(['permission  :edit documents'])->only('edit');
-            $this->middleware(['permission  :delete documents'])->only('delete');
-        }*/
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -67,23 +58,21 @@ class FlujoTramiteController extends Controller
         $tiposTramite = TipoTramite::all();
         $programas = Programa::all();
 
-        // Verificar si se encontró el flujo de trámite
         if (!$flujoTramite) {
-            return response()->json([
-                'success' => 'error',
-                'message' => 'Flujo de Trámite no encontrado',
-            ], 404);
+            return response()->json(['success' => false, 'message' => 'Flujo de Trámite no encontrado'], 404);
         }
 
         return response()->json([
-            'success' => 'success',
-            'data' => $flujoTramite, // Aquí envía los datos que deseas recibir en el frontend
+            'success' => true,
+            'data' => $flujoTramite,
             'tiposTramite' => $tiposTramite,
             'programas' => $programas,
-        ], 200);
+        ]);
     }
+
     public function update(Request $request, $id)
     {
+        // Valida los datos recibidos del formulario
         $data = $request->validate([
             'id_tipo_tramite' => 'required',
             'orden' => 'required',
@@ -92,20 +81,20 @@ class FlujoTramiteController extends Controller
             'id_programa' => 'required',
         ]);
 
-        // Encuentra el registro a actualizar
-        $flujoTramite = FlujoTramite::findOrFail($id);
-
-        // Actualiza los datos del registro
+        // Encuentra el flujo de trámite por su ID
+        $flujoTramite = FlujoTramite::find($id);
+        // Actualiza los datos del flujo de trámite
         $flujoTramite->update($data);
-
+        // Carga los tipos de trámite y los programas para volver a mostrar el formulario de edición
+        $tiposTramite = TipoTramite::all();
+        $programas = Programa::all();
         if ($request->ajax()) {
-            // Si la solicitud es AJAX, devuelve una respuesta JSON
-            return response()->json(['success' => 'Registro actualizado exitosamente.']);
+            // Si la solicitud es AJAX, devuelve una respuesta JSON con los datos y un mensaje
+            return response()->json(['success' => true, 'message' => 'Registro actualizado exitosamente.', 'tiposTramite' => $tiposTramite, 'programas' => $programas]);
+        } else {
+            // Si la solicitud no es AJAX, redirige a la vista de edición con los datos cargados
+            return view('vista.de.edicion', compact('flujoTramite', 'tiposTramite', 'programas'))->with('success', 'Registro actualizado exitosamente.');
         }
-
-        return redirect()
-            ->back()
-            ->with('success', 'Registro actualizado exitosamente.');
     }
     public function destroy($id)
     {
