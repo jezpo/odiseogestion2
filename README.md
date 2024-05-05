@@ -17,9 +17,9 @@ git clone https://github.com/usuario/proyecto-laravel.git
 
 Una vez que el repositorio se haya clonado, navega al directorio del proyecto utilizando el siguiente comando:
 
-```
+`composer install`
 bash
-```
+`cp .env.example .env`
 
 Copy code
 
@@ -29,9 +29,9 @@ Copy code
 
 Ejecuta el siguiente comando para instalar las dependencias de PHP del proyecto:
 
-```
+`php artisan key:generate`
 bash
-```
+`php artisan migrate`
 
 Copy code
 

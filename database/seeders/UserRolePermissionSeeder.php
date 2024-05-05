@@ -12,61 +12,115 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class UserRolePermissionSeeder extends Seeder
 {
 
-    public function run(): void
+    public function run()
     {
-        // Create Permissions
-        Permission::create(['name' => 'view role']);
-        Permission::create(['name' => 'create role']);
-        Permission::create(['name' => 'update role']);
-        Permission::create(['name' => 'delete role']);
+        // Paso 1: Crear permisos para las vistas de las rutas
+        $permissions = [
+            'view documentos',
+            'create documentos',
+            'edit documentos',
+            'delete documentos',
+            'download documentos',
 
-        Permission::create(['name' => 'view permission']);
-        Permission::create(['name' => 'create permission']);
-        Permission::create(['name' => 'update permission']);
-        Permission::create(['name' => 'delete permission']);
+            'view documentosReci',
+            'create documentosReci',
+            'edit documentosReci',
+            'delete documentosReci',
+            'download documentosReci',
 
-        Permission::create(['name' => 'view user']);
-        Permission::create(['name' => 'create user']);
-        Permission::create(['name' => 'update user']);
-        Permission::create(['name' => 'delete user']);
+            'view programas',
+            'create programas',
+            'edit programas',
+            'delete programas',
 
-        Permission::create(['name' => 'view product']);
-        Permission::create(['name' => 'create product']);
-        Permission::create(['name' => 'update product']);
-        Permission::create(['name' => 'delete product']);
+            'view tipo-tramites',
+            'create tipo-tramites',
+            'edit tipo-tramites',
+            'delete tipo-tramites',
 
+            'view flujotramites',
+            'create flujotramites',
+            'edit flujotramites',
+            'delete flujotramites',
 
-        // Create Roles
+            'view flujo-documentos',
+            'create flujo-documentos',
+            'edit flujo-documentos',
+            'delete flujo-documentos',
+        ];
+
+        // Crear los permisos
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
+
+        // Paso 2: Crear roles
+        $roles = [
+            'super-admin',
+            'admin',
+            'staff',
+            'user',
+        ];
+
+        // Crear los roles
+        foreach ($roles as $role) {
+            Role::create(['name' => $role]);
+        }
+
+        // Paso 3: Asignar los permisos al rol 'super-admin'
+        $superAdminRole = Role::where('name', 'super-admin')->first();
+        $superAdminRole->syncPermissions($permissions);
+
+        // Paso 4: Asignar permisos específicos a otros roles si es necesario
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminRole->givePermissionTo([
+            'create documentos',
+            'view documentos',
+            'edit documentos',
+            'delete documentos',
+            'download documentos',
+
+            'create documentosReci',
+            'view documentosReci',
+            'edit documentosReci',
+            'delete documentosReci',
+            'download documentosReci',
+
+            'create programas',
+            'view programas',
+            'edit programas',
+            'delete programas',
+
+            'create tipo-tramites',
+            'view tipo-tramites',
+            'edit tipo-tramites',
+            'delete tipo-tramites',
+
+            'create flujotramites',
+            'view flujotramites',
+            'edit flujotramites',
+            'delete flujotramites',
+
+            'create flujo-documentos',
+            'view flujo-documentos',
+            'edit flujo-documentos',
+            'delete flujo-documentos',
+        ]);
+
         $superAdminRole = Role::create(['name' => 'super-admin']); //as super-admin
         $adminRole = Role::create(['name' => 'admin']);
         $staffRole = Role::create(['name' => 'staff']);
         $userRole = Role::create(['name' => 'user']);
 
-        // Lets give all permission to super-admin role.
-        $allPermissionNames = Permission::pluck('name')->toArray();
-
-        $superAdminRole->givePermissionTo($allPermissionNames);
-
-        // Let's give few permissions to admin role.
-        $adminRole->givePermissionTo(['create role', 'view role', 'update role']);
-        $adminRole->givePermissionTo(['create permission', 'view permission']);
-        $adminRole->givePermissionTo(['create user', 'view user', 'update user']);
-        $adminRole->givePermissionTo(['create product', 'view product', 'update product']);
-
-
-        // Let's Create User and assign Role to it.
-
+        // Paso 5: Crear usuarios y asignar roles
         $superAdminUser = User::firstOrCreate([
             'email' => 'superadmin@gmail.com',
         ], [
             'name' => 'Super Admin',
             'last_name' => 'Lastname',
-            'email' => 'superadmin@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-
         $superAdminUser->assignRole($superAdminRole);
-
 
         $adminUser = User::firstOrCreate([
             'email' => 'admin@gmail.com'
