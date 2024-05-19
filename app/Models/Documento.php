@@ -35,6 +35,10 @@ class Documento extends Model
     {
         return $this->hasMany(FlujoDocumento::class);
     }
+    public function tiposTramite()
+    {
+        return $this->hasMany(TipoTramite::class, 'id');
+    }
     public static function list_documents()
     {
         $query = DB::select('select doc.id,doc.cite,doc.descripcion,doc.estado,doc.id_tipo_documento,doc.id_programa,pr.programa from documentos doc inner join programas pr on doc.id_programa = pr.id_programa ');
@@ -66,6 +70,20 @@ class Documento extends Model
             })
             ->get();
     }
+    public static function obtenerProgramasPorDocumento($documentoId)
+{
+    // Ejecutar la consulta SQL
+    $programas = DB::table('flujo_documentos')
+        ->select('programas.*')
+        ->join('programas', 'flujo_documentos.id_programa', '=', 'programas.id_programa')
+        ->where('flujo_documentos.id_documento', $documentoId)
+        ->distinct()
+        ->get();
+
+    // Devolver los resultados
+    return $programas;
+}
+
 
 
 }

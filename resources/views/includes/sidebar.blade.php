@@ -23,7 +23,7 @@
                         <small>{{ Auth::user()->email }}</small>
 
                     </div>
-                    
+
                 </a>
             </li>
 
@@ -36,12 +36,13 @@
             <li class="nav-header">Menú</li>
             @include('sidebar_gnrl')
             <!-- begin sidebar minify button -->
-            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
-                        class="fa fa-angle-double-left"></i></a></li>
+            <li>
+                <a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify">
+                    <i class="fa fa-angle-double-left"></i></a></li>
             <!-- end sidebar minify button -->
         </ul>
         <!-- end sidebar nav -->
-        
+
     </div>
     <!-- end sidebar scrollbar -->
 </div>

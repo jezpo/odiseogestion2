@@ -161,15 +161,12 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row m-b-0">
-                                                    <label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="fas fa-save"></i> Guardar
-                                                        </button>
-                                                    </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-save"></i> Guardar
+                                                    </button>
                                                 </div>
-
 
                                             </form>
                                         </div>

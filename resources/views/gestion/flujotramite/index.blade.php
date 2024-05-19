@@ -29,8 +29,11 @@
             <div class="d-block">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     data-whatever="@mdo">
+                    {{--@if(auth()->user()->hasRole('admin'))--}}
                     <i class="fas fa-plus"></i> <b>Nuevo Flujo Tramite</b>
+                    {{--@endif--}}
                 </button>
+
             </div>
             <!-- Botones en la esquina superior derecha -->
             <div class="panel-heading-btn">
@@ -158,8 +161,8 @@
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Unidad de Destino:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="select-required"
-                                                                name="id_programa" data-parsley-required="true">
+                                                            <select class="form-control" id="id_programa"
+                                                                name="id_programa" required>
                                                                 @foreach ($programas as $programa)
                                                                     <option value='{{ $programa->id_programa }}'
                                                                         {{ $programa->id == old('programa', $programa->id_programa) ? 'selected' : '' }}>
@@ -238,7 +241,6 @@
                                                     @csrf
 
                                                     <input type="hidden" id="id2" name="id2">
-
                                                     <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Tramite:</label>
@@ -323,8 +325,8 @@
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Unidad de Destino:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="id_programa2"
-                                                                name="id_programa2" required>
+                                                            <select class="form-control" id="id_programa23"
+                                                                name="id_programa23" required>
                                                                 @foreach ($programas as $programa)
                                                                     <option value='{{ $programa->id_programa }}'
                                                                         {{ $programa->id == old('programa', $programa->id_programa) ? 'selected' : '' }}>
@@ -374,6 +376,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="../assets/css/material/app.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -415,6 +418,7 @@
     <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
+    <script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
     <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
@@ -546,78 +550,98 @@
         });
     </script>
 
-
     <script>
+        // Función para abrir el modal de edición
         function editramite(id) {
-            $.get('/dashboard/flujo-tramites/edit/' + id, function(data) {
-                $('#id2').val(data.id);
-                $('#id_tipo_tramite2').val(data.id_tipo_tramite);
-                $('#orden2').val(data.orden);
-                $('#tiempo2').val(data.tiempo);
-                $('#estado2').val(data.estado);
-                $('#id_programa2').val(data.id_programa);
-                $('#editProcessFormModal').modal('show');
-            }).fail(function(xhr, textStatus, errorThrown) {
-                console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un error al obtener los datos del flujo de trámite.',
-                    confirmButtonText: 'Aceptar'
-                });
+            $.ajax({
+                url: '/dashboard/flujo-tramites/edit/' + id,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.flujoTramite) {
+                        fillEditForm(response.flujoTramite);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ocurrió un error al obtener el trámite',
+                            text: 'La respuesta del servidor no contiene la información esperada.',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error de AJAX: " + textStatus + ' : ' + errorThrown);
+                }
             });
         }
 
-        // Evento de submit del formulario de edición
-        $('#editProcesForm').submit(function(e) {
-            e.preventDefault();
-            var id2 = $('#id2').val();
-            var orden2 = $('#orden2').val();
-            var tiempo2 = $('#tiempo2').val();
-            var estado2 = $('#estado2').val();
-            var id_programa2 = $('#id_programa2').val();
-            var _token2 = $("input[name=_token]").val();
+        function fillEditForm(flujoTramite) {
+            // Rellenar el formulario con los datos del registro
+            $('#id2').val(flujoTramite.id);
+            $('#id_tipo_tramite2').val(flujoTramite.id_tipo_tramite);
+            $('#orden2').val(flujoTramite.orden);
+            $('#tiempo2').val(flujoTramite.tiempo);
+            $('#estado2').val(flujoTramite.estado);
+            $('#id_programa2').val(flujoTramite.id_programa);
 
-            var formData = new FormData();
-            formData.append('_method', 'PUT'); // Utiliza PUT
-            formData.append('id', id2);
-            formData.append('orden', orden2);
-            formData.append('tiempo', tiempo2);
-            formData.append('estado', estado2);
-            formData.append('id_programa', id_programa2);
-            formData.append('_token', _token2);
-
-            $.ajax({
-                url: '/dashboard/flujo-tramites/update/' + id2,
-                method: 'PUT', // Utiliza el método PUT en lugar de POST
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#editProcessFormModal').modal('hide');
-                    $('#flujostra-table').DataTable().ajax.reload();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Actualización exitosa',
-                        text: 'El flujo de trámite se ha actualizado correctamente.',
-                        confirmButtonText: 'Aceptar'
-                    });
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Hubo un error al actualizar el flujo de trámite.',
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
-            });
-        });
+            // Mostrar el modal
+            $('#editProcessFormModal').modal('show');
+        }
     </script>
+<script>
+    // Evento de submit del formulario de edición
+    $('#editProcesForm').submit(function(e) {
+        e.preventDefault();
+        var id2 = $('#id2').val();
+        var orden2 = $('#orden2').val();
+        var tiempo2 = $('#tiempo2').val();
+        var estado2 = $('#estado2').val();
+        var id_programa2 = $('#id_programa2').val();
+        var _token = $("input[name=_token]").val();
 
+        // Verifica los datos que estás enviando
+        console.log("Datos enviados en la solicitud AJAX:");
+        console.log("id2:", id2);
+        console.log("orden2:", orden2);
+        console.log("tiempo2:", tiempo2);
+        console.log("estado2:", estado2);
+        console.log("id_programa2:", id_programa2);
+        console.log("_token:", _token);
 
-
+        $.ajax({
+            url: '/dashboard/flujo-tramites/update/' + id2,
+            type: 'PUT',
+            data: {
+                _token: _token,
+                id: id2,
+                orden: orden2,
+                tiempo: tiempo2,
+                estado: estado2,
+                id_programa: id_programa2
+            },
+            success: function(response) {
+                console.log(response);
+                $('#editProcessFormModal').modal('hide');
+                $('#flujostra-table').DataTable().ajax.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Actualización exitosa',
+                    text: 'El flujo de trámite se ha actualizado correctamente.',
+                    confirmButtonText: 'Aceptar'
+                });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                //console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al actualizar el flujo de trámite.',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        });
+    });
+</script>
 
     <script>
         function deleteTramite(id) {
@@ -665,4 +689,16 @@
             });
         }
     </script>
+
+<script>
+    $(document).ready(function() {
+        $('#id_programa').select2();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#id_programa23').select2();
+    });
+</script>
 @endpush

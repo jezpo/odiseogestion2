@@ -9,6 +9,23 @@
     <link href="/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
 
     <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <style>
+        select.form-control {
+            width: auto;
+            /* Hace que el select solo sea tan ancho como necesario */
+            display: inline-block;
+        }
+
+        .form-inline .form-group {
+            margin-right: 10px;
+            /* Añade un poco de espacio a la derecha del formulario */
+        }
+
+        .form-inline {
+            flex-flow: row wrap;
+            align-items: center;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -46,68 +63,90 @@
         </div>
         <div class="panel-body">
             <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <!-- Formulario de búsqueda -->
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-6">
-                                <form method="GET" action="{{ route('permissions.index') }}" class="form-inline">
-                                </form>
-                            </div>
+                <div class="col-xl-12">
+                    <!-- Formulario de búsqueda -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <form method="GET" action="{{ route('roles.index') }}">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control"
+                                        placeholder="Buscar por nombre..." value="{{ request('search') }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="table-responsive">
-                            <table id="roles-table"
-                                class="table table-striped table-bordered table-td-valign-middle dt-responsive"
-                                style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th class="text-nowrap">Nro</th>
-                                        <th class="text-nowrap">Nombre</th>
-                                        <th width="40%">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Los datos se cargarán a través de AJAX -->
-                                </tbody>
-                            </table>
+                        <div class="col-md-6 text-right">
+                            <form method="GET" action="{{ route('roles.index') }}"
+                                class="form-inline justify-content-end">
+                                <div class="form-group mb-0">
+                                    <select name="num_records" onchange="this.form.submit()" class="form-control">
+                                        <option value="10" {{ request('num_records') == '10' ? 'selected' : '' }}>10
+                                            registros</option>
+                                        <option value="20" {{ request('num_records') == '20' ? 'selected' : '' }}>20
+                                            registros</option>
+                                        <option value="50" {{ request('num_records') == '50' ? 'selected' : '' }}>50
+                                            registros</option>
+                                        <option value="100" {{ request('num_records') == '100' ? 'selected' : '' }}>100
+                                            registros</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
+                    <div class="table-responsive">
+                        <table id="roles-table"
+                            class="table table-striped table-bordered table-td-valign-middle dt-responsive"
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-nowrap">Nro</th>
+                                    <th class="text-nowrap">Nombre</th>
+                                    <th width="40%">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($roles as $role)
+                                    <tr>
+                                        <td>{{ $role->id }}</td>
+                                        <td>{{ $role->name }}</td>
+                                        <td>
+                                            <a href="{{ url('roles/' . $role->id . '/give-permissions') }}"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-user-cog"></i> Agregar / Editar permisos de rol
+                                            </a>
+
+                                            @can('update role')
+                                                <a href="{{ url('roles/' . $role->id . '/edit') }}" class="btn btn-success">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                            @endcan
+
+                                            @can('delete role')
+                                                <a href="{{ url('roles/' . $role->id . '/delete') }}"
+                                                    class="btn btn-danger mx-2">
+                                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                                </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+
             </div>
         </div>
     </div>
-    <div class="modal fade" id="newrole" tabindex="-1" role="dialog" aria-labelledby="newroleLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-plus"></i> Nuevo Rol</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url('roles') }}" method="POST">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-sm-3 col-form-label">Nombre del Rol</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="name" name="name" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-9 offset-sm-3">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
     </div>
-
-
+    {{-- Paginación --}}
+    <div class="mt-3">
+        {{ $roles->appends(['search' => request('search'), 'num_records' => request('num_records')])->links() }}
+    </div>
 @endsection
 @push('scripts')
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
@@ -160,8 +199,7 @@
     <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
-
-    <script>
+    {{--   <script>
         $(document).ready(function() {
             $('#roles-table').DataTable({
                 paging: true,
@@ -172,7 +210,7 @@
                 autoWidth: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('roles.index') }}",
+                //ajax: "{{ route('roles.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -211,4 +249,5 @@
             });
         });
     </script>
+--}}
 @endpush

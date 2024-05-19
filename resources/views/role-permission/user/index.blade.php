@@ -5,7 +5,7 @@
 
 
 @push('css')
- <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+    <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     <link href="/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
@@ -49,15 +49,13 @@
     <!-- begin panel -->
 
 
-    <div class="panel panel-inverse">
+    <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
         <div class="panel-heading">
             <div class="input-group-prepend pull-right">
-
                 @can('create user')
                     <a href="{{ url('users/create') }}" class="btn btn-yellow"><i class="fas fa-plus-circle"></i> Nuevo
                         Usuario</a>
                 @endcan
-
             </div>
             <h4 class="panel-title"></h4>
             <div class="panel-heading-btn">
@@ -75,25 +73,23 @@
             <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class="dataTables_wrapper dt-bootstrap">
                     <div class="row">
-                        <div class="col-xl-12">
-                            <div class="table-responsive">
-                                <table id="users-table"
-                                    class="table table-striped table-bordered table-td-valign-middle dt-responsive"
-                                    style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-nowrap">Nro</th>
-                                            <th class="text-nowrap">Nombre</th>
-                                            <th class="text-nowrap">Correo</th>
-                                            <th class="text-nowrap">Roles</th>
-                                            <th width="40%">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Los datos se cargarán a través de AJAX -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="table-responsive">
+                            <table id="users-table"
+                                class="table table-striped table-bordered table-td-valign-middle dt-responsive"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-nowrap">Nro</th>
+                                        <th class="text-nowrap">Nombre</th>
+                                        <th class="text-nowrap">Correo</th>
+                                        <th class="text-nowrap">Roles</th>
+                                        <th width="40%">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Los datos se cargarán a través de AJAX -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

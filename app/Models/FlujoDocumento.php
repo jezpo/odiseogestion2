@@ -22,6 +22,7 @@ class FlujoDocumento extends Model
     {
         return $this->belongsTo(Programa::class, 'id_programa', 'id_programa');
     }
+    
     public static function list_documents_with_flow()
     {
         $flujoDocumentos = DB::table('flujo_documentos')
@@ -39,5 +40,19 @@ class FlujoDocumento extends Model
             ->get();
 
         return $flujoDocumentos;
+    }
+
+    public static function obtenerProgramasPorDocumento($documentoId)
+    {
+        // Ejecutar la consulta SQL
+        $programas = DB::table('flujo_documentos')
+            ->select('programas.*')
+            ->join('programas', 'flujo_documentos.id_programa', '=', 'programas.id_programa')
+            ->where('flujo_documentos.id_documento', $documentoId)
+            ->distinct()
+            ->get();
+
+        // Devolver los resultados
+        return $programas;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Programa;
@@ -11,6 +11,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class FlujoTramiteController extends Controller
 {
+   /* public function __construct(){
+        $this->middleware('role_or_permission:view user|view user|view flujo tramite', ['only'=>['index']]);
+        $this->middleware('role_or_permission:create user|create user|create flujo tramite', ['only'=>['create','store']]);
+        $this->middleware('role_or_permission:edit user|edit user|edit flujo tramite', ['only'=>['edit','update']]);
+        $this->middleware('role_or_permission:delete user|delete user|delete flujo tramite', ['only'=>['destroy']]);
+    }*/
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -19,6 +25,7 @@ class FlujoTramiteController extends Controller
                 ->addColumn('action', function ($data) {
                     $button = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
                     $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                    
                     return $button;
                 })
                 ->rawColumns(['action'])
@@ -58,13 +65,8 @@ class FlujoTramiteController extends Controller
         $tiposTramite = TipoTramite::all();
         $programas = Programa::all();
 
-        if (!$flujoTramite) {
-            return response()->json(['success' => false, 'message' => 'Flujo de Trámite no encontrado'], 404);
-        }
-
         return response()->json([
-            'success' => true,
-            'data' => $flujoTramite,
+            'flujoTramite' => $flujoTramite,
             'tiposTramite' => $tiposTramite,
             'programas' => $programas,
         ]);
@@ -72,29 +74,23 @@ class FlujoTramiteController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Valida los datos recibidos del formulario
-        $data = $request->validate([
-            'id_tipo_tramite' => 'required',
-            'orden' => 'required',
-            'tiempo' => 'required',
-            'estado' => 'required',
-            'id_programa' => 'required',
-        ]);
+        $flujoTramite = FlujoTramite::findOrFail($id);
+        $flujoTramite->update($request->all());
 
-        // Encuentra el flujo de trámite por su ID
-        $flujoTramite = FlujoTramite::find($id);
-        // Actualiza los datos del flujo de trámite
-        $flujoTramite->update($data);
-        // Carga los tipos de trámite y los programas para volver a mostrar el formulario de edición
-        $tiposTramite = TipoTramite::all();
-        $programas = Programa::all();
         if ($request->ajax()) {
-            // Si la solicitud es AJAX, devuelve una respuesta JSON con los datos y un mensaje
-            return response()->json(['success' => true, 'message' => 'Registro actualizado exitosamente.', 'tiposTramite' => $tiposTramite, 'programas' => $programas]);
-        } else {
-            // Si la solicitud no es AJAX, redirige a la vista de edición con los datos cargados
-            return view('vista.de.edicion', compact('flujoTramite', 'tiposTramite', 'programas'))->with('success', 'Registro actualizado exitosamente.');
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'message' => 'Flujo de Trámite actualizado exitosamente',
+                    'flujoTramite' => $flujoTramite,
+                ],
+                200,
+            );
         }
+
+        return redirect()
+            ->route('flujodetramite.edit', ['id' => $id])
+            ->with('success', 'Flujo de Trámite actualizado exitosamente');
     }
     public function destroy($id)
     {

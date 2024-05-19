@@ -121,25 +121,20 @@
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <div class="form-group row m-b-15">
                                             <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Unidad
                                                 Destino</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="form-control" id="id_programa" name="id_programa"
+                                                <select class="form-control select2" id="id_programa" name="id_programa"
                                                     data-parsley-required="true">
                                                     @foreach ($programas as $programa)
-                                                        <option value='{{ $programa->id_programa }}'>
-                                                            {{ $programa->programa }}
-                                                        </option>
+                                                        <option value="{{ $programa->id_programa }}">
+                                                            {{ $programa->programa }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('id_programa')
-                                                    <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                        aria-hidden="false">
-                                                        <li class="parsley-required">
-                                                            {{ 'Este valor es requerido' }}
-                                                        </li>
-                                                    </ul>
+                                                    <div class="text-danger">{{ 'Este valor es requerido' }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -274,28 +269,24 @@
                                             </div>
                                         </div>
 
+
                                         <div class="form-group row m-b-15">
-                                            <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Id
-                                                de Destino:</label>
+                                            <label class="col-md-4 col-sm-4 col-form-label" for="fullname">Unidad
+                                                Destino</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="form-control select2_programas" id="id_programa2"
-                                                    name="id_programa2" data-parsley-required="true">
+                                                <select class="form-control select2" id="id_programa23"
+                                                    name="id_programa23" data-parsley-required="true">
                                                     @foreach ($programas as $programa)
-                                                        <option value='{{ $programa->id_programa }}'>
-                                                            {{ $programa->programa }}
-                                                        </option>
+                                                        <option value="{{ $programa->id_programa }}">
+                                                            {{ $programa->programa }}</option>
                                                     @endforeach
-                                                    @error('id_programa')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-5"
-                                                            aria-hidden="false">
-                                                            <li class="parsley-required">
-                                                                {{ 'Este valor es requerido' }}
-                                                            </li>
-                                                        </ul>
-                                                    @enderror
                                                 </select>
+                                                @error('id_programa23')
+                                                    <div class="text-danger">{{ 'Este valor es requerido' }}</div>
+                                                @enderror
                                             </div>
                                         </div>
+
 
                                         <div class="form-group row m-b-15">
                                             <label class="col-md-4 col-sm-4 col-form-label"
@@ -333,353 +324,360 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
-    @endsection
-    @push('scripts')
-        {{-- Aqui se coloca los JS de assets --}}
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <link href="../assets/css/material/app.min.css" rel="stylesheet" />
-        <!-- ================== END BASE CSS STYLE ================== -->
+@endsection
+@push('scripts')
+    {{-- Aqui se coloca los JS de assets --}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="../assets/css/material/app.min.css" rel="stylesheet" />
+    <!-- ================== END BASE CSS STYLE ================== -->
 
-        <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-colreorder-bs4/css/colreorder.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
-        <link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
-        <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-colreorder-bs4/css/colreorder.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
 
-        <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-        <link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
-        <link href="../assets/plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
-            rel="stylesheet" />
-        <link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
 
-        <script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-autofill/js/dataTables.autofill.min.js"></script>
-        <script src="../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-colreorder/js/dataTables.colreorder.min.js"></script>
-        <script src="../assets/plugins/datatables.net-colreorder-bs4/js/colreorder.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-keytable/js/dataTables.keytable.min.js"></script>
-        <script src="../assets/plugins/datatables.net-keytable-bs4/js/keytable.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-rowreorder/js/dataTables.rowreorder.min.js"></script>
-        <script src="../assets/plugins/datatables.net-rowreorder-bs4/js/rowreorder.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-select/js/dataTables.select.min.js"></script>
-        <script src="../assets/plugins/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="../assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="../assets/plugins/pdfmake/build/pdfmake.min.js"></script>
-        <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
-        <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
-        <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
+    <link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="../assets/plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+        rel="stylesheet" />
+    <link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
 
-        <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
-        <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-        <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
-        <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
-        <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
-        <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
-        <scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
-            </script>
-            <script>
-                $(document).ready(function() {
-                    $('#flujosdoc-table').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('flujo-documentos.index') }}",
-                        paging: true,
-                        lengthChange: true,
-                        searching: true,
-                        ordering: true,
-                        info: true,
-                        autoWidth: true,
-                        order: [
-                            [0, 'desc']
-                        ], // Añade esta línea aquí para ordenar por la primera columna (id) en orden descendente
-                        columns: [{
-                                data: 'id',
-                                name: 'id'
-                            },
-                            {
-                                data: 'cite',
-                                name: 'cite'
-                            },
-                            {
-                                data: 'fecha_recepcion',
-                                name: 'fecha_recepcion',
-                            },
-                            {
-                                data: 'fecha_envio',
-                                name: 'fecha_envio'
-                            },
-                            {
-                                data: 'programa',
-                                name: 'programa'
-                            },
-                            {
-                                data: 'obs',
-                                name: 'obs'
-                            },
-                            {
-                                data: 'actions',
-                                name: 'actions',
-                                orderable: false,
-                                searchable: false
-                            }
-                        ],
-                        buttons: [{
-                                extend: 'pdf',
-                                className: 'btn btn-danger',
-                                text: '<i class="fa fa-file-pdf"></i> PDF'
-                            },
-                            {
-                                extend: 'excel',
-                                className: 'btn btn-success',
-                                text: '<i class="fa fa-file-excel"></i> Excel'
-                            },
-                            {
-                                extend: 'print',
-                                className: 'btn btn-primary',
-                                text: '<i class="fa fa-print"></i> Imprimir'
-                            }
-                        ],
-                        language: {
-                            url: '/assets/plugins/datatables.net/Spanish.json'
+    <script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-autofill/js/dataTables.autofill.min.js"></script>
+    <script src="../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-colreorder/js/dataTables.colreorder.min.js"></script>
+    <script src="../assets/plugins/datatables.net-colreorder-bs4/js/colreorder.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-keytable/js/dataTables.keytable.min.js"></script>
+    <script src="../assets/plugins/datatables.net-keytable-bs4/js/keytable.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-rowreorder/js/dataTables.rowreorder.min.js"></script>
+    <script src="../assets/plugins/datatables.net-rowreorder-bs4/js/rowreorder.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="../assets/plugins/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/plugins/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../assets/plugins/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../assets/plugins/jszip/dist/jszip.min.js"></script>
+    <script src="../assets/js/demo/table-manage-combine.demo.js"></script>
+
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+    <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
+    <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
+    <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+    <scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#flujosdoc-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('flujo-documentos.index') }}",
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: true,
+                    order: [
+                        [0, 'desc']
+                    ], // Añade esta línea aquí para ordenar por la primera columna (id) en orden descendente
+                    columns: [{
+                            data: 'id',
+                            name: 'id'
                         },
-                        dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
+                        {
+                            data: 'cite',
+                            name: 'cite'
+                        },
+                        {
+                            data: 'fecha_recepcion',
+                            name: 'fecha_recepcion',
+                        },
+                        {
+                            data: 'fecha_envio',
+                            name: 'fecha_envio'
+                        },
+                        {
+                            data: 'programa',
+                            name: 'programa'
+                        },
+                        {
+                            data: 'obs',
+                            name: 'obs'
+                        },
+                        {
+                            data: 'actions',
+                            name: 'actions',
+                            orderable: false,
+                            searchable: false
+                        }
+                    ],
+                    buttons: [{
+                            extend: 'pdf',
+                            className: 'btn btn-danger',
+                            text: '<i class="fa fa-file-pdf"></i> PDF'
+                        },
+                        {
+                            extend: 'excel',
+                            className: 'btn btn-success',
+                            text: '<i class="fa fa-file-excel"></i> Excel'
+                        },
+                        {
+                            extend: 'print',
+                            className: 'btn btn-primary',
+                            text: '<i class="fa fa-print"></i> Imprimir'
+                        }
+                    ],
+                    language: {
+                        url: '/assets/plugins/datatables.net/Spanish.json'
+                    },
+                    dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
+                });
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#form-create-flujo').on('submit', function(event) {
+                    event.preventDefault(); // Prevenir el envío del formulario por defecto
+
+                    // Obtener la fecha y hora actual en UTC
+                    var currentDateUTC = new Date();
+
+                    // Convertir la fecha y hora a la zona horaria deseada (America/La_Paz)
+                    var options = {
+                        timeZone: 'America/La_Paz'
+                    };
+                    var currentDateLaPaz = currentDateUTC.toLocaleString('es-Bo', options);
+
+                    // Extraer los componentes de fecha y hora
+                    var dateComponents = currentDateLaPaz.split(", ")[0].split("/");
+                    var timeComponents = currentDateLaPaz.split(", ")[1].split(":");
+
+                    // Formatear la fecha y hora en el formato deseado
+                    var formattedDate = dateComponents[2] + "-" + dateComponents[0] + "-" + dateComponents[1] +
+                        "T" + timeComponents[0] + ":" + timeComponents[1];
+
+                    // Asignar la fecha y hora formateadas al campo datetime-local
+                    $('#fecha_recepcion').val(formattedDate);
+
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        url: "{{ route('flujo-documentos.create') }}",
+                        method: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            console.log(response);
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro creado con éxito',
+                                text: 'El flujo de documentos se ha creado correctamente.',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#exampleModal').modal('hide'); // Cerrar el modal
+                                    $('#flujosdoc-table').DataTable().ajax.reload(null,
+                                        false); // Recargar DataTables, si se está usando
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error al crear el flujo de documentos.',
+                            });
+                        }
                     });
                 });
-            </script>
+            });
+        </script>
 
+        <!-- Script para obtener datos de edición -->
+        <script>
+            function editFlujo(id) {
+                $.ajax({
+                    url: '/dashboard/flujo-documentos/edit/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        // Llenar el formulario de edición con los datos recibidos
 
-            <script>
-                $(document).ready(function() {
-                    $('#form-create-flujo').on('submit', function(event) {
-                        event.preventDefault(); // Prevenir el envío del formulario por defecto
+                        // Ajustar el formato de fecha de recepción
+                        var fechaRecepcion = new Date(data.fecha_recepcion);
+                        var fechaRecepcionFormateada = fechaRecepcion.toISOString().slice(0, 19).replace("T", " ");
+                        data.fecha_recepcion = fechaRecepcionFormateada;
 
-                        // Obtener la fecha y hora actual en UTC
-                        var currentDateUTC = new Date();
+                        // Ajustar el formato de fecha de envío
+                        var fechaEnvio = new Date(data.fecha_envio);
+                        var fechaEnvioFormateada = fechaEnvio.toISOString().slice(0, 19).replace("T", " ");
+                        data.fecha_envio = fechaEnvioFormateada;
 
-                        // Convertir la fecha y hora a la zona horaria deseada (America/La_Paz)
-                        var options = {
-                            timeZone: 'America/La_Paz'
-                        };
-                        var currentDateLaPaz = currentDateUTC.toLocaleString('es-Bo', options);
+                        $('#id2').val(data.id)
+                        $('#id_documento2').val(data.id_documento);
+                        $('#fecha_recepcion2').val(data.fecha_recepcion);
+                        $('#fecha_envio2').val(data.fecha_envio);
+                        $('#id_programa2').val(data.id_programa);
+                        $('#obs2').val(data.obs);
+                        // Mostrar el modal de edición
+                        $('#editFlujoForm').modal('show');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error de AJAX: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+            }
+        </script>
 
-                        // Extraer los componentes de fecha y hora
-                        var dateComponents = currentDateLaPaz.split(", ")[0].split("/");
-                        var timeComponents = currentDateLaPaz.split(", ")[1].split(":");
+        <!-- Script para realizar la actualización -->
+        <script>
+            $('#editFlujoForm').submit(function(e) {
+                e.preventDefault();
 
-                        // Formatear la fecha y hora en el formato deseado
-                        var formattedDate = dateComponents[2] + "-" + dateComponents[0] + "-" + dateComponents[1] +
-                            "T" + timeComponents[0] + ":" + timeComponents[1];
+                var formData = {
+                    _method: 'PUT', // Usar 'PUT' para actualización si tu backend lo espera
+                    id_documento: $('#id_documento2').val(),
+                    fecha_recepcion: $('#fecha_recepcion2').val(),
+                    fecha_envio: $('#fecha_envio2').val(),
+                    id_programa: $('#id_programa2').val(),
+                    obs: $('#obs2').val(),
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                };
 
-                        // Asignar la fecha y hora formateadas al campo datetime-local
-                        $('#fecha_recepcion').val(formattedDate);
+                $.ajax({
+                    url: "/dashboard/flujo-documentos/update/" + $('#id2').val(),
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        $('#editFlujoForm').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Registro actualizado!',
+                            timer: 1500
+                        });
+                        // Aquí deberías recargar la tabla o los datos mostrados
+                        $('#flujosdoc-table').DataTable().ajax.reload(); // Asumiendo que usas DataTables
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al actualizar',
+                            text: 'No se pudo actualizar el registro.'
+                        });
+                    }
+                });
+            });
+        </script>
 
-                        var formData = new FormData(this);
-
+        <script>
+            function deleteFlujo(id) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'Esta acción no se puede deshacer',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('flujo-documentos.create') }}",
-                            method: "POST",
-                            data: formData,
-                            contentType: false,
-                            processData: false,
+                            url: "flujo-documentos/destroy/" + id,
+                            method: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                id: id
+                            },
                             success: function(response) {
-                                console.log(response);
+                                // Actualizar la tabla de datos después de eliminar
+                                $('#flujosdoc-table').DataTable().ajax.reload();
 
+                                // Mostrar SweetAlert para confirmar la eliminación
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Registro creado con éxito',
-                                    text: 'El flujo de documentos se ha creado correctamente.',
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        $('#exampleModal').modal('hide'); // Cerrar el modal
-                                        $('#flujosdoc-table').DataTable().ajax.reload(null,
-                                            false); // Recargar DataTables, si se está usando
-                                    }
+                                    title: 'Eliminado con éxito',
+                                    text: 'El flujo de documentos se ha eliminado correctamente.',
                                 });
                             },
                             error: function(xhr, status, error) {
                                 console.error(xhr.responseText);
+                                // Mostrar SweetAlert en caso de error
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Ocurrió un error al crear el flujo de documentos.',
+                                    text: 'Ocurrió un error al eliminar el flujo de documentos.',
                                 });
                             }
                         });
-                    });
+                    }
                 });
-            </script>
-
-            <!-- Script para obtener datos de edición -->
-            <script>
-                function editFlujo(id) {
-                    $.ajax({
-                        url: '/dashboard/flujo-documentos/edit/' + id,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            console.log(data);
-                            // Llenar el formulario de edición con los datos recibidos
-
-                            // Ajustar el formato de fecha de recepción
-                            var fechaRecepcion = new Date(data.fecha_recepcion);
-                            var fechaRecepcionFormateada = fechaRecepcion.toISOString().slice(0, 19).replace("T", " ");
-                            data.fecha_recepcion = fechaRecepcionFormateada;
-
-                            // Ajustar el formato de fecha de envío
-                            var fechaEnvio = new Date(data.fecha_envio);
-                            var fechaEnvioFormateada = fechaEnvio.toISOString().slice(0, 19).replace("T", " ");
-                            data.fecha_envio = fechaEnvioFormateada;
-
-                            $('#id2').val(data.id)
-                            $('#id_documento2').val(data.id_documento);
-                            $('#fecha_recepcion2').val(data.fecha_recepcion);
-                            $('#fecha_envio2').val(data.fecha_envio);
-                            $('#id_programa2').val(data.id_programa);
-                            $('#obs2').val(data.obs);
-                            // Mostrar el modal de edición
-                            $('#editFlujoForm').modal('show');
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log("Error de AJAX: " + textStatus + ' : ' + errorThrown);
-                        }
-                    });
-                }
-            </script>
-
-            <!-- Script para realizar la actualización -->
-            <script>
-                $('#editFlujoForm').submit(function(e) {
-                    e.preventDefault();
-
-                    var formData = {
-                        _method: 'PUT', // Usar 'PUT' para actualización si tu backend lo espera
-                        id_documento: $('#id_documento2').val(),
-                        fecha_recepcion: $('#fecha_recepcion2').val(),
-                        fecha_envio: $('#fecha_envio2').val(),
-                        id_programa: $('#id_programa2').val(),
-                        obs: $('#obs2').val(),
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    };
-
-                    $.ajax({
-                        url: "/dashboard/flujo-documentos/update/" + $('#id2').val(),
-                        type: 'POST',
-                        data: formData,
-                        success: function(response) {
-                            $('#editFlujoForm').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Registro actualizado!',
-                                timer: 1500
-                            });
-                            // Aquí deberías recargar la tabla o los datos mostrados
-                            $('#flujosdoc-table').DataTable().ajax.reload(); // Asumiendo que usas DataTables
-                        },
-                        error: function(error) {
-                            console.log(error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error al actualizar',
-                                text: 'No se pudo actualizar el registro.'
-                            });
-                        }
-                    });
-                });
-            </script>
-
-            <script>
-                function deleteFlujo(id) {
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'Esta acción no se puede deshacer',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: "flujo-documentos/destroy/" + id,
-                                method: "DELETE",
-                                data: {
-                                    _token: "{{ csrf_token() }}",
-                                    id: id
-                                },
-                                success: function(response) {
-                                    // Actualizar la tabla de datos después de eliminar
-                                    $('#flujosdoc-table').DataTable().ajax.reload();
-
-                                    // Mostrar SweetAlert para confirmar la eliminación
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Eliminado con éxito',
-                                        text: 'El flujo de documentos se ha eliminado correctamente.',
-                                    });
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                    // Mostrar SweetAlert en caso de error
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: 'Ocurrió un error al eliminar el flujo de documentos.',
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            </script>
-
-            <script>
-                $(document).ready(function() {
-                    $('.select2_programas').select2();
-                });
-            </script>
-            <script>
-                $(document).ready(function() {
-                    $('#id_programa').select2();
-                });
-            </script>
+            }
+        </script>
 
 
 
-            <script>
-                // Función para obtener el formato de fecha y hora local
-                function getLocalDateTimeString() {
-                    var now = new Date();
-                    var year = now.getFullYear();
-                    var month = (now.getMonth() + 1).toString().padStart(2, '0');
-                    var day = now.getDate().toString().padStart(2, '0');
-                    var hours = now.getHours().toString().padStart(2, '0');
-                    var minutes = now.getMinutes().toString().padStart(2, '0');
-                    return `${year}-${month}-${day}T${hours}:${minutes}`;
-                }
 
-                // Establecer la fecha y hora actual en el campo al cargar la página
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.getElementById('fecha_recepcion').value = getLocalDateTimeString();
-                });
 
-                // Actualizar la fecha y hora cada minuto
-                setInterval(function() {
-                    document.getElementById('fecha_recepcion').value = getLocalDateTimeString();
-                }, 60000);
-            </script>
-        @endpush
+        <script>
+            // Función para obtener el formato de fecha y hora local
+            function getLocalDateTimeString() {
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                var day = now.getDate().toString().padStart(2, '0');
+                var hours = now.getHours().toString().padStart(2, '0');
+                var minutes = now.getMinutes().toString().padStart(2, '0');
+                return `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+
+            // Establecer la fecha y hora actual en el campo al cargar la página
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('fecha_recepcion').value = getLocalDateTimeString();
+            });
+
+            // Actualizar la fecha y hora cada minuto
+            setInterval(function() {
+                document.getElementById('fecha_recepcion').value = getLocalDateTimeString();
+            }, 60000);
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#id_programa').select2();
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.#id_programa23').select2();
+            });
+        </script>
+    @endpush

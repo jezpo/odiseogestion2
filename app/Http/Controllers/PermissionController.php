@@ -15,20 +15,14 @@ class PermissionController extends Controller
         $this->middleware('permission:update permission', ['only' => ['update', 'edit']]);
         $this->middleware('permission:delete permission', ['only' => ['destroy']]);
     }
-
-    /*public function index()
-    {
-        $permissions = Permission::get();
-        return view('role-permission.permission.index', ['permissions' => $permissions]);
-    }*/
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $permissions = Permission::all();
             return DataTables::of($permissions)
                 ->addColumn('action', function ($permission) {
-                    return '<a href="' . route('permissions.edit', $permission->id) . '" class="btn btn-primary btn-sm"><i class="bi bi-pencil-fill"></i> Editar</a>
-                            <button class="btn btn-danger btn-sm delete-permission" data-id="' . $permission->id . '"><i class="bi bi-trash-fill"></i> Eliminar</button>';
+                    return '<a href="' . route('permissions.edit', $permission->id) . '" class="btn btn-primary btn-sm"><i class="far fa-lg fa-fw m-r-10 fa-edit"></i> Editar</a>
+                            <button class="btn btn-danger btn-sm delete-permission" data-id="' . $permission->id . '"><i class="fas fa-lg fa-fw m-r-10 fa-trash-alt"></i> Eliminar</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -53,7 +47,8 @@ class PermissionController extends Controller
         ]);
 
         Permission::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => 'web'
         ]);
 
         return redirect('permissions')->with('status', 'Permission Created Successfully');
@@ -81,10 +76,14 @@ class PermissionController extends Controller
         return redirect('permissions')->with('status', 'Permission Updated Successfully');
     }
 
-    public function destroy($permissionId)
+    public function destroy($id)
     {
-        $permission = Permission::find($permissionId);
-        $permission->delete();
-        return redirect('permissions')->with('status', 'Permission Deleted Successfully');
+        try {
+            $permission = Permission::find($id);
+            $permission->delete();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al eliminar']);
+        }
     }
 }

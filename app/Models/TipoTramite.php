@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoTramite extends Model
 {
-    
+
     protected $table = 'tipo_tramite';
     protected $fillable = ['tramite', 'estado'];
     public $timestamps = false;
@@ -16,5 +16,10 @@ class TipoTramite extends Model
     public function flujoTramites()
     {
         return $this->hasMany(FlujoTramite::class, 'id_tipo_tramite', 'id');
+    }
+    
+    public function documento()
+    {
+        return $this->belongsTo(Documento::class, 'id');
     }
 }

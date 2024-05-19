@@ -67,7 +67,7 @@ class DocumentosEnvController extends Controller
 
         ]);
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
 
         // 1. Leer el archivo PDF
         $archivo = $request->file('documento');
@@ -110,7 +110,7 @@ class DocumentosEnvController extends Controller
         ]);
 
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
 
         // 1. Obtener el documento existente de la base de datos
         $documento = Documento::find($id);

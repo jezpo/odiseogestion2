@@ -7,7 +7,10 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Documento;
 use App\Models\Programa;
 use App\Models\FlujoDocumento;
+use App\Models\FlujoTramite;
+use App\Models\TipoTramite;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class FlujoDocumentoController extends Controller
@@ -93,14 +96,14 @@ class FlujoDocumentoController extends Controller
 
         return redirect()->route('gestion.flujodocumentos.index')->with('success', 'Flujo de documentos creado con éxito');
     }
-    public function show($id)
+    /*public function show($id)
     {
         // Carga la relación programa
         $flujo = FlujoDocumento::with('programa')->find($id);
         // Accede al nombre a través del atributo accesor
         $programa = $flujo->programa;
         return response()->json($flujo);
-    }
+    }*/
 
     public function edit($id)
     {
@@ -150,5 +153,5 @@ class FlujoDocumentoController extends Controller
         view()->share('currentDateTime', $currentDateTime);
         return view('gestion.flujodocumentos.index');
     }
-
 }
+
