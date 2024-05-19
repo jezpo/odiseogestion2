@@ -44,8 +44,8 @@
         <div class="panel-body">
             <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class="dataTables_wrapper dt-bootstrap">
-                    <div class="row">
-                        <div class="col-xl-12">
+                    <div class="panel-body">
+                        <div class="row">
 
                             <!-- Botón para abrir el modal de creación -->
                             {{-- <div>
@@ -162,7 +162,7 @@
                                 <input type="text" tabindex="0">
                             </div>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <table id="programa-table"
                                     class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
                                         <thead>

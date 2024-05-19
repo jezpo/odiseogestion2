@@ -88,13 +88,13 @@ class DocumentosReciController extends Controller
     // Función auxiliar para obtener la conexión a la base de datos
     private function getConnection()
     {
-        return pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        return pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
     }
 
     public function update(Request $request, $id)
     {
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
 
         // 1. Obtener el documento existente de la base de datos
         $documento = Documento::find($id);

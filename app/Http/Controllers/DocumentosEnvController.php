@@ -9,6 +9,8 @@ use Illuminate\Routing\Controller;
 use Yajra\DataTables\DataTables;
 use App\Models\Documento;
 use App\Models\Programa;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
 
@@ -20,8 +22,7 @@ class DocumentosEnvController extends Controller
         $this->middleware(['permission:view documents'])->only('index');
         $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
         $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
-    }
-*/
+    }*/
     public function index(Request $request)
     {
 
@@ -66,7 +67,7 @@ class DocumentosEnvController extends Controller
 
         ]);
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
 
         // 1. Leer el archivo PDF
         $archivo = $request->file('documento');
@@ -109,7 +110,7 @@ class DocumentosEnvController extends Controller
         ]);
 
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=");
+        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
 
         // 1. Obtener el documento existente de la base de datos
         $documento = Documento::find($id);

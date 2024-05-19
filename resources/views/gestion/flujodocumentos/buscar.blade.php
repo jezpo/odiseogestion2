@@ -8,7 +8,9 @@
     <link href="/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" />
     <link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
-    <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <!-- ================== END PAGE LEVEL STYLE ================== --> <!-- Additional CSS for Timeline -->
+
+    <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -16,23 +18,19 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb float-xl-right">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Principal</a></li>
-        <li class="breadcrumb-item active">Permisos</li>
+        <li class="breadcrumb-item active">Buscar documento</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header"><i class="fas fa-plus-circle fa-fw"></i> Permisos <small></small></h1>
+    <h1 class="page-header"><i class="fas fa-search fa-fw"></i> Buscar Documento<small></small></h1>
     <!-- end page-header -->
     <!-- begin panel -->
 
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="input-group-prepend pull-right">
-                @can('create permission')
-                    <a href="{{ url('permissions/create') }}" class="btn btn-primary float-right"><i class="fas fa-plus"></i>
-                        Nuevo Permiso</a>
-                @endcan
             </div>
-            <h4 class="panel-title"></h4>
+            <h4 class="panel-title">Buscar Documento</h4>
             <div class="panel-heading-btn">
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i
                         class="fa fa-expand"></i></a>
@@ -45,31 +43,29 @@
             </div>
         </div>
         <div class="panel-body">
-            <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                <div class="dataTables_wrapper dt-bootstrap">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <!-- Formulario de búsqueda -->
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-6">
-                                    <form method="GET" action="{{ route('permissions.index') }}" class="form-inline">
-                                    </form>
-                                </div>
-                            </div>
+            <div class="container">
+                <h1>Buscar Progreso del Documento</h1>
 
-                            <div class="table-responsive">
-                                <table id="permissions-table" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Nro</th>
-                                            <th>Nombre</th>
-                                            <th width="40%">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Data will be loaded via AJAX -->
-                                    </tbody>
-                                </table>
+                <!-- Formulario de Búsqueda -->
+                <form id="searchForm" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="document_id" id="document_id"
+                            placeholder="Ingrese ID del documento" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Resultados -->
+                <div id="results">
+                    <h2 class="text-center py-3">Bootstrap 4 Timeline</h2>
+                    <div class="container py-2 mt-4 mb-4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul id="bSTime">
+                                    <!-- Timeline items will be appended here -->
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -77,7 +73,7 @@
             </div>
         </div>
     </div>
-    <!-- end modal -->
+
 
 @endsection
 @push('scripts')
@@ -94,6 +90,8 @@
     <link href="../assets/plugins/datatables.net-keytable-bs4/css/keytable.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-rowreorder-bs4/css/rowreorder.bootstrap4.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="../assets/css/material/app.min.css" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL STYLE =================C:\laragon\www\odiseogestion-crud3\public\assets\plugins\datatables.net\js= -->
 
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
@@ -130,109 +128,68 @@
     <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
     <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <script src="../assets/js/demo/timeline.demo.js"></script>
+    <!-- Include necessary scripts -->
     <script>
         $(document).ready(function() {
-            $('#permissions-table').DataTable({
-                paging: true,
-                lengthChange: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                autoWidth: true,
-                processing: true,
-                serverSide: true,
-                ajax: '{{ route('permissions.index') }}',
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
-                ],
-                buttons: [{
-                        extend: 'pdf',
-                        className: 'btn btn-danger',
-                        text: '<i class="fa fa-file-pdf"></i> PDF'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'btn btn-success',
-                        text: '<i class="fa fa-file-excel"></i> Excel'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-primary',
-                        text: '<i class="fa fa-print"></i> Imprimir'
-                    }
-                ],
-                language: {
-                    url: '/assets/plugins/datatables.net/Spanish.json'
-                },
-                dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
-            });
-        });
-    </script>
-
-<script>
-    $(document).ready(function() {
-        $('#permissions-table').on('click', '.delete-permission', function() {
-            var permissionId = $(this).data('id');
-            
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/permissions/' + permissionId,
-                        type: 'DELETE',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                Swal.fire(
-                                    'Eliminado!',
-                                    'El permiso ha sido eliminado.',
-                                    'success'
-                                );
-                                // Recargar DataTables o eliminar la fila
-                                $('#permissions-table').DataTable().ajax.reload();
-                            } else {
-                                Swal.fire(
-                                    'Error!',
-                                    'No se pudo eliminar el permiso. Intente de nuevo.',
-                                    'error'
-                                );
-                            }
-                        },
-                        error: function(xhr) {
-                            Swal.fire(
-                                'Error!',
-                                'Error en la solicitud. Intente de nuevo.',
-                                'error'
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault();
+                let documentId = $('#document_id').val();
+    
+                $.ajax({
+                    url: '{{ url('flujos/progreso') }}/' + documentId,
+                    method: 'GET',
+                    success: function(response) {
+                        let timeline = $('#bSTime');
+                        timeline.empty();
+    
+                        if (response.etapas.length > 0) {
+                            response.etapas.forEach(function(etapa, index) {
+                                let iconClass = etapa.activa ? 'fa-check-circle' : 'fa-times-circle';
+                                let iconColor = etapa.activa ? 'text-success' : 'text-danger';
+                                let invertedClass = index % 2 === 0 ? '' : 'timeline-inverted';
+                                let etapaHtml = `
+                                    <div class="row no-gutters ${invertedClass} justify-content-center">
+                                        <div class="col-sl"></div>
+                                        <div class="col-sm-1 text-center flex-column d-none d-sm-flex">
+                                            <div class="row h-50">
+                                                <div class="col">&nbsp;</div>
+                                                <div class="col">&nbsp;</div>
+                                            </div>
+                                            <h5 class="m-2">
+                                                <i class="fas ${iconClass} ${iconColor}" style="font-size: 1.5rem;"></i>
+                                            </h5>
+                                            <div class="row h-50">
+                                                <div class="col border-right">&nbsp;</div>
+                                                <div class="col">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 py-2">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="float-right text-muted small">${etapa.fecha}</div>
+                                                    <h4 class="card-title">${etapa.nombre}</h4>
+                                                    <p class="card-text">${etapa.descripcion}</p>
+                                                    <p class="card-text">${etapa.programa ? `Unidad o carrera: ${etapa.programa}` : etapa.mensaje}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                timeline.append(etapaHtml);
+                            });
+                        } else {
+                            timeline.append(
+                                '<div class="row no-gutters justify-content-center"><div class="col-sm"></div><div class="col-sm-1 text-center flex-column d-none d-sm-flex"></div><div class="col-sm-8 py-2"><div class="card"><div class="card-body"><p>No se encontraron etapas para este documento.</p></div></div></div></div>'
                             );
                         }
-                    });
-                }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error', 'Hubo un problema al buscar el documento. Por favor, inténtelo de nuevo.', 'error');
+                    }
+                });
             });
         });
-    });
     </script>
-    
-    
 @endpush

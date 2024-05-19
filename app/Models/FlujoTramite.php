@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Support\Facades\DB;
 class FlujoTramite extends Model
 {
     use HasFactory;
@@ -53,7 +53,6 @@ class FlujoTramite extends Model
             LEFT JOIN
                 programas p ON ft.id_programa = p.id_programa
         ');
-
         return $query;
     }
 }

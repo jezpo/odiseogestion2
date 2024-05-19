@@ -144,5 +144,7 @@ class UserRolePermissionSeeder extends Seeder
         ]);
 
         $staffUser->assignRole($staffRole);
+
+        
     }
 }

@@ -41,35 +41,38 @@
             </div>
         </div>
         <div class="panel-body">
-            <h4>Usuario: {{ $role->name }}</h4>
-            <form action="{{ url('roles/' . $role->id . '/give-permissions') }}" method="POST">
+            <h4><i class="fas fa-user fa-user"></i> Usuario: {{ $role->name }}</h4>
+            <form action="{{ url('roles/'.$role->id.'/give-permissions') }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-3">
                     @error('permission')
-                        <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>
                     @enderror
 
                     <label for="">Permissions</label>
 
                     <div class="row">
                         @foreach ($permissions as $permission)
-                            <div class="col-md-2">
-                                <label>
-                                    <input type="checkbox" name="permission[]" value="{{ $permission->name }}"
-                                        {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }} />
-                                    {{ $permission->name }}
-                                </label>
-                            </div>
+                        <div class="col-md-2">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="permission[]"
+                                    value="{{ $permission->name }}"
+                                    {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }}
+                                />
+                                {{ $permission->name }}
+                            </label>
+                        </div>
                         @endforeach
                     </div>
 
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Actulizar</button>
-
-                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i> Actualizar
+                </button>
             </form>
 
 

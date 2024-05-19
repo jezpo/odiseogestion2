@@ -6,38 +6,50 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\TipoTramite;
+
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
+
 
 class TipoTramiteController extends Controller
 {
     /*public function __construct()
     {
-        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-        $this->middleware('auth');
-        $this->middleware(['permission:view documents'])->only('index'); 
-        $this->middleware(['permission  :create documents'])->only('create');           
-        $this->middleware(['permission  :edit documents'])->only('edit');
-        $this->middleware(['permission  :delete documents'])->only('delete');
-    } */
+        $this->middleware('permission:tramite-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:tramite-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:tramite-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:tramite-delete', ['only' => ['destroy']]);
+    }*/
     public function index(Request $request)
     {
+        //$this->authorize('view', TipoTramite::class);
+
         $tipotramite = TipoTramite::all();
         if ($request->ajax()) {
             return DataTables::of($tipotramite)
                 ->addColumn('action', function ($data) {
-                    $button = '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProcess(' . $data->id . ')" class="edit btn btn-primary btn-sm "><i class="fas fa-edit"></i> Editar</a>';
-                    $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProcess(' . $data->id . ')" class="delete btn btn-danger btn-sm "><i class="fas fa-trash"></i> Eliminar</button>';
-                    return $button;
+                    $buttons = '';
+                    //if ($this->can('update', TipoTramite::class)) {
+                        $buttons .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProcess(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                    //}
+                    //if ($this->can('delete', TipoTramite::class)) {
+                        $buttons .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProcess(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                    //}
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        
+
         return view('gestion.tramites.index', compact('tipotramite'));
     }
+
+
+
+
     public function create(Request $request)
     {
+        //$this->authorize('create', TipoTramite::class);
         $validator = Validator::make($request->all(), [
             'tramite' => 'required',
             'estado' => 'required|in:A,I'
@@ -62,12 +74,14 @@ class TipoTramiteController extends Controller
 
     public function show($id)
     {
+        //$this->authorize('view', TipoTramite::class);
         $tipoTramite = TipoTramite::findOrFail($id);
         return view('documentos.tramites.index', compact('tipoTramite'));
     }
 
     public function edit($id)
     {
+        //$this->authorize('update', TipoTramite::class);
         $tipoTramite = TipoTramite::find($id);
 
         if (!$tipoTramite) {
@@ -79,6 +93,7 @@ class TipoTramiteController extends Controller
 
     public function update(Request $request, $id)
     {
+        //$this->authorize('update', TipoTramite::class);
         $programa = TipoTramite::find($id);
 
         if (!$programa) {
@@ -95,6 +110,7 @@ class TipoTramiteController extends Controller
 
     public function destroy($id)
     {
+        //$this->authorize('delete', TipoTramite::class);
         $programa = TipoTramite::findOrFail($id);
         $programa->delete();
 

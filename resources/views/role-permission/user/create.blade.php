@@ -21,6 +21,7 @@
     <link href="/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet" />
     <link href="/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
 @endpush
 @section('content')
     <!-- begin breadcrumb -->
@@ -56,19 +57,16 @@
             </div>
         </div>
         <div class="panel-body">
-            @if ($errors->any())
-                <ul class="alert alert-warning">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-            <form action="{{ url('users') }}" method="POST">
+            <form action="{{ url('users') }}" method="POST" id="userForm">
                 @csrf
     
                 <div class="form-group">
                     <label for="name">Nombre: </label>
                     <input type="text" id="name" name="name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Apellido: </label>
+                    <input type="text" id="name" name="last_name" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico: </label>
@@ -118,4 +116,63 @@
     <script src="/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js"></script>
     <script src="/assets/plugins/clipboard/dist/clipboard.min.js"></script>
     <script src="/assets/js/demo/form-plugins.demo.js"></script>
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        // Esperar a que el documento esté listo
+        document.addEventListener("DOMContentLoaded", function () {
+            // Capturar el formulario
+            const form = document.getElementById('userForm');
+    
+            // Agregar un evento para el envío del formulario
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevenir el envío normal del formulario
+    
+                // Hacer la petición del formulario
+                fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form),
+                    headers: {
+                        'X-CSRF-Token': '{{ csrf_token() }}' // Asegurar la protección CSRF
+                    }
+                })
+                .then(response => {
+                    // Si la respuesta es exitosa
+                    if (response.ok) {
+                        // Mostrar una alerta SweetAlert
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'El usuario ha sido creado exitosamente',
+                            icon: 'success',
+                            showConfirmButton: false, // No mostrar el botón "OK"
+                            timer: 1500 // Cerrar la alerta después de 1.5 segundos
+                        });
+    
+                        // Redirigir al índice después de 1.5 segundos
+                        setTimeout(function(){
+                            window.location.href = '{{ url("/users") }}';
+                        }, 1500);
+                    } else {
+                        // Si la respuesta no es exitosa, mostrar un mensaje de error
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al crear el usuario',
+                            icon: 'error',
+                            showConfirmButton: true // Mostrar el botón "OK"
+                        });
+                    }
+                })
+                .catch(error => {
+                    // En caso de error en la petición, mostrar un mensaje de error
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al crear el usuario',
+                        icon: 'error',
+                        showConfirmButton: true // Mostrar el botón "OK"
+                    });
+                });
+            });
+        });
+    </script>
 @endpush

@@ -3,7 +3,7 @@
 @section('title', config('hermes.name') . 'Correspondencia' . 'Flujo De Tramite')
 
 @push('css')
-<link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
+    <link href="/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
 @endpush
 
 @section('header-nav')
@@ -29,8 +29,11 @@
             <div class="d-block">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     data-whatever="@mdo">
+                    {{--@if(auth()->user()->hasRole('admin'))--}}
                     <i class="fas fa-plus"></i> <b>Nuevo Flujo Tramite</b>
+                    {{--@endif--}}
                 </button>
+
             </div>
             <!-- Botones en la esquina superior derecha -->
             <div class="panel-heading-btn">
@@ -61,18 +64,18 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"> <i
-                                                        class="fas fa-file-alt"></i> Nuevo Flujo Tramite</h5>
+                                                <h4 class="modal-title" id="exampleModalLabel"> <i
+                                                        class="fas fa-file-alt"></i> Nuevo Flujo Tramite</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="newProcedure" class="form-horizontal" method="POST"
-                                                    enctype="multipart/form-data"
-                                                    action="{{ route('flujotramites.store') }}">
+                                                <form id="create-form" class="form-horizontal" method="POST"
+                                                    enctype="multipart/form-data">
                                                     @csrf
+
                                                     <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Tramite:</label>
@@ -158,8 +161,8 @@
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Unidad de Destino:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="select-required"
-                                                                name="id_programa" data-parsley-required="true">
+                                                            <select class="form-control" id="id_programa"
+                                                                name="id_programa" required>
                                                                 @foreach ($programas as $programa)
                                                                     <option value='{{ $programa->id_programa }}'
                                                                         {{ $programa->id == old('programa', $programa->id_programa) ? 'selected' : '' }}>
@@ -198,7 +201,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <table id="flujostra-table"
-                                        class="table table-striped table-bordered table-td-valign-middle dt-responsive " style="width:100%">
+                                            class="table table-striped table-bordered table-td-valign-middle dt-responsive "
+                                            style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap">Nro.</th>
@@ -235,19 +239,20 @@
                                             <div class="modal-body">
                                                 <form id="editProcesForm" method="POST">
                                                     @csrf
+
                                                     <input type="hidden" id="id2" name="id2">
                                                     <div class="form-group row m-b-15">
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Tramite:</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <select class="form-control" id="id_tipo_tramite2"
-                                                                name="id_tipo_tramite2" data-parsley-required="true">
+                                                                name="id_tipo_tramite2" required>
                                                                 @foreach ($tipotramite as $tipo)
                                                                     <option value="{{ $tipo->id }}">
                                                                         {{ $tipo->id }} - {{ $tipo->tramite }}
                                                                     </option>
                                                                 @endforeach
-                                                                @error('id_tipo_tramite')
+                                                                @error('id_tipo_tramite2')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
                                                                         <li class="parsley-required">
@@ -268,7 +273,7 @@
                                                                 <option value="1">En proceso</option>
                                                                 <option value="2">Enviado</option>
                                                             </select>
-                                                            @error('orden')
+                                                            @error('orden2')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                     aria-hidden="false">
                                                                     <li class="parsley-required">
@@ -283,11 +288,9 @@
                                                             for="fullname">Tiempo:</label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <input class="form-control" type="time" id="tiempo2"
-                                                                value="" name="tiempo2"
-                                                                placeholder="Tiempo en espera"
-                                                                data-parsley-required="true">
+                                                                name="tiempo2">
 
-                                                            @error('tiempo')
+                                                            @error('tiempo2')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                     aria-hidden="false">
                                                                     <li class="parsley-required">
@@ -302,12 +305,12 @@
                                                         </label>
                                                         <div class="col-md-8 col-sm-8">
                                                             <select class="form-control" id="estado2" name="estado2"
-                                                                data-parsley-required="true">
+                                                                required>
                                                                 <option value="">Por favor selecciona una opcion
                                                                 </option>
                                                                 <option value="A">Activo</option>
                                                                 <option value="I">Inactivo</option>
-                                                                @error('estado')
+                                                                @error('estado2')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
                                                                         <li class="parsley-required">
@@ -322,15 +325,15 @@
                                                         <label class="col-md-4 col-sm-4 col-form-label"
                                                             for="fullname">Unidad de Destino:</label>
                                                         <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control" id="id_programa2"
-                                                                name="id_programa" data-parsley-required="true">
+                                                            <select class="form-control" id="id_programa23"
+                                                                name="id_programa23" required>
                                                                 @foreach ($programas as $programa)
                                                                     <option value='{{ $programa->id_programa }}'
                                                                         {{ $programa->id == old('programa', $programa->id_programa) ? 'selected' : '' }}>
                                                                         {{ $programa->programa }}
                                                                     </option>
                                                                 @endforeach
-                                                                @error('id_programa')
+                                                                @error('id_programa2')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                         aria-hidden="false">
                                                                         <li class="parsley-required">
@@ -373,6 +376,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="../assets/css/material/app.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -414,6 +418,7 @@
     <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <link href="../assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <script src="../assets/plugins/select2/dist/js/select2.min.js"></script>
+    <script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
     <script src="../assets/js/demo/ui-modal-notification.demo.js"></script>
     <script src="../assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
@@ -492,65 +497,62 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            $('#tramiteForm').click(function(e) {
-                $('.parsley-errors-list').empty();
-                $('#newProcedure input, #newProcedure textarea, #newProcedure select').val('');
-            });
-
-            $('#newProcedure').on('submit', function(e) {
-                e.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
-
-                var formData = new FormData(this);
-
-                $.ajax({
-                    url: "{{ route('flujotramites.store') }}",
-                    method: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        $('#exampleModal').modal('hide');
-                        $('#newProcedure')[0].reset();
-
-                        // Mostrar SweetAlert en lugar de una alerta estándar
+        $(document).on('submit', '#create-form', function(e) {
+            e.preventDefault();
+            var formData = $(this).serializeArray();
+            $.ajax({
+                url: '{{ route('flujotramites.store') }}',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#newProcedure').modal('hide'); // Cerrar el modal aquí
                         Swal.fire({
                             icon: 'success',
                             title: 'Registro creado con éxito',
-                            text: 'El flujo de documentos se ha creado correctamente.'
+                            text: 'El flujo de documentos se ha creado correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
                         }).then(() => {
-                            // Cerrar el modal después de mostrar SweetAlert
+                            // Recargar la tabla después de cerrar el modal y mostrar el SweetAlert
                             $('#flujostra-table').DataTable().ajax.reload();
                         });
-
-                        // Puedes realizar cualquier otra acción necesaria, como actualizar la tabla de datos
-                    },
-                    error: function(xhr, status, error) {
-                        if (xhr.responseJSON.errors) {
-                            // Mostrar mensajes de error de validación en el formulario
-                            $.each(xhr.responseJSON.errors, function(key, value) {
-                                var errorElement = $('#' + key).closest('.form-group')
-                                    .find('.parsley-errors-list');
-                                errorElement.empty().append(
-                                    '<li class="parsley-required">' + value +
-                                    '</li>');
-                            });
-                        }
-
-                        // Mostrar SweetAlert en caso de error
+                    } else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: 'Ocurrió un error al crear el flujo de documentos.'
+                            title: 'Ocurrió un error al crear el flujo de documentos',
+                            text: response.message.tramite ? response.message.tramite[0] :
+                                'Error no especificado',
+                            confirmButtonText: 'Aceptar'
                         });
                     }
-                });
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        var firstError = Object.values(xhr.responseJSON.errors)[0][0];
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de validación',
+                            text: firstError,
+                            confirmButtonText: 'Aceptar'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de conexión',
+                            text: 'No se pudo completar la solicitud: ' + error,
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                }
             });
         });
     </script>
 
     <script>
-        function editTramite(id) {
+        // Función para abrir el modal de edición
+        function editramite(id) {
             $.ajax({
                 url: '/dashboard/flujo-tramites/edit/' + id,
                 type: 'GET',
@@ -586,58 +588,61 @@
             $('#editProcessFormModal').modal('show');
         }
     </script>
+<script>
+    // Evento de submit del formulario de edición
+    $('#editProcesForm').submit(function(e) {
+        e.preventDefault();
+        var id2 = $('#id2').val();
+        var orden2 = $('#orden2').val();
+        var tiempo2 = $('#tiempo2').val();
+        var estado2 = $('#estado2').val();
+        var id_programa2 = $('#id_programa2').val();
+        var _token = $("input[name=_token]").val();
 
-    <script>
-        $(document).on('submit', '#editProcesForm', function(e) {
-            e.preventDefault();
+        // Verifica los datos que estás enviando
+        console.log("Datos enviados en la solicitud AJAX:");
+        console.log("id2:", id2);
+        console.log("orden2:", orden2);
+        console.log("tiempo2:", tiempo2);
+        console.log("estado2:", estado2);
+        console.log("id_programa2:", id_programa2);
+        console.log("_token:", _token);
 
-            // Obtener el ID del trámite desde el campo oculto
-            var id = $('#id2').val();
-
-            // Resto de los datos del formulario
-            var id_tipo_tramite = $('#id_tipo_tramite2').val();
-            var orden = $('#orden2').val();
-            var tiempo = $('#tiempo2').val();
-            var estado = $('#estado2').val();
-            var id_programa = $('#id_programa2').val();
-
-            $.ajax({
-                url: '/dashboard/flujo-tramites/update/' + id,
-                type: 'POST',
-                data: {
-                    _token: $('input[name="_token"]').val(),
-                    id_tipo_tramite: id_tipo_tramite,
-                    orden: orden,
-                    tiempo: tiempo,
-                    estado: estado,
-                    id_programa: id_programa,
-                    _method: 'PUT'
-                },
-                success: function(response) {
-                    if (response.status == 'success') {
-                        $('#editProcessFormModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'El Flujo está actualizado correctamente',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $('#programa-table').DataTable().ajax.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ocurrió un error al actualizar el Flujo Trámite',
-                            text: response.message,
-                            confirmButtonText: 'Aceptar'
-                        });
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log("Error de AJAX: " + textStatus + ' : ' + errorThrown);
-                }
-            });
+        $.ajax({
+            url: '/dashboard/flujo-tramites/update/' + id2,
+            type: 'PUT',
+            data: {
+                _token: _token,
+                id: id2,
+                orden: orden2,
+                tiempo: tiempo2,
+                estado: estado2,
+                id_programa: id_programa2
+            },
+            success: function(response) {
+                console.log(response);
+                $('#editProcessFormModal').modal('hide');
+                $('#flujostra-table').DataTable().ajax.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Actualización exitosa',
+                    text: 'El flujo de trámite se ha actualizado correctamente.',
+                    confirmButtonText: 'Aceptar'
+                });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                //console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al actualizar el flujo de trámite.',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
         });
-    </script>
+    });
+</script>
+
     <script>
         function deleteTramite(id) {
             Swal.fire({
@@ -684,4 +689,16 @@
             });
         }
     </script>
+
+<script>
+    $(document).ready(function() {
+        $('#id_programa').select2();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#id_programa23').select2();
+    });
+</script>
 @endpush

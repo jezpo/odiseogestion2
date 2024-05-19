@@ -52,6 +52,11 @@
                 @error('name') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
+                <label for="name">Apellido: </label>
+                <input type="text" id="name" name="last_name" value="{{ $user->last_name }}" class="form-control" />
+                @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
                 <label for="email">Correo electrónico</label>
                 <input type="text" id="email" name="email" readonly value="{{ $user->email }}" class="form-control" />
             </div>

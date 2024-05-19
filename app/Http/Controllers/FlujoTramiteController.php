@@ -1,26 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\Documentos;
 use App\Models\Programa;
-use App\Models\FlujoDocuments;
 use App\Models\FlujoTramite;
 use App\Models\TipoTramite;
 use Yajra\DataTables\Facades\DataTables;
 
 class FlujoTramiteController extends Controller
 {
-   /* public function __construct()
-    {
-        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-        $this->middleware('auth');
-        $this->middleware(['permission:view documents'])->only('index'); 
-        $this->middleware(['permission  :create documents'])->only('create');           
-        $this->middleware(['permission  :edit documents'])->only('edit');
-        $this->middleware(['permission  :delete documents'])->only('delete');
+   /* public function __construct(){
+        $this->middleware('role_or_permission:view user|view user|view flujo tramite', ['only'=>['index']]);
+        $this->middleware('role_or_permission:create user|create user|create flujo tramite', ['only'=>['create','store']]);
+        $this->middleware('role_or_permission:edit user|edit user|edit flujo tramite', ['only'=>['edit','update']]);
+        $this->middleware('role_or_permission:delete user|delete user|delete flujo tramite', ['only'=>['destroy']]);
     }*/
     public function index(Request $request)
     {
@@ -28,8 +23,9 @@ class FlujoTramiteController extends Controller
             $dataflu = FlujoTramite::obtenerDatosParaDataTables();
             return DataTables::of($dataflu)
                 ->addColumn('action', function ($data) {
-                    $button = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editTramite" onclick="editTramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                    $button = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
                     $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                    
                     return $button;
                 })
                 ->rawColumns(['action'])
@@ -41,24 +37,6 @@ class FlujoTramiteController extends Controller
 
         return view('gestion.flujotramite.index', compact('tipotramite', 'programas'));
     }
-    public function create(Request $request)
-    {
-        $flujoTramite = FlujoTramite::create([
-            'id_tipo_tramite' => $request->id_tipo_tramite,
-            'id_programa' => $request->id_programa,
-            'orden' => $request->orden,
-            'tiempo' => $request->tiempo,
-            'estado' => $request->estado,
-        ]);
-
-        if ($request->ajax()) {
-            // Si la solicitud es AJAX, devuelve una respuesta JSON
-            return response()->json(['message' => 'Flujo de documentos creado con éxito', 'flujotramite' => $flujoTramite]);
-        } else {
-            // Si la solicitud no es AJAX, realiza una redirección
-            return back()->with('success', 'Flujo de documentos creado con éxito');
-        }
-    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -69,21 +47,16 @@ class FlujoTramiteController extends Controller
             'id_programa' => 'required',
         ]);
 
-        $flujoTramite = FlujoTramite::create($data);
+        $data = FlujoTramite::create($data);
 
         if ($request->ajax()) {
             // Si la solicitud es AJAX, devuelve una respuesta JSON
-            return response()->json(['success' => 'Registro creado exitosamente.', 'flujoTramite' => $flujoTramite], 200);
+            return response()->json(['status' => 'success', 'message' => 'Registro creado exitosamente.']);
         }
 
         return redirect()
             ->back()
             ->with('success', 'Registro creado exitosamente.');
-    }
-    public function show($id)
-    {
-        $flujoTramite = FlujoTramite::findOrFail($id);
-        return view('hermes::flujodetramite.show', compact('flujoTramite'));
     }
 
     public function edit($id)
@@ -101,14 +74,6 @@ class FlujoTramiteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'id_tipo_tramite' => 'required',
-            'orden' => 'required',
-            'tiempo' => ['required', 'date_format:H:i'],
-            'estado' => 'required',
-            'id_programa' => 'required',
-        ]);
-
         $flujoTramite = FlujoTramite::findOrFail($id);
         $flujoTramite->update($request->all());
 

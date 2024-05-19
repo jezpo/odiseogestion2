@@ -14,8 +14,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view user', ['only' => ['index']]);
-        $this->middleware('permission:create user', ['only' => ['create','store']]);
-        $this->middleware('permission:update user', ['only' => ['update','edit']]);
+        $this->middleware('permission:create user', ['only' => ['create', 'store']]);
+        $this->middleware('permission:update user', ['only' => ['update', 'edit']]);
         $this->middleware('permission:delete user', ['only' => ['destroy']]);
     }
 
@@ -29,8 +29,8 @@ class UserController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'roles' => $roles,
-                    'action' => '<a href="'.url('users/'.$user->id.'/edit').'" class="btn btn-success"><i class="bi bi-pencil-square"></i> Editar</a>'
-                        .(auth()->user()->can('delete user') ? '<a href="'.url('users/'.$user->id.'/delete').'" class="btn btn-danger mx-2"><i class="bi bi-trash"></i> Eliminar</a>' : ''),
+                    'action' => '<a href="' . url('users/' . $user->id . '/edit') . '" class="btn btn-success"><i class="far fa-lg fa-fw m-r-10 fa-edit"></i> Editar</a>'
+                        . (auth()->user()->can('delete user') ? '<a href="' . url('users/' . $user->id . '/delete') . '" class="btn btn-danger mx-2"><i class="fas fa-lg fa-fw m-r-10 fa-trash-alt"></i> Eliminar</a>' : ''),
                 ];
             });
             return response()->json(['data' => $users]); // Cambiado 'users' a 'data'
@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
         return view('role-permission.user.create', ['roles' => $roles]);
     }
 
@@ -50,26 +50,29 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255', // Nuevo campo last_name
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:20',
             'roles' => 'required'
         ]);
 
         $user = User::create([
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'password' => Hash::make($request->password),
-                    ]);
+            'name' => $request->name,
+            'last_name' => $request->last_name, // Asignar last_name
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
         $user->syncRoles($request->roles);
 
-        return redirect('/users')->with('status','User created successfully with roles');
+        return redirect('/users')->with('status', 'User created successfully with roles');
     }
+
 
     public function edit(User $user)
     {
-        $roles = Role::pluck('name','name')->all();
-        $userRoles = $user->roles->pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
         return view('role-permission.user.edit', [
             'user' => $user,
             'roles' => $roles,
@@ -90,7 +93,7 @@ class UserController extends Controller
             'email' => $request->email,
         ];
 
-        if(!empty($request->password)){
+        if (!empty($request->password)) {
             $data += [
                 'password' => Hash::make($request->password),
             ];
@@ -99,7 +102,7 @@ class UserController extends Controller
         $user->update($data);
         $user->syncRoles($request->roles);
 
-        return redirect('/users')->with('status','User Updated Successfully with roles');
+        return redirect('/users')->with('status', 'User Updated Successfully with roles');
     }
 
     public function destroy($userId)
@@ -107,6 +110,6 @@ class UserController extends Controller
         $user = User::findOrFail($userId);
         $user->delete();
 
-        return redirect('/users')->with('status','User Delete Successfully');
+        return redirect('/users')->with('status', 'User Delete Successfully');
     }
 }
