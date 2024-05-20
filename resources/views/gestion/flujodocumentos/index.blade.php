@@ -677,7 +677,7 @@
         </script>
         <script>
             $(document).ready(function() {
-                $('.#id_programa23').select2();
+                $('#id_programa23').select2();
             });
         </script>
     @endpush

@@ -8,24 +8,31 @@ use App\Models\Programa;
 use App\Models\FlujoTramite;
 use App\Models\TipoTramite;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class FlujoTramiteController extends Controller
 {
-   /* public function __construct(){
-        $this->middleware('role_or_permission:view user|view user|view flujo tramite', ['only'=>['index']]);
-        $this->middleware('role_or_permission:create user|create user|create flujo tramite', ['only'=>['create','store']]);
-        $this->middleware('role_or_permission:edit user|edit user|edit flujo tramite', ['only'=>['edit','update']]);
-        $this->middleware('role_or_permission:delete user|delete user|delete flujo tramite', ['only'=>['destroy']]);
-    }*/
+    public function __construct()
+    {
+        $this->middleware('permission:flujo-tramite-list', ['only' => ['index']]);
+        $this->middleware('permission:flujo-tramite-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:flujo-tramite-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:flujo-tramite-delete', ['only' => ['destroy']]);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $dataflu = FlujoTramite::obtenerDatosParaDataTables();
             return DataTables::of($dataflu)
                 ->addColumn('action', function ($data) {
-                    $button = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
-                    
+                    $button = '';
+                    if (Auth::user()->can('flujo-tramite-edit')) {
+                        $button .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                    }
+                    if (Auth::user()->can('flujo-tramite-delete')) {
+                        $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                    }
                     return $button;
                 })
                 ->rawColumns(['action'])

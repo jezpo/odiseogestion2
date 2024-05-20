@@ -8,27 +8,30 @@ use App\Models\Programa; // Updated namespace
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramaController extends Controller
 {
-    /*public function __construct()
+    public function __construct()
     {
-        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-        $this->middleware('auth');
-        $this->middleware(['permission:view documents'])->only('index'); 
-        $this->middleware(['permission  :create documents'])->only('create');           
-        $this->middleware(['permission  :edit documents'])->only('edit');
-        $this->middleware(['permission  :delete documents'])->only('delete');
-    }*/
+        $this->middleware('permission:programa-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:programa-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:programa-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:programa-delete', ['only' => ['destroy']]);
+    }   
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $programa = Programa::all();
             return DataTables::of($programa)
                 ->addColumn('action', function ($programa) {
-                    $button = '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProgram(' . $programa->id . ')" class="edit btn btn-primary btn-sm "><i class="fas fa-edit"></i> Editar</a>';
-                    $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProgram(' . $programa->id . ')" class="delete btn btn-danger btn-sm "><i class="fas fa-trash"></i> Eliminar</button>';
-
+                    $button = '';
+                    if (Auth::user()->can('programa-edit')) {
+                        $button .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProgram(' . $programa->id . ')" class="edit btn btn-primary btn-sm "><i class="fas fa-edit"></i> Editar</a>';
+                    }
+                    if (Auth::user()->can('programa-delete')) {
+                        $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProgram(' . $programa->id . ')" class="delete btn btn-danger btn-sm "><i class="fas fa-trash"></i> Eliminar</button>';
+                    }
                     return $button;
                 })
                 ->rawColumns(['action'])

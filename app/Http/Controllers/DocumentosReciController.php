@@ -10,17 +10,18 @@ use Yajra\DataTables\DataTables;
 use App\Models\Documento;
 use App\Models\Programa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentosReciController extends Controller
 {
-    /*public function __construct()
-{
-    $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-    $this->middleware(['permission:view documents'])->only('index');
-    $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
-    $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
-}
-*/
+    public function __construct(){
+        $this->middleware('permission:documentos-reci-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:documentos-reci-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:documentos-reci-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:documentos-reci-view', ['only' => ['show']]);
+        $this->middleware('permission:documentos-reci-delete', ['only' => ['destroy']]);
+    }
+    
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -28,9 +29,16 @@ class DocumentosReciController extends Controller
 
             return DataTables::of($documentos)
                 ->addColumn('action', function ($documentos) {
-                    $btn = '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye"></i> Ver</a>';
-                    $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
+                    $btn = '';
+                    if (Auth::user()->can('documentos-reci-view')) {
+                        $btn .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
+                    }
+                    if (Auth::user()->can('documentos-reci-edit')) {
+                        $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
+                    }
+                    if (Auth::user()->can('documentos-reci-delete')) {
+                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])

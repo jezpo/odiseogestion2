@@ -27,6 +27,8 @@ class UserController extends Controller
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'last_name' => $user->last_name,
+                    'ci' => $user->ci,
                     'email' => $user->email,
                     'roles' => $roles,
                     'action' => '<a href="' . url('users/' . $user->id . '/edit') . '" class="btn btn-success"><i class="far fa-lg fa-fw m-r-10 fa-edit"></i> Editar</a>'
@@ -51,6 +53,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255', // Nuevo campo last_name
+            'ci' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:20',
             'roles' => 'required'
@@ -59,6 +62,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name, // Asignar last_name
+            'ci' => $request->ci, // Asignar ci
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -84,12 +88,17 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'ci' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)], // Corregir esta línea
+        'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)], // Corregir esta línea
             'password' => 'nullable|string|min:8|max:20',
             'roles' => 'required'
         ]);
 
         $data = [
             'name' => $request->name,
+            'last_name' => $request->last_name, // Asignar last_name
+            'ci' => $request->ci, // Asignar ci
             'email' => $request->email,
         ];
 

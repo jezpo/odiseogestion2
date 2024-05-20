@@ -12,28 +12,35 @@ use App\Models\Programa;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class DocumentosEnvController extends Controller
 {
-    /*public function __construct()
+    public function __construct()
     {
-        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-        $this->middleware(['permission:view documents'])->only('index');
-        $this->middleware(['permission:edit documents'])->only('editDocument'); // Asume que tienes un método `editDocument`
-        $this->middleware(['permission:delete documents'])->only('deleteDocument'); // Asume que tienes un método `deleteDocument`
-    }*/
+        $this->middleware('permission:documentos-env-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:documentos-env-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:documentos-env-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:documentos-env-view', ['only' => ['show']]);
+        $this->middleware('permission:documentos-env-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $documentos = Documento::list_documents_origen();
 
             return DataTables::of($documentos)
                 ->addColumn('action', function ($documentos) {
-                    $btn = '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm" title="Ver Documento"><i class="fas fa-eye text-primary"></i> Ver</a>';
-                    $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" title="Editar Documento" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit text-warning"></i> Editar</a>';
-                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" title="Eliminar Documento" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt text-white"></i> Eliminar</button>';
+                    $btn = '';
+                    if (Auth::user()->can('documentos-env-view')) {
+                        $btn .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
+                    }
+                    if (Auth::user()->can('documentos-env-edit')) {
+                        $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
+                    }
+                    if (Auth::user()->can('documentos-env-delete')) {
+                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])

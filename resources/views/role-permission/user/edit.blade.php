@@ -38,8 +38,9 @@
     <div class="panel-heading">
         <h4 class="panel-title d-flex justify-content-between align-items-center">
             <span>Actualizar Usuario</span>
-            <a href="{{ url('users') }}" class="btn btn-danger">Atras</a>
-        </h4>
+            <a href="{{ url('users') }}" class="btn btn-danger">
+                <i class="fas fa-lg fa-fw m-r-8 fa-arrow-left"></i> Atrás
+            </a>
     </div>
     <div class="panel-body">
         <form action="{{ url('users/'.$user->id) }}" method="POST">
@@ -57,9 +58,16 @@
                 @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
+                <label for="ci">CI: </label>
+                <input type="text" id="ci" name="ci" readonly value="{{ $user->ci }}" class="form-control" />
+                @error('ci') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
                 <label for="email">Correo electrónico</label>
                 <input type="text" id="email" name="email" readonly value="{{ $user->email }}" class="form-control" />
+                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
+           
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" class="form-control" />
@@ -81,7 +89,9 @@
                 @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Actualizar</button>
+                <button type="submit" class="btn btn-primary">
+                <i class="far fa-lg fa-fw m-r-8 fa-save"></i> Actualizar
+                </button>
             </div>
         </form>
     </div>

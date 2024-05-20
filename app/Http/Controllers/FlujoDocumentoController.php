@@ -12,27 +12,31 @@ use App\Models\TipoTramite;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class FlujoDocumentoController extends Controller
 {
-    /*public function __construct()
+    public function __construct()
     {
-        $this->middleware(['role:admin|user']); // Asegura que solo usuarios con roles 'admin' o 'user' pueden acceder
-        $this->middleware('auth');
-        $this->middleware(['permission:view documents'])->only('index'); 
-        $this->middleware(['permission  :create documents'])->only('create');           
-        $this->middleware(['permission  :edit documents'])->only('edit');
-        $this->middleware(['permission  :delete documents'])->only('delete');
-    } */
+        $this->middleware('permission:flujo-documento-list', ['only' => ['index']]);
+        $this->middleware('permission:flujo-documento-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:flujo-documento-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:flujo-documento-delete', ['only' => ['destroy']]);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $data = FlujoDocumento::list_documents_with_flow();
             return DataTables::of($data)
                 ->addColumn('actions', function ($data) {
-                    // Botones de acción, por ejemplo: Editar y Eliminar
-                    $btn = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editFlujo" onclick="editFlujo(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteFlujo(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
+                    $btn = '';
+                    if (Auth::user()->can('flujo-documento-edit')) {
+                        $btn .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editFlujo" onclick="editFlujo(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                    }
+                    if (Auth::user()->can('flujo-documento-delete')) {
+                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteFlujo(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['actions'])

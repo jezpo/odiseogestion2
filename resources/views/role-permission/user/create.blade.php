@@ -69,6 +69,10 @@
                     <input type="text" id="name" name="last_name" class="form-control" />
                 </div>
                 <div class="form-group">
+                    <label for="ci">CI: </label>
+                    <input type="text" id="ci" name="ci" class="form-control" />
+                </div>
+                <div class="form-group">
                     <label for="email">Correo Electrónico: </label>
                     <input type="text" id="email" name="email" class="form-control" />
                 </div>
@@ -87,7 +91,7 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Guardar
+                        <i class="far fa-lg fa-fw m-r-8 fa-save"></i> Guardar
                     </button>
                 </div>
             </form>

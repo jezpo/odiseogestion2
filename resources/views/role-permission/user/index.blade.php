@@ -53,7 +53,7 @@
         <div class="panel-heading">
             <div class="input-group-prepend pull-right">
                 @can('create user')
-                    <a href="{{ url('users/create') }}" class="btn btn-yellow"><i class="fas fa-plus-circle"></i> Nuevo
+                    <a href="{{ url('users/create') }}" class="btn btn-primary"><i class="fas fa-lg fa-fw m-r-9 fa-plus"></i> Nuevo
                         Usuario</a>
                 @endcan
             </div>
@@ -81,6 +81,7 @@
                                     <tr>
                                         <th class="text-nowrap">Nro</th>
                                         <th class="text-nowrap">Nombre</th>
+                                        <th class="text-nowrap">Ci</th>
                                         <th class="text-nowrap">Correo</th>
                                         <th class="text-nowrap">Roles</th>
                                         <th width="40%">Acción</th>
@@ -162,6 +163,10 @@
                     {
                         data: 'name',
                         name: 'name'
+                    },
+                    {
+                        data: 'ci',
+                        name: 'ci'
                     },
                     {
                         data: 'email',

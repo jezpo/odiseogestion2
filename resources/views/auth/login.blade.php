@@ -56,8 +56,8 @@
                 <form method="POST" action="{{ route('login') }}" class="margin-bottom-0">
                     @csrf
                     <div class="form-group m-b-15">
-                        <input type="email" class="form-control form-control-lg" placeholder="Correo electrónico"
-                            name="email" :value="old('email')" required autofocus autocomplete="username" />
+                        <input type="text" class="form-control form-control-lg" placeholder="Introduce tu CI"
+                            name="ci" :value="old('ci')" required autofocus autocomplete="username" />
                     </div>
                     <div class="form-group m-b-15">
                         <input type="password" class="form-control form-control-lg" placeholder="Contraseña"
