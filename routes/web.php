@@ -12,6 +12,7 @@ use App\Http\Controllers\FlujoDocumentoController;
 use App\Http\Controllers\DocumentosEnvController;
 use App\Http\Controllers\DocumentosReciController;
 use App\Http\Controllers\ProgressBarController;
+use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
     return view('/login');
@@ -23,7 +24,13 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        // Crear una instancia del controlador
+        $controller = new StatisticsController();
+        // Obtener los datos llamando al método index
+        $data = $controller->index();
+        
+        // Devolver la vista con los datos
+        return view('dashboard', $data);
     })->name('dashboard');
 
     // Otras rutas autenticadas existentes
