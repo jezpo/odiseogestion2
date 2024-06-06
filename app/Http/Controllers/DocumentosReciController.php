@@ -14,40 +14,52 @@ use Illuminate\Support\Facades\Auth;
 
 class DocumentosReciController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('permission:documentos-reci-list', ['only' => ['index', 'show']]);
         $this->middleware('permission:documentos-reci-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:documentos-reci-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:documentos-reci-view', ['only' => ['show']]);
         $this->middleware('permission:documentos-reci-delete', ['only' => ['destroy']]);
     }
-    
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $documentos = Documento::list_documents_destino();
+            // Obtener la consulta base
+            $query = Documento::list_documents_destino();
 
-            return DataTables::of($documentos)
-                ->addColumn('action', function ($documentos) {
-                    $btn = '';
+            return DataTables::of($query)
+                ->addColumn('action', function ($documento) {
+                    $actionButtons = '';
                     if (Auth::user()->can('documentos-reci-view')) {
-                        $btn .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
+                        $actionButtons .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documento->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
                     }
                     if (Auth::user()->can('documentos-reci-edit')) {
-                        $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
+                        $actionButtons .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documento->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
                     }
                     if (Auth::user()->can('documentos-reci-delete')) {
-                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
+                        $actionButtons .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documento->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
                     }
-                    return $btn;
+
+                    if (empty($actionButtons)) {
+                        $actionButtons = '<div style="padding: 5px;"><span style="background-color: #7FFF00; padding: 2px; border-radius: 3px;">Sin Acción</span></div>';
+                    }
+                    return $actionButtons;
                 })
                 ->rawColumns(['action'])
-                ->toJson();
+                ->make(true);
         }
 
+        //$documentos = Documento::with('programa')->get();
+
+        // Obtener todos los programas
         $programas = Programa::all();
+
+        // Renderizar la vista con los datos de los programas
         return view('gestion.documentosreci.index', compact('programas'));
     }
+
 
     public function edit($id)
     {
@@ -146,11 +158,17 @@ class DocumentosReciController extends Controller
 
     public function show($id)
     {
-        $documento = Documento::select('id', 'cite', 'descripcion', 'estado', 'id_tipo_documento', 'id_programa')->find($id);
-        if (!$documento) {
-            return response()->json(['error' => 'Documento no encontrado'], 404);
-        }
-        return response()->json($documento);
+        $documento = Documento::with('programa')->findOrFail($id);
+
+        return response()->json([
+            'id' => $documento->id,
+            'cite' => $documento->cite,
+            'descripcion' => $documento->descripcion,
+            'estado' => $documento->estado,
+            'programa' => $documento->programa ? $documento->programa->nombre : null, // Nombre del programa
+            'id_tipo_documento' => $documento->id_tipo_documento,
+            'pdf_url' => $documento->pdf_url // URL del archivo PDF
+        ]);
     }
 
     //como convierto pdf para la vista 

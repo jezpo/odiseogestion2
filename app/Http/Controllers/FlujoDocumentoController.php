@@ -25,28 +25,30 @@ class FlujoDocumentoController extends Controller
     }
 
     public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = FlujoDocumento::list_documents_with_flow();
-            return DataTables::of($data)
-                ->addColumn('actions', function ($data) {
-                    $btn = '';
-                    if (Auth::user()->can('flujo-documento-edit')) {
-                        $btn .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editFlujo" onclick="editFlujo(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    }
-                    if (Auth::user()->can('flujo-documento-delete')) {
-                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteFlujo(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
-                    }
-                    return $btn;
-                })
-                ->rawColumns(['actions'])
-                ->toJson();
-        }
+{
+    if ($request->ajax()) {
+        $data = FlujoDocumento::list_documents_with_flow();
 
-        $documentos = Documento::all();
-        $programas = Programa::all();
-        return view('gestion.flujodocumentos.index', compact('documentos', 'programas'));
+        return DataTables::of($data)
+            ->addColumn('actions', function ($data) {
+                $btn = '';
+                if (Auth::user()->can('flujo-documento-edit')) {
+                    $btn .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editFlujo" onclick="editFlujo(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                }
+                if (Auth::user()->can('flujo-documento-delete')) {
+                    $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteFlujo(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>';
+                }
+                return $btn;
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
+
+    $documentos = Documento::all();
+    $programas = Programa::all();
+    return view('gestion.flujodocumentos.index', compact('documentos', 'programas'));
+}
+    
 
     public function create(Request $request)
     {

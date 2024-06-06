@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -24,19 +25,24 @@ class FlujoTramiteController extends Controller
     {
         if ($request->ajax()) {
             $dataflu = FlujoTramite::obtenerDatosParaDataTables();
+
             return DataTables::of($dataflu)
-                ->addColumn('action', function ($data) {
-                    $button = '';
+                ->addColumn('action', function ($tramite) {
+                    $actionButtons = '';
                     if (Auth::user()->can('flujo-tramite-edit')) {
-                        $button .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                        $actionButtons .= '<a href="javascript:void(0)" type="button" data-toggle="tooltip" name="editramite" onclick="editramite(' . $tramite->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
                     }
                     if (Auth::user()->can('flujo-tramite-delete')) {
-                        $button .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                        $actionButtons .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteFlujo" onclick="deleteTramite(' . $tramite->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
                     }
-                    return $button;
+
+                    if (empty($actionButtons)) {
+                        $actionButtons = '<div style="padding: 5px;"><span style="background-color: #7FFF00; padding: 2px; border-radius: 3px;">Sin Acción</span></div>';
+                    }
+                    return $actionButtons;
                 })
                 ->rawColumns(['action'])
-                ->toJson();
+                ->make(true);
         }
 
         $tipotramite = TipoTramite::all();
@@ -44,6 +50,7 @@ class FlujoTramiteController extends Controller
 
         return view('gestion.flujotramite.index', compact('tipotramite', 'programas'));
     }
+
     public function store(Request $request)
     {
         $data = $request->validate([

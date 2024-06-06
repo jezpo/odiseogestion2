@@ -21,25 +21,42 @@ class TipoTramiteController extends Controller
         $this->middleware('permission:tramite-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
-    {    
-        $tipotramite = TipoTramite::all();
+    {
         if ($request->ajax()) {
-            return DataTables::of($tipotramite)
-                ->addColumn('action', function ($data) {
-                    $buttons = '';
-                    if (Auth::user()->can('tramite-edit')) {
-                        $buttons .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProcess(' . $data->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
-                    }
-                    if (Auth::user()->can('tramite-delete')) {
-                        $buttons .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProcess(' . $data->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
-                    }
-                    return $buttons;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            // Obtener todos los trámites
+            $tipotramite = TipoTramite::all();
+            $data = [];
+
+            // Construir los datos para DataTables
+            foreach ($tipotramite as $tramite) {
+                $rowData = [
+                    'id' => $tramite->id,
+                    'tramite' => $tramite->tramite,
+                    'estado' => $tramite->estado,
+                ];
+                if (Auth::user()->can('tramite-edit') || Auth::user()->can('tramite-delete')) {
+                    // Si el usuario tiene permiso para editar o eliminar trámites, agregamos los botones
+                    $rowData['action'] = '<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editProcess(' . $tramite->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>';
+                    $rowData['action'] .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteProcess(' . $tramite->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>';
+                } else {
+                    // Si no tiene permisos, mostramos Sin Acción
+                    $rowData['action'] = '<div style="padding: 5px;"><span style="background-color: #7FFF00; padding: 2px; border-radius: 3px;">Sin Acción</span></div>';
+                }
+                $data[] = $rowData;
+            }
+
+            // Devolver los datos como JSON
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $tipotramite->count(),
+                'recordsFiltered' => $tipotramite->count(),
+                'data' => $data,
+            ]);
         }
-        return view('gestion.tramites.index', compact('tipotramite'));
+
+        return view('gestion.tramites.index');
     }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -95,7 +112,7 @@ class TipoTramiteController extends Controller
 
     public function destroy($id)
     {
-        
+
         $programa = TipoTramite::findOrFail($id);
         $programa->delete();
 

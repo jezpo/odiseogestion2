@@ -370,11 +370,13 @@
                                         <div class="form-group row m-b-15">
                                             <label class="col-md-4 col-sm-4 col-form-label">Origen:</label>
                                             <div class="col-md-8 col-sm-8">
-                                                <select class="form-control select2_programas23" id="id_programa23" name="id_programa23" data-parsley-required="true">
+                                                <select class="form-control select2_programas23" id="id_programa23"
+                                                    name="id_programa23" data-parsley-required="true">
                                                     <option value="">Por favor selecciona el origen</option>
                                                     <!-- Opciones dinámicas desde tu backend -->
                                                     @foreach ($programas as $opcion)
-                                                        <option value="{{ $opcion['id_programa'] }}">{{ $opcion['programa'] }}</option>
+                                                        <option value="{{ $opcion['id_programa'] }}">
+                                                            {{ $opcion['programa'] }}</option>
                                                     @endforeach
                                                 </select>
                                                 <!-- Manejo de errores -->
@@ -425,6 +427,10 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+                        <!-- Modal para Visualizar PDF -->
                         <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"
                             aria-labelledby="pdfModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -816,7 +822,7 @@
 
         function loadPDF(id) {
             $.ajax({
-                url: '/dashboard/documentos-reci/download/' + id,
+                url: '/dashboard/documentos-env/download/' + id,
                 method: 'GET',
                 success: function(response) {
                     var blob = b64toBlob(response.base64, 'application/pdf');
@@ -834,10 +840,11 @@
             });
         }
     </script>
+    </script>
 
-<script>
-    $(document).ready(function() {
-        $('#id_programa23').select2();
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#id_programa23').select2();
+        });
+    </script>
 @endpush

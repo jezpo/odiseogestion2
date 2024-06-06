@@ -27,28 +27,38 @@ class DocumentosEnvController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $documentos = Documento::list_documents_origen();
+            // Obtener la consulta base
+            $query = Documento::list_documents_origen();
 
-            return DataTables::of($documentos)
-                ->addColumn('action', function ($documentos) {
-                    $btn = '';
+            return DataTables::of($query)
+                ->addColumn('action', function ($documento) {
+                    $actionButtons = '';
                     if (Auth::user()->can('documentos-env-view')) {
-                        $btn .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documentos->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
+                        $actionButtons .= '<a href="javascript:void(0)" type="button" name="viewDocument" onclick="loadPDF(' . $documento->id . ')" class="view btn btn-yellow btn-sm"><i class="fas fa-eye" style="color: white;"></i> Ver</a>';
                     }
                     if (Auth::user()->can('documentos-env-edit')) {
-                        $btn .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documentos->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
+                        $actionButtons .= '&nbsp;&nbsp;<a href="javascript:void(0)" type="button" data-toggle="tooltip" onclick="editDocument(' . $documento->id . ')" class="edit btn btn-primary btn-sm"><i class="fas fa-edit" style="color: white;"></i> Editar</a>';
                     }
                     if (Auth::user()->can('documentos-env-delete')) {
-                        $btn .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documentos->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
+                        $actionButtons .= '&nbsp;&nbsp;<button type="button" data-toggle="tooltip" name="deleteDocument" onclick="deleteDocument(' . $documento->id . ')" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt" style="color: white;"></i> Eliminar</button>';
                     }
-                    return $btn;
+
+                    if (empty($actionButtons)) {
+                        $actionButtons = '<div style="padding: 5px;"><span style="background-color: #7FFF00; padding: 2px; border-radius: 3px;">Sin Acción</span></div>';
+                    }
+                    return $actionButtons;
                 })
                 ->rawColumns(['action'])
-                ->toJson();
+                ->make(true);
         }
+
+        // Obtener todos los programas
         $programas = Programa::all();
+
+        // Renderizar la vista con los datos de los programas
         return view('gestion.documentosenv.index', compact('programas'));
     }
+
 
     public function edit($id)
     {

@@ -304,9 +304,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('tipo-tramites.index') }}",
-
                 },
-
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -338,26 +336,9 @@
                         searchable: false
                     },
                 ],
-                buttons: [{
-                        extend: 'pdf',
-                        className: 'btn btn-danger',
-                        text: '<i class="fa fa-file-pdf"></i> PDF'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'btn btn-success',
-                        text: '<i class="fa fa-file-excel"></i> Excel'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-primary',
-                        text: '<i class="fa fa-print"></i> Imprimir'
-                    }
-                ],
                 language: {
                     url: '/assets/plugins/datatables.net/Spanish.json'
                 },
-                dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
             });
         });
     </script>
