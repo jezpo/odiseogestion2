@@ -13,6 +13,7 @@ use App\Http\Controllers\DocumentosEnvController;
 use App\Http\Controllers\DocumentosReciController;
 use App\Http\Controllers\ProgressBarController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\HistorialUsuarioController;
 
 Route::get('/', function () {
     return view('/login');
@@ -104,6 +105,8 @@ Route::middleware([
         Route::get('/flujos/buscar', [BuscarFlujoController::class, 'index'])->name('flujos.buscar');
         // Ruta para buscar el progreso de un documento específico
         Route::get('/flujos/progreso/{id}', [BuscarFlujoController::class, 'progreso'])->name('flujos.progreso');
+
+        Route::get('/dashboard/historico', [HistorialUsuarioController::class, 'index'])->name('historial.index');
 
     });
 

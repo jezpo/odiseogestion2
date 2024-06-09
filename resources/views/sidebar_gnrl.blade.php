@@ -53,6 +53,11 @@
         <i class="material-icons">school</i> <span>Unidad o carrera </span>
     </a>
 </li>
+<li>
+    <a href="{{ route('historial.index') }}">
+        <i class="material-icons">history</i> <span>Historial de Usuarios</span>
+    </a>
+</li>
 {{--
 <li class="has-sub active expand">
     <a href="javascript:;">
