@@ -140,6 +140,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
     <script src="../assets/plugins/gritter/js/jquery.gritter.js"></script>
+    @if(session('welcome'))
     <script>
         $(document).ready(function() {
             $.gritter.add({
@@ -151,4 +152,5 @@
             });
         });
     </script>
+    @endif
 @endpush

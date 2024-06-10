@@ -330,8 +330,13 @@
                                                             name="id_tipo_documento2" data-parsley-required="true">
                                                             <option value="">Por favor selecciona una opcion
                                                             </option>
-                                                            <option value="1">Cata</option>
+                                                            <option value="1">Carta</option>
                                                             <option value="2">Dictamen</option>
+                                                            <option value="3">Nota</option>
+                                                            <option value="4">Resolucion</option>
+                                                            <option value="5">Solicitudes</option>
+                                                            <option value="6">Actas</option>
+                                                            <option value="7">Recibos</option>
                                                             @error('id_tipo_documento')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-5"
                                                                     aria-hidden="false">

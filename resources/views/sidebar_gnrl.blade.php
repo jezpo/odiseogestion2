@@ -17,16 +17,28 @@
     </a>
 </li>
 
-<li>
-    <a href="{{ url('dashboard/documentos-reci') }}">
-        <i class="material-icons">inbox</i>  <span>Documentos recibidos</span>
+<li class="has-sub active expand">
+    <a href="javascript:;">
+        <b class="caret"></b>
+        <i class="material-icons">description</i>
+        <span>Documentos</span>
     </a>
+    <ul class="sub-menu" style="">
+        <li>
+            <a href="{{ url('dashboard/documentos-reci') }}">
+                
+                <span>Recibidos</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url('dashboard/documentos-env') }}">
+                <span>Enviados</span>
+            </a>
+        </li>
+    </ul>
 </li>
-<li>
-    <a href="{{ url('dashboard/documentos-env') }}">
-        <i class="material-icons">send</i> <span>Documentos enviados</span>
-    </a>
-</li>
+
+
 <li>
     <a href="{{ url('/flujos/buscar') }}">
         <i class="material-icons">description</i> <span>Buscar Documento</span>
@@ -99,16 +111,5 @@
         </li>
     </ul>
 </li>
-<li class="has-sub active expand">
-    <a href="javascript:;">
-        <b class="caret"></b>
-        <i class="material-icons">home</i>
-        <span>Reportes</span>
-    </a>
-    <ul class="sub-menu" style="">
-        <li class="active">
-            <a href="{{ route('reports.index') }}">Reportes</a>
-        </li>
-    </ul>
-</li>
 --}}
+

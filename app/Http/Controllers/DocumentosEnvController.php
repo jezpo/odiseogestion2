@@ -74,90 +74,66 @@ class DocumentosEnvController extends Controller
 
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
-            'documento' => 'required|file',
-            'cite' => 'required|string',
+            'file' => 'sometimes|file|mimes:pdf|max:102400', // 100 MB
+            'cite' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'estado' => 'required|string',
             'id_tipo_documento' => 'required|integer',
-
+            'id_programa' => 'required|string|max:5'
         ]);
         // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
+        try {
+            $documento = new Documento;
+            $documento->cite = $request->cite;
+            $documento->descripcion = $request->descripcion;
+            $documento->estado = $request->estado;
+            $documento->id_tipo_documento = $request->id_tipo_documento;
+            $documento->id_programa = 'DBU';
 
-        // 1. Leer el archivo PDF
-        $archivo = $request->file('documento');
-        //$name_document = time() . '_' . $archivo->getClientOriginalName();
-        $contenidoArchivo = file_get_contents($archivo->getRealPath());
+            if ($request->hasFile('file')) {
+                $uploadedFile = $request->file('file');
+                $documento->documento = file_get_contents($uploadedFile->getRealPath());
+            }
 
-        // 2. Convertir el contenido del archivo en binario utilizando pg_escape_bytea
-        $contenidoBinario = pg_escape_bytea($conn, $contenidoArchivo);
+            $documento->save();
 
-        // Generar un valor hash para el archivo
-        $hash = md5($contenidoArchivo);
-
-        // 3. Almacenar el binario en la base de datos
-        $documentos = new Documento;
-        $documentos->cite = $request->cite;
-        $documentos->descripcion = $request->descripcion;
-        $documentos->estado = $request->estado;
-        $documentos->id_tipo_documento = $request->id_tipo_documento;
-        $documentos->hash = $hash;
-        $documentos->documento = $contenidoBinario; // Guardar el contenido binario
-        $documentos->id_programa = 'DBU';
-        $documentos->save();
-
-        // Cerrar la conexión a la base de datos
-        pg_close($conn);
-
-        return redirect()->back()->with('message', '¡Documento guardado exitosamente!');
+            return redirect()->route('documentos_enviados.index')->with('success', '¡Documento enviado guardado exitosamente!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al guardar el documento enviado: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
     {
-        // Validar los datos del formulario
         $request->validate([
-            'documento' => 'required|file',
-            'cite' => 'required|string',
+            'file' => 'sometimes|file|mimes:pdf|max:102400', // 100 MB
+            'cite' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'estado' => 'required|string',
             'id_tipo_documento' => 'required|integer',
-
+            'id_programa' => 'required|string|max:5'
         ]);
 
-        // Establecer la conexión a la base de datos
-        $conn = pg_connect("host=127.0.0.1 dbname=docs-app user=postgres password=postgres");
+        try {
+            $documento = Documento::find($id);
+            $documento->cite = $request->cite;
+            $documento->descripcion = $request->descripcion;
+            $documento->estado = $request->estado;
+            $documento->id_tipo_documento = $request->id_tipo_documento;
+            $documento->id_programa = $request->id_programa;
 
-        // 1. Obtener el documento existente de la base de datos
-        $documento = Documento::find($id);
+            if ($request->hasFile('file')) {
+                $uploadedFile = $request->file('file');
+                $documento->documento = file_get_contents($uploadedFile->getRealPath());
+            }
 
-        // 2. Leer el archivo PDF actualizado
-        $archivo = $request->file('documento');
-        //$name_document = time() . '_' . $archivo->getClientOriginalName();
-        $contenidoArchivo = file_get_contents($archivo->getRealPath());
+            $documento->save();
 
-        // 3. Convertir el contenido del archivo en binario utilizando pg_escape_bytea
-        $contenidoBinario = pg_escape_bytea($conn, $contenidoArchivo);
-
-        // Generar un valor hash para el archivo
-        $hash = md5($contenidoArchivo);
-
-        // 4. Actualizar el registro en la base de datos
-        $documento->cite = $request->cite;
-        $documento->descripcion = $request->descripcion;
-        $documento->estado = $request->estado;
-        $documento->id_tipo_documento = $request->id_tipo_documento;
-        $documento->hash = $hash;
-        $documento->documento = $contenidoBinario; // Guardar el contenido binario
-        //$documento->name_document = $name_document;
-        $documento->id_programa = 'DBU';
-        $documento->save();
-
-        // Cerrar la conexión a la base de datos
-        pg_close($conn);
-
-        return redirect()->back()->with('message', '¡Documento actualizado exitosamente!');
+            return redirect()->route('documentos_enviados.index')->with('success', '¡Documento enviado actualizado exitosamente!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al actualizar el documento enviado: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)
